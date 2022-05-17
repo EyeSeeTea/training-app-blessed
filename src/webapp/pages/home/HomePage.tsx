@@ -333,12 +333,11 @@ const ContentWrapper = styled.div`
 
 const LogoContainer = styled.div`
     margin-top: 15px;
-    padding-top: 20px;
 
     img {
         margin: 0 30px;
         user-drag: none;
-        max-height: 125px;
+        max-height: 100px;
     }
 `;
 
