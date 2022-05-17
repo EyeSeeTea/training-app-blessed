@@ -9,6 +9,8 @@ import { MarkdownViewer } from "../../components/markdown-viewer/MarkdownViewer"
 import { Modal, ModalContent, ModalParagraph, ModalTitle } from "../../components/modal";
 import { useAppContext } from "../../contexts/app-context";
 
+const logoVar = "REACT_APP_LOGO_PATH";
+
 const Item: React.FC<{
     currentPage: LandingNode;
     isRoot: boolean;
@@ -22,7 +24,7 @@ const Item: React.FC<{
         return (
             <React.Fragment>
                 <LogoContainer>
-                    <img src="img/logo-who.svg" alt="World Health Organization" />
+                    <img src={process.env[logoVar] ?? "img/logo-who.svg"} alt="World Health Organization" />
                 </LogoContainer>
                 <ModalTitle bold={true} big={true}>
                     {i18n.t("Welcome to training on DHIS2")}
@@ -331,10 +333,12 @@ const ContentWrapper = styled.div`
 
 const LogoContainer = styled.div`
     margin-top: 15px;
+    padding-top: 20px;
 
     img {
         margin: 0 30px;
         user-drag: none;
+        max-height: 125px;
     }
 `;
 
