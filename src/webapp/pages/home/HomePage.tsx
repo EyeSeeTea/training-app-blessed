@@ -1,6 +1,8 @@
-import CircularProgress from "material-ui/CircularProgress";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import _ from "lodash";
+import CircularProgress from "material-ui/CircularProgress";
 import styled from "styled-components";
+
 import { LandingNode } from "../../../domain/entities/LandingPage";
 import i18n from "../../../locales";
 import { BigCard } from "../../components/card-board/BigCard";
@@ -8,8 +10,6 @@ import { Cardboard } from "../../components/card-board/Cardboard";
 import { MarkdownViewer } from "../../components/markdown-viewer/MarkdownViewer";
 import { Modal, ModalContent, ModalParagraph, ModalTitle } from "../../components/modal";
 import { useAppContext } from "../../contexts/app-context";
-
-const logoVar = "REACT_APP_LOGO_PATH";
 
 const Item: React.FC<{
     currentPage: LandingNode;
@@ -19,12 +19,13 @@ const Item: React.FC<{
 }> = props => {
     const { currentPage, openPage } = props;
     const { translate } = useAppContext();
+    const { logoPath, logoText } = React.useMemo(getLogoInfo, []);
 
     if (currentPage.type === "root") {
         return (
             <React.Fragment>
                 <LogoContainer>
-                    <img src={process.env[logoVar] ?? "img/logo-who.svg"} alt="World Health Organization" />
+                    <img src={logoPath} alt={logoText} />
                 </LogoContainer>
                 <ModalTitle bold={true} big={true}>
                     {i18n.t("Welcome to training on DHIS2")}
@@ -395,3 +396,11 @@ const MarkdownContents = styled(MarkdownViewer)`
         text-align: left;
     }
 `;
+
+function getLogoInfo() {
+    const logoPath = process.env["REACT_APP_LOGO_PATH"] || "img/logo-who.svg";
+    const filename = logoPath.split("/").reverse()[0] || "";
+    const name = filename.substring(0, filename.lastIndexOf("."));
+    const logoText = _.startCase(name);
+    return { logoPath, logoText };
+}
