@@ -82,3 +82,7 @@ const SomeComponent: React.FunctionComponent = () => {
     // ...
 }
 ```
+
+### App logo
+
+Add `REACT_APP_LOGO_PATH` to change the path from where the app is loading the logo image on Homepage. Since the root path is `public`, the variable value must be preceded by `img/`. By default, if the value is left blank, WHO logo will show up.
