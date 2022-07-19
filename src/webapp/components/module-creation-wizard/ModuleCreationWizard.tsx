@@ -17,6 +17,7 @@ export const ModuleCreationWizard: React.FC<ModuleCreationWizardProps> = props =
     const { modules } = useAppContext();
 
     const { className, ...stepProps } = props;
+    const { isEdit } = stepProps;
 
     const steps = useMemo(() => moduleCreationWizardSteps.map(step => ({ ...step, props: stepProps })), [stepProps]);
 
@@ -31,14 +32,14 @@ export const ModuleCreationWizard: React.FC<ModuleCreationWizardProps> = props =
 
                 return _.compact([
                     ...validationErrors,
-                    // Validate duplicated code for a given module
-                    validationKeys.includes("id") && !!modules.find(({ id }) => id === props.module.id)
+                    // Validate duplicated code for a given module (only on creation)
+                    validationKeys.includes("id") && !isEdit && !!modules.find(({ id }) => id === props.module.id)
                         ? i18n.t("Code {{code}} already exists", { code: props.module.id })
                         : undefined,
                 ]);
             });
         },
-        [props.module, steps, modules]
+        [props.module, steps, modules, isEdit]
     );
 
     const urlHash = location.hash.slice(1);
