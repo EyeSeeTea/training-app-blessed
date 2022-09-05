@@ -1,8 +1,14 @@
 import styled from "styled-components";
 import { getColor } from "../../themes/colors";
 
-export const CardProgress = styled.progress`
-    display: inline-block;
+export const CardProgress = styled.div`
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+`;
+
+export const CardProgressBar = styled.progress`
+    display: block;
     width: 100%;
     height: 12px;
     margin: 0;
@@ -33,16 +39,10 @@ export const CardProgress = styled.progress`
         background: ${getColor("primary")};
         border-radius: 12px;
     }
-
-    :after {
-        margin: -26px 0 0 -7px;
-        padding: 0;
-        float: left;
-    }
 `;
 
 export const CardProgressText = styled.span`
-    float: right;
     display: block;
-    clear: both;
+    text-align: right;
+    margin-bottom: 0.25em;
 `;

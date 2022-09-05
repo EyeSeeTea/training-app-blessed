@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import styled from "styled-components";
 import { CardTitleIcon } from "./CardTitleIcon";
-import { CardProgress, CardProgressText } from "./CardProgress";
+import { CardProgress, CardProgressBar, CardProgressText } from "./CardProgress";
 
 const BaseCard: React.FC<BigCardProps> = ({ className, label, icon, progress, onClick, onContextMenu, disabled }) => {
     const normalizedProgress = normalizeProgress(progress);
@@ -11,8 +11,12 @@ const BaseCard: React.FC<BigCardProps> = ({ className, label, icon, progress, on
             {progress && progress >= 100 ? <CardTitleIcon>done</CardTitleIcon> : null}
             <BigCardTitle>{label}</BigCardTitle>
             {icon ? <BigCardIcon>{icon}</BigCardIcon> : null}
-            {progress !== undefined ? <CardProgressText>{`${normalizedProgress}%`}</CardProgressText> : null}
-            {progress !== undefined ? <CardProgress value={normalizedProgress} max="100"></CardProgress> : null}
+            <CardProgress>
+                {progress !== undefined ? <CardProgressText>{`${normalizedProgress}%`}</CardProgressText> : null}
+                {progress !== undefined ? (
+                    <CardProgressBar value={normalizedProgress} max="100"></CardProgressBar>
+                ) : null}
+            </CardProgress>
         </div>
     );
 };
