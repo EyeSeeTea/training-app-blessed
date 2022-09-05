@@ -2,9 +2,9 @@ import styled from "styled-components";
 import { getColor } from "../../themes/colors";
 
 export const CardProgress = styled.div`
-    margin-top: auto;
     display: flex;
     flex-direction: column;
+    margin-top: auto;
 `;
 
 export const CardProgressBar = styled.progress`

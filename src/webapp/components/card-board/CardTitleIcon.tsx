@@ -3,7 +3,7 @@ import { Icon } from "@material-ui/core";
 import { getColor } from "../../themes/colors";
 
 export const CardTitleIcon = styled(Icon)`
-    float: right;
+    margin-left: auto;
     background: ${getColor("primary")};
     color: #fff;
     border-radius: 100px;

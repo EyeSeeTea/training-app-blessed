@@ -7,9 +7,11 @@ const BaseCard: React.FC<BigCardProps> = ({ className, label, icon, progress, on
     const normalizedProgress = normalizeProgress(progress);
 
     return (
-        <div className={className} onClick={disabled ? undefined : onClick} onContextMenu={onContextMenu}>
-            {progress && progress >= 100 ? <CardTitleIcon>done</CardTitleIcon> : null}
-            <BigCardTitle>{label}</BigCardTitle>
+        <Container className={className} onClick={disabled ? undefined : onClick} onContextMenu={onContextMenu}>
+            <Title>
+                <BigCardTitle>{label}</BigCardTitle>
+                {progress && progress >= 100 ? <CardTitleIcon>done</CardTitleIcon> : null}
+            </Title>
             {icon ? <BigCardIcon>{icon}</BigCardIcon> : null}
             <CardProgress>
                 {progress !== undefined ? <CardProgressText>{`${normalizedProgress}%`}</CardProgressText> : null}
@@ -17,7 +19,7 @@ const BaseCard: React.FC<BigCardProps> = ({ className, label, icon, progress, on
                     <CardProgressBar value={normalizedProgress} max="100"></CardProgressBar>
                 ) : null}
             </CardProgress>
-        </div>
+        </Container>
     );
 };
 
@@ -46,6 +48,15 @@ export interface BigCardProps {
     disabled?: boolean;
     icon?: ReactNode;
 }
+
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+const Title = styled.div`
+    display: flex;
+`;
 
 const BigCardTitle = styled.span`
     color: #fff;
