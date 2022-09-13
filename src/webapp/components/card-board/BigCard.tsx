@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 import styled from "styled-components";
 import { CardTitleIcon } from "./CardTitleIcon";
+import i18n from "../../../locales";
 import { CardProgress, CardProgressBar, CardProgressText } from "./CardProgress";
 
 const BaseCard: React.FC<BigCardProps> = ({ className, label, icon, progress, onClick, onContextMenu, disabled }) => {
@@ -10,7 +11,7 @@ const BaseCard: React.FC<BigCardProps> = ({ className, label, icon, progress, on
         <Container className={className} onClick={disabled ? undefined : onClick} onContextMenu={onContextMenu}>
             <Title>
                 <BigCardTitle>{label}</BigCardTitle>
-                {progress && progress >= 100 ? <CardTitleIcon>done</CardTitleIcon> : null}
+                {progress && progress >= 100 ? <CardTitleIcon>{i18n.t("done")}</CardTitleIcon> : null}
             </Title>
             {icon ? <BigCardIcon>{icon}</BigCardIcon> : null}
             <CardProgress>

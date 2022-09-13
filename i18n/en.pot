@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-13T10:54:04.302Z\n"
-"PO-Revision-Date: 2021-12-13T10:54:04.302Z\n"
+"POT-Creation-Date: 2022-09-13T13:17:04.347Z\n"
+"PO-Revision-Date: 2022-09-13T13:17:04.347Z\n"
 
 msgid "Field {{field}} cannot be blank"
 msgstr ""
@@ -24,6 +24,9 @@ msgid "Field {{field}} is not valid"
 msgstr ""
 
 msgid "Tutorial"
+msgstr ""
+
+msgid "done"
 msgstr ""
 
 msgid "You need to select a module"

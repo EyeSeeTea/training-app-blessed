@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Traning App - UI Interface\n"
-"POT-Creation-Date: 2021-12-13T10:54:04.302Z\n"
+"POT-Creation-Date: 2022-09-13T13:17:04.347Z\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,6 +25,9 @@ msgstr "El campo {{field}} no es válido"
 
 msgid "Tutorial"
 msgstr "Tutorial"
+
+msgid "done"
+msgstr ""
 
 msgid "You need to select a module"
 msgstr "Debe seleccionar un módulo"
