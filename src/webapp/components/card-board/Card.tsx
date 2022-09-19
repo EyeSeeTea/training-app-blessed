@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { getColor } from "../../themes/colors";
 import { CardTitleIcon } from "./CardTitleIcon";
-import { CardProgress, CardProgressText } from "./CardProgress";
+import { CardProgressBar, CardProgressText } from "./CardProgress";
 
 const BaseCard: React.FC<CardProps> = ({ className, label, progress, onClick, onContextMenu, disabled }) => {
     const normalizedProgress = normalizeProgress(progress);
@@ -12,7 +12,7 @@ const BaseCard: React.FC<CardProps> = ({ className, label, progress, onClick, on
             {progress >= 100 ? <CardTitleIcon>done</CardTitleIcon> : null}
             <CardTitle>{label}</CardTitle>
             <CardProgressText>{`${normalizedProgress}%`}</CardProgressText>
-            <CardProgress value={normalizedProgress} max="100"></CardProgress>
+            <CardProgressBar value={normalizedProgress} max="100"></CardProgressBar>
         </div>
     );
 };
