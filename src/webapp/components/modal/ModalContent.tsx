@@ -5,7 +5,11 @@ const ModalContentBase: React.FC<ModalContentProps> = ({ className, children }) 
     const ref = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
-        if (ref.current) ref.current.scrollTop = 0;
+        if (ref.current)
+            window.scrollTo({
+                top: 0,
+                behavior: "auto",
+            });
     }, [children]);
 
     return (
