@@ -19,6 +19,10 @@ export const AboutPage = () => {
             { nsSeparator: false }
         ),
         i18n.t(
+            "Source code, roadmap, documentation and release notes can be found at the [GitHub Project Page](https://worldhealthorganization.github.io/training-app-blessed/)",
+            { nsSeparator: false }
+        ),
+        i18n.t(
             "*Disclaimer: The WHO originally developed this application to support countries build capacity for health data collection and use. WHO provides a series of tutorials to support countries to use the WHO DHIS2 standard packages which can be found in the [WHO Tutorial GitHub repository](https://github.com/WorldHealthOrganization/DHIS2-tutorials) and can be installed in the application. WHO provides no assurance as to the validity, accuracy or completeness of any other tutorials built by the application's user community.*",
             { nsSeparator: false }
         ),
