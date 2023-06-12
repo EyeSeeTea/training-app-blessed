@@ -38,7 +38,7 @@ export const AboutPage = () => {
                 <MarkdownViewer source={contents} center={true} />
                 <LogoWrapper>
                 	<Logo alt={i18n.t("World Health Organization")} src="img/logo-who.svg" />
-    	            <Logo alt={i18n.t("Samaritan’s Purse")} src="img/logo-samaritans.png" />
+    	            <Logo alt={i18n.t("Samaritan’s Purse")} src="img/logo-samaritans.svg" />
                 	<Logo alt={i18n.t("EyeSeeTea")} src="img/logo-eyeseetea.png" />
                 	<Logo alt={i18n.t("Lushomo")} src="img/logo-lushomo.png" />
                 </LogoWrapper>
