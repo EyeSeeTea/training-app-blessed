@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Traning App - UI Interface\n"
-"POT-Creation-Date: 2023-06-12T20:14:46.622Z\n"
+"POT-Creation-Date: 2023-06-12T20:24:20.442Z\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -402,7 +402,7 @@ msgstr ""
 
 msgid ""
 "If you wish to contribute to the development of Training App with new "
-"features, please contact[EyeSeeTea](mailto: hello@eyeseetea.com).            "
+"features, please contact [EyeSeeTea](mailto:hello@eyeseetea.com)."
 msgstr ""
 
 #, fuzzy
