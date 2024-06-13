@@ -1,3 +1,11 @@
+
+![traininglogo](https://github.com/EyeSeeTea/training-app-blessed/assets/108925044/0f0cc41a-a7cd-4c34-b755-bc6e92049dd3)
+
+Training App is a DHIS2 Web Application part of [EyeSeeTea's DHIS2 Suite](https://eyeseetea.com/dhis2-apps/) that provides a quick and bulk modification of sharing settings for datasets, programs and dashboards
+
+![training_banner](https://github.com/EyeSeeTea/training-app-blessed/assets/108925044/acbbc73e-c2d5-4df8-a0ff-78a9badf8f1a)
+
+
 ## Setup
 
 ```
