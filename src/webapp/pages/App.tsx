@@ -11,6 +11,7 @@ import { Router } from "../router/Router";
 import muiThemeLegacy from "../themes/dhis2-legacy.theme";
 import { muiTheme } from "../themes/dhis2.theme";
 import { AboutPage } from "./about/AboutPage";
+import { TutorialPage } from "./tutorial/TutorialPage";
 import "./App.css";
 import { EditPage } from "./edit/EditPage";
 import { ExitPage } from "./exit/ExitPage";
@@ -18,7 +19,6 @@ import { FinalPage } from "./final/FinalPage";
 import { HomePage } from "./home/HomePage";
 import { SettingsPage } from "./settings/SettingsPage";
 import { SummaryPage } from "./summary/SummaryPage";
-import { TutorialPage } from "./tutorial/TutorialPage";
 import { WelcomePage } from "./welcome/WelcomePage";
 
 export const routes: AppRoute[] = [
@@ -31,6 +31,13 @@ export const routes: AppRoute[] = [
         backdrop: true,
         iframe: true,
     },
+    // {
+    //     key: "allin",
+    //     name: () => i18n.t("AllIn"),
+    //     paths: ["/allin"],
+    //     // welcome, contents, steps[N], final, summary
+    //     element: <AllIn />,
+    // },
     {
         key: "welcome",
         name: () => i18n.t("Welcome"),

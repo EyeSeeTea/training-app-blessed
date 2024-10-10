@@ -10,7 +10,8 @@ export type AppStateType =
     | "ABOUT"
     | "EDIT_MODULE"
     | "CLONE_MODULE"
-    | "CREATE_MODULE";
+    | "CREATE_MODULE"
+    | "ALLIN";
 
 interface BaseAppState {
     type: AppStateType;
@@ -44,6 +45,10 @@ interface SettingsAppState extends BaseAppState {
     type: "SETTINGS";
 }
 
+interface AllInAppState extends BaseAppState {
+    type: "ALLIN";
+}
+
 interface AboutAppState extends BaseAppState {
     type: "ABOUT";
 }
@@ -71,7 +76,8 @@ export type AppState =
     | AboutAppState
     | EditAppState
     | CloneAppState
-    | CreateAppState;
+    | CreateAppState
+    | AllInAppState;
 
 export const buildPathFromState = (state: AppState): string => {
     switch (state.type) {
@@ -91,6 +97,8 @@ export const buildPathFromState = (state: AppState): string => {
             return `/clone/${state.module}`;
         case "CREATE_MODULE":
             return `/create`;
+        case "ALLIN":
+            return `/allin`;
         default:
             return "/";
     }
@@ -128,6 +136,8 @@ export const buildStateFromPath = (matches: ReactRouterMatch[]): AppState => {
                 return { type: "CLONE_MODULE", module: match.params.module ?? "" };
             case "/create":
                 return { type: "CREATE_MODULE" };
+            case "/allin":
+                return { type: "ALLIN" };
         }
     }
     return { type: "HOME" };

@@ -17,8 +17,10 @@ export interface TrainingWizardProps {
     currentStep: string;
     onChangeStep: (step: number, contents: number) => void;
     minimized?: boolean;
-    onMinimize?: () => void;
     updateProgress?: (moduleId: string, progress: number) => Promise<void>;
+    onExit?: () => void;
+    onMinimize?: () => void;
+    onHome?: () => void;
 }
 
 export interface TrainingWizardStepProps {

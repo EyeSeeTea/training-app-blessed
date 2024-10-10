@@ -1,10 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import styled from "styled-components";
-import i18n from "../../../locales";
-import Decoration from "../../assets/Decoration.png";
-import { MainButton } from "../../components/main-button/MainButton";
-import { Modal, ModalContent, ModalFooter, ModalParagraph, ModalTitle } from "../../components/modal";
-import { Stepper } from "../../components/training-wizard/stepper/Stepper";
+import { FinalTraining } from "../../../tutorial-module/FinalTraining";
 import { useAppContext } from "../../contexts/app-context";
 
 export const FinalPage: React.FC = () => {
@@ -59,64 +54,16 @@ export const FinalPage: React.FC = () => {
 
     if (!module) return null;
 
-    const steps = module.contents.steps.map(({ title }, idx) => ({
-        key: `step-${idx}`,
-        label: translate(title),
-        component: () => null,
-    }));
-
     return (
-        <StyledModal onClose={exit} onMinimize={minimize} onGoHome={goHome} centerChildren={true}>
-            <ModalContent bigger={true}>
-                <Container>
-                    <ModalTitle big={true}>{i18n.t("Well done!")}</ModalTitle>
-                    <ModalParagraph>
-                        {i18n.t("You've completed the {{name}} tutorial!", {
-                            name: translate(module.name),
-                        })}
-                    </ModalParagraph>
-                    <Stepper steps={steps} lastClickableStepIndex={-1} markAllCompleted={true} onMove={movePage} />
-                    <ModalFooter>
-                        <MainButton onClick={goToLastTutorialStep}>{i18n.t("Back to tutorial")}</MainButton>
-                        <MainButton onClick={openSummary}>{i18n.t("Finish")}</MainButton>
-                    </ModalFooter>
-                </Container>
-            </ModalContent>
-        </StyledModal>
+        <FinalTraining
+            module={module}
+            onPrev={goToLastTutorialStep}
+            onFinish={openSummary}
+            translate={translate}
+            onExit={exit}
+            onHome={goHome}
+            onMinimize={minimize}
+            onMove={movePage}
+        />
     );
 };
-
-const StyledModal = styled(Modal)`
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-
-    background-image: url(${Decoration});
-    background-position: center; /* Center the image */
-    background-repeat: no-repeat; /* Do not repeat the image */
-    height: 600px;
-
-    ${ModalContent} {
-        max-height: unset;
-    }
-
-    ${ModalTitle} {
-        font-size: 60px;
-    }
-
-    ${ModalParagraph} {
-        font-size: 34px;
-        line-height: 42px;
-        font-weight: 300;
-        margin: 25px 0px 15px 0px;
-    }
-
-    ${ModalFooter} {
-        margin-top: 20px;
-    }
-`;
-
-const Container = styled.div`
-    margin: 12% 18% 0 18%;
-`;
