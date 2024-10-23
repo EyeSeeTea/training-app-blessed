@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 import { TrainingModule } from "../domain/entities/TrainingModule";
 import { TranslateMethod } from "../domain/entities/TranslatableText";
@@ -37,17 +38,14 @@ export function SummaryTraining(props: SummaryProps) {
                 <ModalTitle>{title}</ModalTitle>
                 <ModalContent bigger={true}>
                     {module?.contents.steps.map(({ title }, idx) => {
-                        const half = module.contents.steps.length / 2;
-                        const column = idx < half ? "left" : "right";
-                        const row = idx % half;
-                        const last = idx + 1 === Math.round(half) || idx === module.contents.steps.length - 1;
-
                         return (
-                            <Step key={`step-${idx}`} column={column} row={row} last={last}>
-                                <Line />
-                                <Bullet stepKey={idx + 1} onClick={() => onStep(idx + 1)} />
-                                <Label onClick={() => onStep(idx + 1)}>{translate(title)}</Label>
-                            </Step>
+                            <SummaryStep
+                                key={`step-${idx}`}
+                                module={module}
+                                onStep={onStep}
+                                position={idx}
+                                title={translate(title)}
+                            />
                         );
                     })}
                 </ModalContent>
@@ -59,6 +57,24 @@ export function SummaryTraining(props: SummaryProps) {
         </StyledModal>
     );
 }
+
+const SummaryStep = React.memo(
+    (props: { module: TrainingModule; position: number; onStep: (position: number) => void; title: string }) => {
+        const { module, onStep, position, title } = props;
+        const half = module.contents.steps.length / 2;
+        const column = position < half ? "left" : "right";
+        const row = position % half;
+        const last = position + 1 === Math.round(half) || position === module.contents.steps.length - 1;
+
+        return (
+            <Step column={column} row={row} last={last}>
+                <Line />
+                <Bullet stepKey={position + 1} onClick={() => onStep(position + 1)} />
+                <Label onClick={() => onStep(position + 1)}>{title}</Label>
+            </Step>
+        );
+    }
+);
 
 const StyledModal = styled(Modal)<{ completed?: boolean }>`
     position: fixed;

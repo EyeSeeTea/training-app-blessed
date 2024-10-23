@@ -12,6 +12,10 @@ import { buildTranslate } from "../domain/entities/TranslatableText";
 import { ActionButton } from "../webapp/components/action-button/ActionButton";
 // import i18n from "../locales";
 import { LoadingProvider, SnackbarProvider } from "@eyeseetea/d2-ui-components";
+import { ModuleStepType, useUpdateModuleStep } from "./useTutorial";
+
+// check if materiaul ui should be peerDependency or not
+// parse urls in markdown to avoid setupProxy config
 
 // export function AllIn() {
 //     // client
@@ -37,18 +41,6 @@ function useTrainingModule(props: UseTutorialModuleProps) {
     const { baseUrl, moduleId } = props;
     const compositionRoot = React.useMemo(() => getCompositionRoot(baseUrl), [baseUrl]);
     const [module, setModule] = React.useState<TrainingModule>();
-    // const [user, setUser] = React.useState<User>();
-
-    // React.useEffect(() => {
-
-    //     compositionRoot.usecases.user
-    //         .
-    //         .then(setUser)
-    //         .catch(() => {
-    //             throw new Error(`User not found`);
-    //         });
-
-    // }, [compositionRoot])
 
     React.useEffect(() => {
         compositionRoot.usecases.modules
@@ -64,31 +56,15 @@ function useTrainingModule(props: UseTutorialModuleProps) {
 
 export const TutorialModule = (props: TutorialModuleProps) => {
     const { baseUrl, locale, onExit, onHome } = props;
-    const [tutorialProgress, setTutorialProgress] = React.useState({ step: 1, content: 1 });
-    const [moduleStep, setModuleStep] = React.useState<"welcome" | "contents" | "steps" | "final" | "summary">(
-        "welcome"
-    );
     const [moduleState, setModuleState] = React.useState<"default" | "minimized">("default");
     const module = useTrainingModule({ baseUrl: props.baseUrl || "", moduleId: props.moduleId });
+    const { moduleStep, setModuleStep, setTutorialProgress, tutorialProgress, updateModuleStep } = useUpdateModuleStep({
+        module,
+    });
 
     const onMinimize = React.useCallback(() => {
         setModuleState("minimized");
     }, []);
-
-    const updateModuleStep = React.useCallback(
-        (step: number, content: number) => {
-            if (!module) {
-                return;
-            } else if (step === 0) {
-                setModuleStep("contents");
-            } else if (step > module.contents.steps.length) {
-                setModuleStep("final");
-            } else {
-                setTutorialProgress({ step, content });
-            }
-        },
-        [module]
-    );
 
     const translateMethod = React.useMemo(() => buildTranslate(locale), [locale]);
 
@@ -96,13 +72,7 @@ export const TutorialModule = (props: TutorialModuleProps) => {
     if (moduleState === "minimized") return <ActionButton onClick={() => setModuleState("default")} />;
 
     const showBackDrop = moduleStep === "welcome" || moduleStep === "contents";
-
-    const commonEvents = {
-        module,
-        onHome,
-        onMinimize,
-        onExit,
-    };
+    const commonEvents = { module, onHome, onMinimize, onExit };
 
     return (
         <LoadingProvider>
@@ -110,7 +80,6 @@ export const TutorialModule = (props: TutorialModuleProps) => {
                 <IFrame src={`${baseUrl}${module?.dhisLaunchUrl}`} />
                 {showBackDrop && <Backdrop />}
 
-                {/* switch */}
                 {moduleStep === "welcome" && (
                     <WelcomeTraining
                         {...commonEvents}
@@ -135,26 +104,20 @@ export const TutorialModule = (props: TutorialModuleProps) => {
 
                 {moduleStep === "steps" && (
                     <TrainingWizardModal
+                        {...commonEvents}
                         translate={translateMethod}
-                        module={module}
                         onClose={onExit}
                         onGoHome={onHome}
-                        onExit={onExit}
-                        onHome={onHome}
                         currentStep={`${module.id}-${tutorialProgress.step}-${tutorialProgress.content}`}
                         onChangeStep={updateModuleStep}
                         minimized={false}
-                        onMinimize={onMinimize}
                         updateProgress={() => Promise.resolve()}
                     />
                 )}
 
                 {moduleStep === "final" && (
                     <FinalTraining
-                        module={module}
-                        onExit={onExit}
-                        onHome={onHome}
-                        onMinimize={onMinimize}
+                        {...commonEvents}
                         onFinish={onExit}
                         onPrev={() => setModuleStep("steps")}
                         translate={translateMethod}
