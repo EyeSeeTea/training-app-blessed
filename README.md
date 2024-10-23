@@ -94,15 +94,108 @@ Add `REACT_APP_LOGO_PATH` to change the path from where the app is loading the l
 -   Build process and publish to npm
 
 ```bash
-yarn add @eyeseetea/training-module
+yarn add training-component
 ```
 
 ```tsx
-import { TraininigModule } from "@eyeseetea/training-module";
+import { TraininigModule } from "training-component";
 
 function MyComponent() {
-    // getting the module
+    const { api } = useAppContext();
+    const [showTutorial, setShowTutorial] = React.useState(false);
 
-    return <TrainingModule id="data-entry" />;
+    const openTutorial = React.useCallback(() => {
+        setShowTutorial(true);
+    }, []);
+
+    return (
+        <TutorialModule
+            moduleId="data-entry"
+            onExit={() => setShowTutorial(false)}
+            onHome={() => setShowTutorial(false)}
+            locale="en"
+            baseUrl={api.baseUrl}
+        />
+    );
 }
+```
+
+Tutorials were build for being executed in the whole page so it's a good idea to use them inside a full screen component like Dialog.
+
+```tsx
+import { TraininigModule } from "training-component";
+
+function MyComponent() {
+    const { api } = useAppContext();
+    const [showTutorial, setShowTutorial] = React.useState(false);
+
+    const openTutorial = React.useCallback(() => {
+        setShowTutorial(true);
+    }, []);
+
+    return (
+        <Dialog open fullScreen>
+            <TutorialModule
+                moduleId="data-entry"
+                onExit={() => setShowTutorial(false)}
+                onHome={() => setShowTutorial(false)}
+                locale="en"
+                baseUrl={api.baseUrl}
+            />
+        </Dialog>
+    );
+}
+```
+
+If you have problems to see the images in your LOCAL environment you'll need to redirect the following urls:
+
+```bash
+"^/dhis2": "/",
+"^/documents/": "/api/documents/",
+"^/api/": "/api/",
+```
+
+If you're using an older version of our [skeleton app](https://github.com/EyeSeeTea/dhis2-app-skeleton) you can modify the `setupProxy.js` file:
+
+```js
+const proxy = createProxyMiddleware({
+    target: targetUrl,
+    auth,
+    logLevel,
+    changeOrigin: true,
+    pathRewrite: {
+        "^/dhis2": "/",
+        "^/documents/": "/api/documents/",
+        "^/api/": "/api/",
+    },
+    onProxyReq: function (proxyReq, req, res) {
+        const { path } = proxyReq;
+        const shouldRedirect = redirectPaths.some(redirectPath => path.startsWith(redirectPath));
+
+        if (shouldRedirect) {
+            const redirectUrl = targetUrl.replace(/\/$/, "") + path;
+            res.location(redirectUrl);
+            res.sendStatus(302);
+        }
+    },
+});
+
+app.use(["/dhis2", "/documents", "/api"], proxy);
+```
+
+For the latest version you must edit `vite.config.ts` and add the following entries in the `getProxy` method:
+
+```ts
+"/documents": {
+    target: targetUrl,
+    changeOrigin: true,
+    auth: auth,
+    rewrite: path => path.replace(/^\/documents/, "/api/documents"),
+},
+"/api": {
+    target: targetUrl,
+    changeOrigin: true,
+    auth: auth,
+    rewrite: path => path.replace(/^\/api/, "/api"),
+},
 ```

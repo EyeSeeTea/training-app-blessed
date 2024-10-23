@@ -1,11 +1,11 @@
 {
     "name": "training-component",
     "description": "Training App",
-    "version": "1.4.0-beta.9",
+    "version": "1.4.0-beta.17",
     "license": "GPL-3.0",
     "author": "EyeSeeTea team",
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
+    "main": "index.js",
+    "types": "index.d.ts",
     "homepage": ".",
     "repository": {
         "type": "git",
@@ -64,7 +64,7 @@
         "styled-jsx": "4.0.1"
     },
     "scripts": {
-        "build-lib": "mkdir -p dist && yarn build-lib-locales && cp package.json dist/ && yarn build-lib-tsc && cp dist/tutorial-module/index.d.ts dist/ && cp dist/tutorial-module/index.js dist/ && cp dist/tutorial-module/index.js dist/",
+        "build-lib": "mkdir -p dist && yarn build-lib-locales && yarn build-lib-tsc && node ./build-lib.js",
         "build-lib-tsc": "tsc --build tsconfig.lib.json",
         "build-lib-locales": "yarn localize && mkdir -p dist/locales && cp -a src/locales/* dist/locales",
         "start": "react-scripts start",
@@ -83,7 +83,8 @@
         "cy:verify": "cypress verify",
         "check-uncommited": "test -z \"$(git status -uno --porcelain)\"",
         "cy:e2e:open": "NODE_ENV=test CYPRESS_E2E=true cypress open",
-        "cy:e2e:run": "NODE_ENV=test CYPRESS_E2E=true cypress run --browser chrome"
+        "cy:e2e:run": "NODE_ENV=test CYPRESS_E2E=true cypress run --browser chrome",
+        "prepare": "husky install"
     },
     "devDependencies": {
         "@babel/core": "7.15.8",
@@ -146,6 +147,5 @@
                 "href": "*"
             }
         }
-    },
-    "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+    }
 }
