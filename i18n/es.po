@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Traning App - UI Interface\n"
-"POT-Creation-Date: 2024-10-07T15:19:02.705Z\n"
+"POT-Creation-Date: 2024-11-04T02:21:30.584Z\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -390,9 +390,6 @@ msgstr "Siguiente"
 
 msgid "Sub step {{position}} of {{total}}"
 msgstr "Sub paso {{posición}} de {{total}}"
-
-msgid "AllIn"
-msgstr ""
 
 msgid "Welcome"
 msgstr "Bienvenido"

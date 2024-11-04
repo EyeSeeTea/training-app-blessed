@@ -31,13 +31,6 @@ export const routes: AppRoute[] = [
         backdrop: true,
         iframe: true,
     },
-    // {
-    //     key: "allin",
-    //     name: () => i18n.t("AllIn"),
-    //     paths: ["/allin"],
-    //     // welcome, contents, steps[N], final, summary
-    //     element: <AllIn />,
-    // },
     {
         key: "welcome",
         name: () => i18n.t("Welcome"),

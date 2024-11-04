@@ -96,19 +96,15 @@ yarn build-lib
 ### Example
 
 ```bash
-yarn add training-component
+yarn add @eyeseetea/training-component
 ```
 
 ```tsx
-import { TraininigModule } from "training-component";
+import { TraininigModule } from "@eyeseetea/training-component";
 
 function MyComponent() {
     const { api } = useAppContext();
-    const [showTutorial, setShowTutorial] = React.useState(false);
-
-    const openTutorial = React.useCallback(() => {
-        setShowTutorial(true);
-    }, []);
+    const [showTutorial, setShowTutorial] = React.useState(true);
 
     return (
         <TutorialModule

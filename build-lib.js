@@ -26,22 +26,9 @@ function generateIndexJsWithTypes() {
     if (fs.existsSync(modulePath)) {
         console.log("The './tutorial-module/index.js' file exists. Generating files...");
         // Write index.js
-        fs.writeFile(jsFilePath, jsContent, err => {
-            if (err) {
-                console.error(`Error generating 'index.js': ${err.message}`);
-            } else {
-                console.log("'index.js' generated successfully.");
-            }
-        });
-
+        fs.writeFileSync(jsFilePath, jsContent);
         // Write index.d.ts
-        fs.writeFile(dtsFilePath, dtsContent, err => {
-            if (err) {
-                console.error(`Error generating 'index.d.ts': ${err.message}`);
-            } else {
-                console.log("'index.d.ts' generated successfully.");
-            }
-        });
+        fs.writeFileSync(dtsFilePath, dtsContent);
     } else {
         console.log("The './tutorial-module/index.js' file does not exist. Files will not be generated.");
     }

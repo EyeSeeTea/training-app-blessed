@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-10-07T15:19:02.705Z\n"
-"PO-Revision-Date: 2024-10-07T15:19:02.705Z\n"
+"POT-Creation-Date: 2024-11-04T02:21:30.584Z\n"
+"PO-Revision-Date: 2024-11-04T02:21:30.584Z\n"
 
 msgid "Field {{field}} cannot be blank"
 msgstr ""
@@ -383,9 +383,6 @@ msgid "Next"
 msgstr ""
 
 msgid "Sub step {{position}} of {{total}}"
-msgstr ""
-
-msgid "AllIn"
 msgstr ""
 
 msgid "Welcome"
