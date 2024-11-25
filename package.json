@@ -85,6 +85,7 @@
         "check-uncommited": "test -z \"$(git status -uno --porcelain)\"",
         "cy:e2e:open": "NODE_ENV=test CYPRESS_E2E=true cypress open",
         "cy:e2e:run": "NODE_ENV=test CYPRESS_E2E=true cypress run --browser chrome",
+        "release": "bash scripts/publish.sh",
         "prepare": "husky install"
     },
     "devDependencies": {
