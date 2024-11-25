@@ -1,13 +1,21 @@
 {
-    "name": "training-app",
+    "name": "@eyeseetea/training-component",
     "description": "Training App",
-    "version": "1.4.0",
+    "version": "1.4.0-beta.1",
     "license": "GPL-3.0",
     "author": "EyeSeeTea team",
+    "main": "index.js",
+    "types": "index.d.ts",
     "homepage": ".",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/eyeseetea/training-app.git"
+    },
+    "peerDependencies": {
+        "react": "17",
+        "react-dom": "17",
+        "react-router": ">=5",
+        "react-router-dom": ">=5"
     },
     "dependencies": {
         "@dhis2/app-runtime": "3.2.4",
@@ -51,13 +59,15 @@
         "react-mde": "11.5.0",
         "react-router": "6.0.0-beta.0",
         "react-router-dom": "6.0.0-beta.0",
-        "react-scripts": "4.0.3",
         "rehype-raw": "6.1.0",
         "rehype-sanitize": "5.0.0",
         "styled-components": "5.3.3",
         "styled-jsx": "4.0.1"
     },
     "scripts": {
+        "build-lib": "mkdir -p dist && yarn build-lib-locales && yarn build-lib-tsc && node ./build-lib.js",
+        "build-lib-tsc": "tsc --build tsconfig.lib.json",
+        "build-lib-locales": "yarn localize && mkdir -p dist/locales && cp -a src/locales/* dist/locales",
         "start": "react-scripts start",
         "craco-start": "craco start",
         "prebuild": "yarn localize && yarn test",
@@ -75,7 +85,8 @@
         "check-uncommited": "test -z \"$(git status -uno --porcelain)\"",
         "cy:e2e:open": "NODE_ENV=test CYPRESS_E2E=true cypress open",
         "cy:e2e:run": "NODE_ENV=test CYPRESS_E2E=true cypress run --browser chrome",
-        "prepare": "husky install"
+        "release": "bash scripts/publish.sh",
+        "_prepare": "husky install"
     },
     "devDependencies": {
         "@babel/core": "7.15.8",
@@ -97,7 +108,7 @@
         "@typescript-eslint/eslint-plugin": "5.2.0",
         "@typescript-eslint/parser": "5.2.0",
         "@welldone-software/why-did-you-render": "6.2.1",
-        "axios-mock-adapter": "1.20.0",
+        "axios-mock-adapter": "1.18.2",
         "babel-core": "6.26.3",
         "babel-eslint": "10.1.0",
         "craco": "0.0.3",
@@ -118,6 +129,7 @@
         "husky": "7.0.4",
         "jest": "27.3.1",
         "prettier": "2.4.1",
+        "react-scripts": "4.0.3",
         "react-test-renderer": "17.0.2",
         "ts-jest": "27.0.7",
         "typescript": "4.4.4",

@@ -15,7 +15,8 @@ export const AboutPage = () => {
             "DHIS2 Training App is a DHIS2 application to provide online training for end users. The application contains generic training on data entry, data import, generation of visualizations and creation of dashboards. It also allows administrators to create their own custom tutorials to guide users through specific data collection processes (e.g. completion of specific data collection forms)."
         ),
         i18n.t(
-            "This application has been funded by the WHO Global Malaria Programme and by Samaritan’s Purse to support countries using DHIS2 in strengthening the collection and use of health data. The application has been designed by [Lushomo](https://lushomo.net) and developed by [EyeSeeTea SL](http://eyeseetea.com). The source code and release notes can be found at the [EyeSeetea GitHub repository](https://github.com/EyeSeeTea/training-app-blessed/releases/)."
+            "This application has been funded by the WHO Global Malaria Programme and by Samaritan’s Purse to support countries using DHIS2 in strengthening the collection and use of health data. The application has been designed by [Lushomo](https://lushomo.net) and developed by [EyeSeeTea SL](http://eyeseetea.com). The source code and release notes can be found at the [EyeSeetea GitHub repository](https://github.com/EyeSeeTea/training-app-blessed/releases/).",
+            { nsSeparator: false }
         ),
         i18n.t(
             "If you wish to contribute to the development of Training App with new features, please contact [EyeSeeTea](mailto:hello@eyeseetea.com).",
