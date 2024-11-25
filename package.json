@@ -1,7 +1,7 @@
 {
     "name": "@eyeseetea/training-component",
     "description": "Training App",
-    "version": "1.4.0-beta.1",
+    "version": "1.5.0",
     "license": "GPL-3.0",
     "author": "EyeSeeTea team",
     "main": "index.js",
