@@ -39,10 +39,8 @@ function removeDependenciesFromPackage() {
     const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
     const packageJson2 = { ...packageJson, name: packageJson.name.replace(/-app$/, "-component") };
 
-    delete packageJson.dependencies["react-router"];
-    delete packageJson.dependencies["react-router-dom"];
-    delete packageJson.dependencies["@types/react-dom"];
-    delete packageJson.dependencies["@types/react-router-dom"];
+    delete packageJson2.dependencies["react-router"];
+    delete packageJson2.dependencies["react-router-dom"];
     const destinationPath = path.join(distPath, "package.json");
     fs.writeFileSync(destinationPath, JSON.stringify(packageJson2, null, 2));
     console.log("package.json copied");
