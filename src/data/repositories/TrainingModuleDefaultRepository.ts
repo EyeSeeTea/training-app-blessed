@@ -6,7 +6,7 @@ import { TranslatableText } from "../../domain/entities/TranslatableText";
 import { UserProgress } from "../../domain/entities/UserProgress";
 import { ConfigRepository } from "../../domain/repositories/ConfigRepository";
 import { InstanceRepository } from "../../domain/repositories/InstanceRepository";
-import { TrainingModuleRepository } from "../../domain/repositories/TrainingModuleRepository";
+import { GetModuleOptions, TrainingModuleRepository } from "../../domain/repositories/TrainingModuleRepository";
 import { swapById } from "../../utils/array";
 import { cache } from "../../utils/cache";
 import { promiseMap } from "../../utils/promises";
@@ -96,8 +96,8 @@ export class TrainingModuleDefaultRepository implements TrainingModuleRepository
         }
     }
 
-    public async get(key: string): Promise<TrainingModule | undefined> {
-        const defaultModules = await this.listDefaultModules();
+    public async get(key: string, options: GetModuleOptions): Promise<TrainingModule | undefined> {
+        const defaultModules = await this.listDefaultModules(options);
         const dataStoreModel = await this.storageClient.getObjectInCollection<PersistedTrainingModule>(
             Namespaces.TRAINING_MODULES,
             key
@@ -252,7 +252,9 @@ export class TrainingModuleDefaultRepository implements TrainingModuleRepository
     }
 
     @cache()
-    private async listDefaultModules(): Promise<DefaultModule[]> {
+    private async listDefaultModules(options: GetModuleOptions = defaultModuleOptions): Promise<DefaultModule[]> {
+        if (!options.autoInstallDefaultModules) return [];
+
         try {
             const blob = await this.assetClient.request<Blob>({ method: "get", url: `/modules/config.json` }).getData();
             const text = await blob.text();
@@ -265,7 +267,12 @@ export class TrainingModuleDefaultRepository implements TrainingModuleRepository
         }
     }
 
-    private async importDefaultModule(id: string): Promise<PersistedTrainingModule | undefined> {
+    private async importDefaultModule(
+        id: string,
+        options: GetModuleOptions = defaultModuleOptions
+    ): Promise<PersistedTrainingModule | undefined> {
+        if (!options.autoInstallDefaultModules) return undefined;
+
         const defaultModules = await this.listDefaultModules();
         const defaultModule = defaultModules.find(item => item.id === id);
         if (!defaultModule) return undefined;
@@ -376,3 +383,5 @@ interface DefaultModule {
     id: string;
     revision: number;
 }
+
+const defaultModuleOptions = { autoInstallDefaultModules: true };

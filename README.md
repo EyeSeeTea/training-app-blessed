@@ -100,7 +100,7 @@ yarn add @eyeseetea/training-component
 ```
 
 ```tsx
-import { TraininigModule } from "@eyeseetea/training-component";
+import { TutorialModule } from "@eyeseetea/training-component";
 
 function MyComponent() {
     const { api } = useAppContext();
@@ -121,7 +121,7 @@ function MyComponent() {
 Tutorials were build for being executed in the whole page so it's a good idea to use them inside a full screen component like Dialog.
 
 ```tsx
-import { TraininigModule } from "training-component";
+import { TutorialModule } from "@eyeseetea/training-component";
 
 function MyComponent() {
     const { api } = useAppContext();
@@ -132,15 +132,18 @@ function MyComponent() {
     }, []);
 
     return (
-        <Dialog open fullScreen>
-            <TutorialModule
-                moduleId="data-entry"
-                onExit={() => setShowTutorial(false)}
-                onHome={() => setShowTutorial(false)}
-                locale="en"
-                baseUrl={api.baseUrl}
-            />
-        </Dialog>
+        <>
+            <button onClick={openTutorial}>Open Tutorial</button>
+            <Dialog open={showTutorial} fullScreen>
+                <TutorialModule
+                    moduleId="data-entry"
+                    onExit={() => setShowTutorial(false)}
+                    onHome={() => setShowTutorial(false)}
+                    locale="en"
+                    baseUrl={api.baseUrl}
+                />
+            </Dialog>
+        </>
     );
 }
 ```
