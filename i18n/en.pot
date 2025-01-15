@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-06-12T20:24:20.442Z\n"
-"PO-Revision-Date: 2023-06-12T20:24:20.442Z\n"
+"POT-Creation-Date: 2024-11-04T02:21:30.584Z\n"
+"PO-Revision-Date: 2024-11-04T02:21:30.584Z\n"
 
 msgid "Field {{field}} cannot be blank"
 msgstr ""
@@ -21,6 +21,39 @@ msgid "Field {{field}} needs to be a valid url"
 msgstr ""
 
 msgid "Field {{field}} is not valid"
+msgstr ""
+
+msgid "Well done!"
+msgstr ""
+
+msgid "You've completed the {{name}} tutorial!"
+msgstr ""
+
+msgid "Back to tutorial"
+msgstr ""
+
+msgid "Finish"
+msgstr ""
+
+msgid "What did you learn in this tutorial?"
+msgstr ""
+
+msgid "What will this tutorial cover?"
+msgstr ""
+
+msgid "Previous"
+msgstr ""
+
+msgid "Take another tutorial"
+msgstr ""
+
+msgid "Start"
+msgstr ""
+
+msgid "Exit Tutorial"
+msgstr ""
+
+msgid "Start Tutorial"
 msgstr ""
 
 msgid "Tutorial"
@@ -343,9 +376,6 @@ msgstr ""
 msgid "Previous step"
 msgstr ""
 
-msgid "Previous"
-msgstr ""
-
 msgid "Next step"
 msgstr ""
 
@@ -383,6 +413,16 @@ msgid ""
 "allows administrators to create their own custom tutorials to guide users "
 "through specific data collection processes (e.g. completion of specific "
 "data collection forms)."
+msgstr ""
+
+msgid ""
+"This application has been funded by the WHO Global Malaria Programme and by "
+"Samaritan’s Purse to support countries using DHIS2 in strengthening the "
+"collection and use of health data. The application has been designed by "
+"[Lushomo](https://lushomo.net) and developed by [EyeSeeTea "
+"SL](http://eyeseetea.com). The source code and release notes can be found "
+"at the [EyeSeetea GitHub "
+"repository](https://github.com/EyeSeeTea/training-app-blessed/releases/)."
 msgstr ""
 
 msgid ""
@@ -434,9 +474,6 @@ msgstr ""
 msgid "Continue Tutorial"
 msgstr ""
 
-msgid "Exit Tutorial"
-msgstr ""
-
 msgid "Are you sure you want to exit?"
 msgstr ""
 
@@ -449,18 +486,6 @@ msgid ""
 "If you would like to continue with training, select 'Continue tutorial' "
 "below or if you would like to select a different tutorial, click on the "
 "'Home' button."
-msgstr ""
-
-msgid "Well done!"
-msgstr ""
-
-msgid "You've completed the {{name}} tutorial!"
-msgstr ""
-
-msgid "Back to tutorial"
-msgstr ""
-
-msgid "Finish"
 msgstr ""
 
 msgid "Welcome to training on DHIS2"
@@ -536,19 +561,4 @@ msgid "There are {{total}} documents available to clean"
 msgstr ""
 
 msgid "Training modules"
-msgstr ""
-
-msgid "What did you learn in this tutorial?"
-msgstr ""
-
-msgid "What will this tutorial cover?"
-msgstr ""
-
-msgid "Take another tutorial"
-msgstr ""
-
-msgid "Start"
-msgstr ""
-
-msgid "Start Tutorial"
 msgstr ""
