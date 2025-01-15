@@ -107,6 +107,13 @@ export const SettingsPage: React.FC = () => {
         await reload();
     }, [showAllModules, reload, usecases]);
 
+    const getModule = React.useCallback(
+        (id: string) => {
+            return usecases.modules.get(id, { autoInstallDefaultModules: true });
+        },
+        [usecases.modules]
+    );
+
     const tableActions: ComponentParameter<typeof ModuleListTable, "tableActions"> = useMemo(
         () => ({
             openEditModulePage: ({ id }) => {
@@ -116,7 +123,7 @@ export const SettingsPage: React.FC = () => {
                 setAppState({ type: "CLONE_MODULE", module: id });
             },
             editContents: async ({ id, text, value }) => {
-                const module = await usecases.modules.get(id);
+                const module = await getModule(id);
                 if (module) await usecases.modules.update(updateTranslation(module, text.key, value));
                 else snackbar.error(i18n.t("Unable to update module contents"));
             },
@@ -128,34 +135,34 @@ export const SettingsPage: React.FC = () => {
                     return;
                 }
 
-                const module = await usecases.modules.get(id);
+                const module = await getModule(id);
                 if (module) await usecases.modules.update(updateOrder(module, from, to));
                 else snackbar.error(i18n.t("Unable to move item"));
             },
             uploadFile: ({ data, name }) => usecases.instance.uploadFile(data, name),
             installApp: ({ id }) => usecases.instance.installApp(id),
             addStep: async ({ id, title }) => {
-                const module = await usecases.modules.get(id);
+                const module = await getModule(id);
                 if (module) await usecases.modules.update(addStep(module, title));
                 else snackbar.error(i18n.t("Unable to add step"));
             },
             addPage: async ({ id, step, value }) => {
-                const module = await usecases.modules.get(id);
+                const module = await getModule(id);
                 if (module) await usecases.modules.update(addPage(module, step, value));
                 else snackbar.error(i18n.t("Unable to add page"));
             },
             deleteStep: async ({ id, step }) => {
-                const module = await usecases.modules.get(id);
+                const module = await getModule(id);
                 if (module) await usecases.modules.update(removeStep(module, step));
                 else snackbar.error(i18n.t("Unable to remove step"));
             },
             deletePage: async ({ id, step, page }) => {
-                const module = await usecases.modules.get(id);
+                const module = await getModule(id);
                 if (module) await usecases.modules.update(removePage(module, step, page));
                 else snackbar.error(i18n.t("Unable to remove page"));
             },
         }),
-        [usecases, setAppState, snackbar]
+        [usecases, setAppState, snackbar, getModule]
     );
 
     useEffect(() => {
