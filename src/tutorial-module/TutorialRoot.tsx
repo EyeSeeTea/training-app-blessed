@@ -15,7 +15,7 @@ import { LoadingProvider, SnackbarProvider } from "@eyeseetea/d2-ui-components";
 import { useUpdateModuleStep } from "./useTutorial";
 
 export type HeaderButtonsProps = { onExit: () => void; onMinimize?: () => void; onHome: () => void };
-export type TutorialModuleProps = { baseUrl?: string; locale: string; moduleId: string } & HeaderButtonsProps;
+export type TutorialModuleProps = { baseUrl?: string; locale?: string; moduleId: string } & HeaderButtonsProps;
 export type UseTutorialModuleProps = { baseUrl: string; moduleId: string };
 
 function useTrainingModule(props: UseTutorialModuleProps) {
@@ -25,7 +25,7 @@ function useTrainingModule(props: UseTutorialModuleProps) {
 
     React.useEffect(() => {
         compositionRoot.usecases.modules
-            .get(moduleId)
+            .get(moduleId, { autoInstallDefaultModules: false })
             .then(setModule)
             .catch(() => {
                 throw new Error(`Module not found: ${moduleId}`);
@@ -36,7 +36,7 @@ function useTrainingModule(props: UseTutorialModuleProps) {
 }
 
 export const TutorialModule = (props: TutorialModuleProps) => {
-    const { baseUrl, locale, onExit, onHome, onMinimize } = props;
+    const { baseUrl, locale = "en", onExit, onHome, onMinimize } = props;
     const [moduleState, setModuleState] = React.useState<"default" | "minimized">("default");
     const module = useTrainingModule({ baseUrl: props.baseUrl || "", moduleId: props.moduleId });
     const { moduleStep, setModuleStep, setTutorialProgress, tutorialProgress, updateModuleStep } = useUpdateModuleStep({
@@ -59,7 +59,7 @@ export const TutorialModule = (props: TutorialModuleProps) => {
     return (
         <LoadingProvider>
             <SnackbarProvider>
-                <IFrame src={`${baseUrl}${module?.dhisLaunchUrl}`} />
+                <IFrame src={`${baseUrl}${module.dhisLaunchUrl}`} />
                 {showBackDrop && <Backdrop />}
 
                 {moduleStep === "welcome" && (

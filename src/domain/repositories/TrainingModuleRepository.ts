@@ -3,7 +3,7 @@ import { TrainingModule } from "../entities/TrainingModule";
 
 export interface TrainingModuleRepository {
     list(): Promise<TrainingModule[]>;
-    get(moduleKey: string): Promise<TrainingModule | undefined>;
+    get(moduleKey: string, options: GetModuleOptions): Promise<TrainingModule | undefined>;
     update(module: Pick<TrainingModule, "id" | "name"> & Partial<TrainingModule>): Promise<void>;
     delete(ids: string[]): Promise<void>;
     swapOrder(id1: string, id2: string): Promise<void>;
@@ -14,3 +14,5 @@ export interface TrainingModuleRepository {
     export(ids: string[]): Promise<void>;
     import(files: File[]): Promise<PersistedTrainingModule[]>;
 }
+
+export type GetModuleOptions = { autoInstallDefaultModules: boolean };
