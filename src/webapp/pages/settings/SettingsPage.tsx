@@ -20,14 +20,27 @@ import { PageHeader } from "../../components/page-header/PageHeader";
 import { PermissionsDialog, SharedUpdate } from "../../components/permissions-dialog/PermissionsDialog";
 import { useAppContext } from "../../contexts/app-context";
 import { DhisPage } from "../dhis/DhisPage";
+import { CustomizeSettingsDialog } from "../../components/customize-settings-dialog/CustomizeSettingsDialog";
 
 export const SettingsPage: React.FC = () => {
-    const { modules, landings, reload, usecases, setAppState, showAllModules, isLoading, isAdmin } = useAppContext();
+    const {
+        modules,
+        landings,
+        reload,
+        usecases,
+        setAppState,
+        showAllModules,
+        customText,
+        logoInfo,
+        isLoading,
+        isAdmin,
+    } = useAppContext();
 
     const snackbar = useSnackbar();
     const loading = useLoading();
 
     const [permissionsType, setPermissionsType] = useState<string | null>(null);
+    const [showCustomSettings, setShowCustomSettings] = useState<boolean>(false);
     const [settingsPermissions, setSettingsPermissions] = useState<Permission>();
     const [danglingDocuments, setDanglingDocuments] = useState<NamedRef[]>([]);
     const [dialogProps, updateDialog] = useState<ConfirmationDialogProps | null>(null);
@@ -48,6 +61,21 @@ export const SettingsPage: React.FC = () => {
         },
         [usecases]
     );
+
+    const saveCustomSettings = useCallback(
+        async ({ customText, logo }) => {
+            await usecases.config.saveCustomText(customText);
+            await usecases.config.setLogo(logo);
+            await reload();
+            closeCustomSettingsDialog();
+        },
+        [customText, logoInfo, reload, usecases]
+    );
+
+    const closeCustomSettingsDialog = useCallback(() => {
+        setShowCustomSettings(false);
+        refreshDanglingDocuments();
+    }, []);
 
     const buildSharingDescription = useCallback(() => {
         const users = settingsPermissions?.users?.length ?? 0;
@@ -94,9 +122,13 @@ export const SettingsPage: React.FC = () => {
     }, [danglingDocuments, loading, snackbar, usecases]);
 
     const refreshModules = useCallback(async () => {
-        usecases.instance.listDanglingDocuments().then(setDanglingDocuments);
+        refreshDanglingDocuments();
         await reload();
     }, [reload, usecases]);
+
+    const refreshDanglingDocuments = useCallback(() => {
+        usecases.instance.listDanglingDocuments().then(setDanglingDocuments);
+    }, [usecases]);
 
     const openAddModule = useCallback(() => {
         setAppState({ type: "CREATE_MODULE" });
@@ -167,7 +199,7 @@ export const SettingsPage: React.FC = () => {
 
     useEffect(() => {
         usecases.config.getSettingsPermissions().then(setSettingsPermissions);
-        usecases.instance.listDanglingDocuments().then(setDanglingDocuments);
+        refreshDanglingDocuments();
     }, [usecases]);
 
     useEffect(() => {
@@ -177,6 +209,14 @@ export const SettingsPage: React.FC = () => {
     return (
         <DhisPage>
             {dialogProps && <ConfirmationDialog isOpen={true} maxWidth={"lg"} fullWidth={true} {...dialogProps} />}
+            {showCustomSettings && (
+                <CustomizeSettingsDialog
+                    onSave={saveCustomSettings}
+                    customText={customText}
+                    onClose={closeCustomSettingsDialog}
+                    logo={logoInfo.logoPath}
+                />
+            )}
 
             {!!permissionsType && (
                 <PermissionsDialog
@@ -202,7 +242,7 @@ export const SettingsPage: React.FC = () => {
             <Header title={i18n.t("Settings")} onBackClick={openTraining} />
 
             <Container>
-                <Title>{i18n.t("Permissions")}</Title>
+                <Title>{i18n.t("General Setting")}</Title>
 
                 <Group row={true}>
                     <ListItem button onClick={() => setPermissionsType("settings")}>
@@ -243,6 +283,16 @@ export const SettingsPage: React.FC = () => {
                             />
                         </ListItem>
                     )}
+
+                    <ListItem button onClick={() => setShowCustomSettings(true)}>
+                        <ListItemIcon>
+                            <Icon>format_shapes</Icon>
+                        </ListItemIcon>
+                        <ListItemText
+                            primary={i18n.t("Customize the landing page")}
+                            secondary={i18n.t("Update the logo or content")}
+                        />
+                    </ListItem>
                 </Group>
 
                 <Title>{i18n.t("Landing page")}</Title>

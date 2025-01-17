@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import _ from "lodash";
 import CircularProgress from "material-ui/CircularProgress";
 import styled from "styled-components";
 
@@ -18,8 +17,8 @@ const Item: React.FC<{
     loadModule: (module: string, step: number) => void;
 }> = props => {
     const { currentPage, openPage } = props;
-    const { translate } = useAppContext();
-    const { logoPath, logoText } = React.useMemo(getLogoInfo, []);
+    const { translate, appCustomText, logoInfo } = useAppContext();
+    const { logoPath, logoText } = React.useMemo(() => logoInfo, [logoInfo]);
 
     if (currentPage.type === "root") {
         return (
@@ -28,12 +27,12 @@ const Item: React.FC<{
                     <img src={logoPath} alt={logoText} />
                 </LogoContainer>
                 <ModalTitle bold={true} big={true}>
-                    {i18n.t("Welcome to training on DHIS2")}
+                    {i18n.t(appCustomText.root_title)}
                 </ModalTitle>
 
                 <ModalContent>
                     <ModalParagraph size={28} align={"left"}>
-                        {i18n.t("What do you want to learn in DHIS2?")}
+                        {i18n.t(appCustomText.root_subtitle)}
                     </ModalParagraph>
 
                     <Cardboard rowSize={3} key={`group-${currentPage.id}`}>
@@ -393,11 +392,3 @@ const MarkdownContents = styled(MarkdownViewer)`
         text-align: left;
     }
 `;
-
-function getLogoInfo() {
-    const logoPath = process.env["REACT_APP_LOGO_PATH"] || "img/logo-who.svg";
-    const filename = logoPath.split("/").reverse()[0] || "";
-    const name = filename.substring(0, filename.lastIndexOf("."));
-    const logoText = _.startCase(name);
-    return { logoPath, logoText };
-}

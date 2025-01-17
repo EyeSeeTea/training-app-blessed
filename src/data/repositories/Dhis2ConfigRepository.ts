@@ -9,6 +9,7 @@ import { Instance } from "../entities/Instance";
 import { PersistedConfig } from "../entities/PersistedConfig";
 import { User } from "../entities/User";
 import { getD2APiFromInstance, getMajorVersion } from "../utils/d2-api";
+import { CustomText } from "../../domain/entities/CustomText";
 
 export class Dhis2ConfigRepository implements ConfigRepository {
     private instance: Instance;
@@ -90,6 +91,37 @@ export class Dhis2ConfigRepository implements ConfigRepository {
         await this.storageClient.saveObject<PersistedConfig>(Namespaces.CONFIG, {
             ...config,
             showAllModules,
+        });
+    }
+
+    public async getCustomText(): Promise<Partial<CustomText>> {
+        const { customText = {} } = await this.getConfig();
+        return customText;
+    }
+
+    public async setCustomText(update: Partial<CustomText>): Promise<void> {
+        const { customText = {}, ...config } = await this.getConfig();
+
+        await this.storageClient.saveObject<PersistedConfig>(Namespaces.CONFIG, {
+            ...config,
+            customText: {
+                ...customText,
+                ...update,
+            },
+        });
+    }
+
+    public async getLogo(): Promise<string | null> {
+        const { logo = null } = await this.getConfig();
+        return logo;
+    }
+
+    public async setLogo(logo: string): Promise<void> {
+        const config = await this.getConfig();
+
+        await this.storageClient.saveObject<PersistedConfig>(Namespaces.CONFIG, {
+            ...config,
+            logo: logo,
         });
     }
 

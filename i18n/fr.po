@@ -1,12 +1,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Traning App - UI Interface\n"
-"POT-Creation-Date: 2024-11-04T02:21:30.584Z\n"
+"POT-Creation-Date: 2025-01-17T05:15:17.893Z\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: POEditor.com\n"
+
+msgid "Welcome to training on DHIS2"
+msgstr "Bienvenue dans les tutoriels de formation DHIS2\n"
+
+msgid "What do you want to learn in DHIS2?"
+msgstr "Que voulez-vous apprendre dans DHIS2 aujourd'hui?"
 
 msgid "Field {{field}} cannot be blank"
 msgstr "Le champ {{field}} ne peut pas être vide"
@@ -60,6 +66,27 @@ msgid "Tutorial"
 msgstr "Tutoriels"
 
 msgid "done"
+msgstr ""
+
+msgid "Close"
+msgstr "Fermer"
+
+#, fuzzy
+msgid "Home page logo"
+msgstr "Page d'accueil"
+
+#, fuzzy
+msgid "Welcome message"
+msgstr "Page d'accueil"
+
+msgid "Welcome message in the home page."
+msgstr ""
+
+#, fuzzy
+msgid "Module selection"
+msgstr "Ajouter une section"
+
+msgid "Subtitle in the home page."
 msgstr ""
 
 msgid "You need to select a module"
@@ -376,9 +403,6 @@ msgstr "Modules d'importation"
 msgid "Help"
 msgstr "Aide"
 
-msgid "Close"
-msgstr "Fermer"
-
 msgid "Previous step"
 msgstr "Étape précédente"
 
@@ -533,12 +557,6 @@ msgstr ""
 "tutoriel' ci-dessous ou si vous souhaitez sélectionner un autre tutoriel, "
 "cliquez sur le bouton 'Accueil'."
 
-msgid "Welcome to training on DHIS2"
-msgstr "Bienvenue dans les tutoriels de formation DHIS2\n"
-
-msgid "What do you want to learn in DHIS2?"
-msgstr "Que voulez-vous apprendre dans DHIS2 aujourd'hui?"
-
 msgid "First load can take a couple of minutes, please wait..."
 msgstr ""
 "Le premier chargement peut prendre quelques minutes, veuillez patienter..."
@@ -587,8 +605,9 @@ msgstr "Impossible de supprimer l'étape"
 msgid "Unable to remove page"
 msgstr "Impossible de supprimer la page"
 
-msgid "Permissions"
-msgstr "Permissions"
+#, fuzzy
+msgid "General Setting"
+msgstr "Informations générales"
 
 msgid "Access to Settings"
 msgstr "Accès aux paramètres"
@@ -608,5 +627,19 @@ msgstr "Il n'y a pas de documents inutilisés à nettoyer"
 msgid "There are {{total}} documents available to clean"
 msgstr "Il y a {{total}} documents disponibles à nettoyer"
 
+#, fuzzy
+msgid "Customize the landing page"
+msgstr "Exportation de la page de renvoi"
+
+msgid "Update the logo or content"
+msgstr ""
+
 msgid "Training modules"
 msgstr "Modules de formation"
+
+#, fuzzy
+#~ msgid "Select module"
+#~ msgstr "Supprimer le module"
+
+#~ msgid "Permissions"
+#~ msgstr "Permissions"

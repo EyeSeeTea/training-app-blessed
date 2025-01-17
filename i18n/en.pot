@@ -5,8 +5,14 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-11-04T02:21:30.584Z\n"
-"PO-Revision-Date: 2024-11-04T02:21:30.584Z\n"
+"POT-Creation-Date: 2025-01-17T05:15:17.893Z\n"
+"PO-Revision-Date: 2025-01-17T05:15:17.893Z\n"
+
+msgid "Welcome to training on DHIS2"
+msgstr ""
+
+msgid "What do you want to learn in DHIS2?"
+msgstr ""
 
 msgid "Field {{field}} cannot be blank"
 msgstr ""
@@ -60,6 +66,24 @@ msgid "Tutorial"
 msgstr ""
 
 msgid "done"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Home page logo"
+msgstr ""
+
+msgid "Welcome message"
+msgstr ""
+
+msgid "Welcome message in the home page."
+msgstr ""
+
+msgid "Module selection"
+msgstr ""
+
+msgid "Subtitle in the home page."
 msgstr ""
 
 msgid "You need to select a module"
@@ -370,9 +394,6 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
-msgid "Close"
-msgstr ""
-
 msgid "Previous step"
 msgstr ""
 
@@ -488,12 +509,6 @@ msgid ""
 "'Home' button."
 msgstr ""
 
-msgid "Welcome to training on DHIS2"
-msgstr ""
-
-msgid "What do you want to learn in DHIS2?"
-msgstr ""
-
 msgid "First load can take a couple of minutes, please wait..."
 msgstr ""
 
@@ -539,7 +554,7 @@ msgstr ""
 msgid "Unable to remove page"
 msgstr ""
 
-msgid "Permissions"
+msgid "General Setting"
 msgstr ""
 
 msgid "Access to Settings"
@@ -558,6 +573,12 @@ msgid "There are no unused documents to clean"
 msgstr ""
 
 msgid "There are {{total}} documents available to clean"
+msgstr ""
+
+msgid "Customize the landing page"
+msgstr ""
+
+msgid "Update the logo or content"
 msgstr ""
 
 msgid "Training modules"

@@ -34,6 +34,10 @@ import { UpdateModuleUseCase } from "../domain/usecases/UpdateModuleUseCase";
 import { UpdateSettingsPermissionsUseCase } from "../domain/usecases/UpdateSettingsPermissionsUseCase";
 import { UpdateUserProgressUseCase } from "../domain/usecases/UpdateUserProgressUseCase";
 import { UploadFileUseCase } from "../domain/usecases/UploadFileUseCase";
+import { GetCustomTextUseCase } from "../domain/usecases/GetCustomTextUseCase";
+import { SetCustomTextUseCase } from "../domain/usecases/SetCustomTextUseCase";
+import { GetLogoUseCase } from "../domain/usecases/GetLogoUseCase";
+import { SetLogoUseCase } from "../domain/usecases/SetLogoUseCase";
 
 export function getCompositionRoot(baseUrl: string) {
     const configRepository = new Dhis2ConfigRepository(baseUrl);
@@ -74,6 +78,10 @@ export function getCompositionRoot(baseUrl: string) {
                 updateSettingsPermissions: new UpdateSettingsPermissionsUseCase(configRepository),
                 getShowAllModules: new GetShowAllModulesUseCase(configRepository),
                 setShowAllModules: new SetShowAllModulesUseCase(configRepository),
+                getCustomText: new GetCustomTextUseCase(configRepository),
+                saveCustomText: new SetCustomTextUseCase(configRepository),
+                getLogo: new GetLogoUseCase(configRepository),
+                setLogo: new SetLogoUseCase(configRepository),
             }),
             user: getExecute({
                 checkSettingsPermissions: new CheckSettingsPermissionsUseCase(configRepository),
