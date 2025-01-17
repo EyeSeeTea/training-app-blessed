@@ -1,6 +1,6 @@
 import { ConfirmationDialog } from "@eyeseetea/d2-ui-components";
 import { TextField } from "@material-ui/core";
-import React, { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
+import React, { ChangeEvent, useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
 import i18n from "../../../locales";
 import { useAppContext } from "../../contexts/app-context";
@@ -21,7 +21,7 @@ export interface CustomSettingsDialogProps extends CustomizeSettingsSaveForm {
 export const CustomizeSettingsDialog: React.FC<CustomSettingsDialogProps> = props => {
     const { onSave, customText, logo, onClose } = props;
 
-    const { translate, usecases, appCustomText } = useAppContext();
+    const { usecases, appCustomText } = useAppContext();
     const [logoVal, setLogo] = useState<string>(logo);
     const [customTextVal, setCustomText] = useState<Partial<CustomText>>(customText);
     const customTextKeys = useMemo(() => getKeys(appCustomText), [appCustomText]);
@@ -29,7 +29,7 @@ export const CustomizeSettingsDialog: React.FC<CustomSettingsDialogProps> = prop
     const disableSave = useMemo(() => {
         const customTextNoChange = _.every(customTextVal, _.isUndefined) || _.isEqual(customTextVal, appCustomText);
         return logoVal === logo && customTextNoChange;
-    }, [logoVal, customTextVal]);
+    }, [logoVal, customTextVal, appCustomText, logo]);
 
     const save = useCallback(() => {
         onSave({
@@ -50,7 +50,6 @@ export const CustomizeSettingsDialog: React.FC<CustomSettingsDialogProps> = prop
             const file = event.target.files ? event.target.files[0] : undefined;
             file?.arrayBuffer().then(async data => {
                 const img = await usecases.instance.uploadFile(data, file.name);
-                console.log(img);
                 setLogo(img);
             });
         },
@@ -106,7 +105,6 @@ const IconContainer = styled.div`
 
     img {
         padding: 10px;
-        user-drag: none;
         max-height: 100px;
     }
 `;

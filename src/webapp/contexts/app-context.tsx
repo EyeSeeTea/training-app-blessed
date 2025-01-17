@@ -28,7 +28,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
     const translate = buildTranslate(locale);
     const [customText, setCustomText] = useState<Partial<CustomText>>({});
     const [logoInfo, setLogo] = useState<LogoInfo>(getLogoInfo());
-    const appCustomText = useMemo(() => getCustomizableAppText(customText), [getCustomizableAppText, customText]);
+    const appCustomText = useMemo(() => getCustomizableAppText(customText), [customText]);
 
     const reload = useCallback(async () => {
         setIsLoading(true);

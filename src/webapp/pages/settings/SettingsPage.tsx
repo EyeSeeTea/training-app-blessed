@@ -62,6 +62,15 @@ export const SettingsPage: React.FC = () => {
         [usecases]
     );
 
+    const refreshDanglingDocuments = useCallback(() => {
+        usecases.instance.listDanglingDocuments().then(setDanglingDocuments);
+    }, [usecases]);
+
+    const closeCustomSettingsDialog = useCallback(() => {
+        setShowCustomSettings(false);
+        refreshDanglingDocuments();
+    }, [refreshDanglingDocuments]);
+
     const saveCustomSettings = useCallback(
         async ({ customText, logo }) => {
             await usecases.config.saveCustomText(customText);
@@ -69,13 +78,8 @@ export const SettingsPage: React.FC = () => {
             await reload();
             closeCustomSettingsDialog();
         },
-        [customText, logoInfo, reload, usecases]
+        [reload, usecases.config, closeCustomSettingsDialog]
     );
-
-    const closeCustomSettingsDialog = useCallback(() => {
-        setShowCustomSettings(false);
-        refreshDanglingDocuments();
-    }, []);
 
     const buildSharingDescription = useCallback(() => {
         const users = settingsPermissions?.users?.length ?? 0;
@@ -124,11 +128,7 @@ export const SettingsPage: React.FC = () => {
     const refreshModules = useCallback(async () => {
         refreshDanglingDocuments();
         await reload();
-    }, [reload, usecases]);
-
-    const refreshDanglingDocuments = useCallback(() => {
-        usecases.instance.listDanglingDocuments().then(setDanglingDocuments);
-    }, [usecases]);
+    }, [reload, refreshDanglingDocuments]);
 
     const openAddModule = useCallback(() => {
         setAppState({ type: "CREATE_MODULE" });
@@ -200,7 +200,7 @@ export const SettingsPage: React.FC = () => {
     useEffect(() => {
         usecases.config.getSettingsPermissions().then(setSettingsPermissions);
         refreshDanglingDocuments();
-    }, [usecases]);
+    }, [usecases, refreshDanglingDocuments]);
 
     useEffect(() => {
         reload();
