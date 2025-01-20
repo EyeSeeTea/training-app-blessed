@@ -14,7 +14,7 @@ export interface CustomizeSettingsSaveForm {
 }
 
 export interface CustomSettingsDialogProps extends CustomizeSettingsSaveForm {
-    onSave: (data: CustomizeSettingsSaveForm) => void;
+    onSave: (data: Partial<CustomizeSettingsSaveForm>) => void;
     onClose: () => void;
 }
 
@@ -26,22 +26,26 @@ export const CustomizeSettingsDialog: React.FC<CustomSettingsDialogProps> = prop
     const [customTextVal, setCustomText] = useState<Partial<CustomText>>(customText);
     const customTextKeys = useMemo(() => getKeys(appCustomText), [appCustomText]);
 
+    const logoHasChanges = useMemo(() => logoVal !== logo, [logoVal, logo]);
+    const customTextHasChanges = useMemo(() => !(_.every(customTextVal, _.isUndefined) || _.isEqual(customTextVal, appCustomText)), [customTextVal, appCustomText]);
+
     const disableSave = useMemo(() => {
-        const customTextNoChange = _.every(customTextVal, _.isUndefined) || _.isEqual(customTextVal, appCustomText);
-        return logoVal === logo && customTextNoChange;
-    }, [logoVal, customTextVal, appCustomText, logo]);
+        return !logoHasChanges && !customTextHasChanges;
+    }, [logoHasChanges, customTextHasChanges]);
 
     const save = useCallback(() => {
         onSave({
-            customText: { ...customText, ...customTextVal },
-            logo: logoVal,
+            customText: customTextHasChanges ? { ...customText, ...customTextVal } : undefined,
+            logo: logoHasChanges ? logoVal : undefined,
         });
-    }, [onSave, customText, customTextVal, logoVal]);
+    }, [onSave, customText, customTextVal, customTextHasChanges, logoVal, logoHasChanges]);
 
     const onChangeField = useCallback((field: keyof CustomText) => {
         return (event: React.ChangeEvent<{ value: unknown }>) => {
-            const txtVal = event.target.value as string;
-            setCustomText(prev => ({ ...prev, [field]: txtVal }));
+            const referenceValue = event.target.value as string;
+            setCustomText(prev => {
+                return { ...prev, [field]: { key: field, referenceValue, translations: {} } };
+            });
         };
     }, []);
 
@@ -78,9 +82,9 @@ export const CustomizeSettingsDialog: React.FC<CustomSettingsDialogProps> = prop
                 <Row key={key}>
                     <TextField
                         fullWidth={true}
-                        label={customTextInfo[key].label}
-                        placeholder={defaultCustomText[key]}
-                        value={customTextVal[key] || ""}
+                        label={customTextLabel[key]}
+                        placeholder={i18n.t(defaultCustomText[key].referenceValue)}
+                        value={customTextVal[key] ? customTextVal[key]?.referenceValue : ""}
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -119,13 +123,7 @@ const FileInput = styled.input`
     outline: none;
 `;
 
-export const customTextInfo: CustomTextInfo = {
-    root_title: {
-        label: i18n.t("Welcome message"),
-        description: i18n.t("Welcome message in the home page."),
-    },
-    root_subtitle: {
-        label: i18n.t("Module selection"),
-        description: i18n.t("Subtitle in the home page."),
-    },
+export const customTextLabel: CustomTextInfo = {
+    root_title: i18n.t("Welcome message"),
+    root_subtitle: i18n.t("Module selection"),
 };

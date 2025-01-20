@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2025-01-17T05:15:17.893Z\n"
-"PO-Revision-Date: 2025-01-17T05:15:17.893Z\n"
+"POT-Creation-Date: 2025-01-20T03:22:37.198Z\n"
+"PO-Revision-Date: 2025-01-20T03:22:37.198Z\n"
 
 msgid "Welcome to training on DHIS2"
 msgstr ""
@@ -77,13 +77,7 @@ msgstr ""
 msgid "Welcome message"
 msgstr ""
 
-msgid "Welcome message in the home page."
-msgstr ""
-
 msgid "Module selection"
-msgstr ""
-
-msgid "Subtitle in the home page."
 msgstr ""
 
 msgid "You need to select a module"
@@ -554,7 +548,7 @@ msgstr ""
 msgid "Unable to remove page"
 msgstr ""
 
-msgid "General Setting"
+msgid "General Settings"
 msgstr ""
 
 msgid "Access to Settings"

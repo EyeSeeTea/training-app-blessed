@@ -73,8 +73,10 @@ export const SettingsPage: React.FC = () => {
 
     const saveCustomSettings = useCallback(
         async ({ customText, logo }) => {
-            await usecases.config.saveCustomText(customText);
-            await usecases.config.setLogo(logo);
+            await Promise.all([
+                customText ? usecases.config.setCustomText(customText) : Promise.resolve(),
+                logo ? usecases.config.setLogo(logo) : Promise.resolve(),
+            ]);
             await reload();
             closeCustomSettingsDialog();
         },
@@ -242,7 +244,7 @@ export const SettingsPage: React.FC = () => {
             <Header title={i18n.t("Settings")} onBackClick={openTraining} />
 
             <Container>
-                <Title>{i18n.t("General Setting")}</Title>
+                <Title>{i18n.t("General Settings")}</Title>
 
                 <Group row={true}>
                     <ListItem button onClick={() => setPermissionsType("settings")}>

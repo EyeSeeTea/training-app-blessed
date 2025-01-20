@@ -79,7 +79,7 @@ export function getCompositionRoot(baseUrl: string) {
                 getShowAllModules: new GetShowAllModulesUseCase(configRepository),
                 setShowAllModules: new SetShowAllModulesUseCase(configRepository),
                 getCustomText: new GetCustomTextUseCase(configRepository),
-                saveCustomText: new SetCustomTextUseCase(configRepository),
+                setCustomText: new SetCustomTextUseCase(configRepository),
                 getLogo: new GetLogoUseCase(configRepository),
                 setLogo: new SetLogoUseCase(configRepository),
             }),

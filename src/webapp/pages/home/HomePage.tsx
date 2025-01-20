@@ -27,12 +27,12 @@ const Item: React.FC<{
                     <img src={logoPath} alt={logoText} />
                 </LogoContainer>
                 <ModalTitle bold={true} big={true}>
-                    {appCustomText.root_title}
+                    {translate(appCustomText.root_title)}
                 </ModalTitle>
 
                 <ModalContent>
                     <ModalParagraph size={28} align={"left"}>
-                        {appCustomText.root_subtitle}
+                        {translate(appCustomText.root_subtitle)}
                     </ModalParagraph>
 
                     <Cardboard rowSize={3} key={`group-${currentPage.id}`}>

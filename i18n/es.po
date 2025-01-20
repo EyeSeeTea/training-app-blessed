@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Traning App - UI Interface\n"
-"POT-Creation-Date: 2025-01-17T05:15:17.893Z\n"
+"POT-Creation-Date: 2025-01-20T03:22:37.198Z\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -79,15 +79,9 @@ msgstr "Bienvenido"
 msgid "Welcome message"
 msgstr "Bienvenido"
 
-msgid "Welcome message in the home page."
-msgstr ""
-
 #, fuzzy
 msgid "Module selection"
 msgstr "Añadir sección "
-
-msgid "Subtitle in the home page."
-msgstr ""
 
 msgid "You need to select a module"
 msgstr "Debe seleccionar un módulo"
@@ -602,7 +596,7 @@ msgid "Unable to remove page"
 msgstr "No se puede eliminar la página"
 
 #, fuzzy
-msgid "General Setting"
+msgid "General Settings"
 msgstr "Información general"
 
 msgid "Access to Settings"
