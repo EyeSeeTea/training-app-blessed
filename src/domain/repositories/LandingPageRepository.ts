@@ -1,6 +1,5 @@
 import { PersistedLandingPage } from "../../data/entities/PersistedLandingPage";
 import { LandingNode } from "../entities/LandingPage";
-import { TranslatableText } from "../entities/TranslatableText";
 import { ImportExportTranslationRepository } from "./ImportExportTranslationRepository";
 
 export interface LandingPageRepository extends ImportExportTranslationRepository {

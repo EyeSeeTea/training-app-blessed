@@ -1,7 +1,6 @@
 import { PersistedTrainingModule } from "../../data/entities/PersistedTrainingModule";
 import { TrainingModule } from "../entities/TrainingModule";
 import { ImportExportTranslationRepository } from "./ImportExportTranslationRepository";
-import { TranslatableText } from "../entities/TranslatableText";
 
 export interface TrainingModuleRepository extends ImportExportTranslationRepository {
     list(): Promise<TrainingModule[]>;
