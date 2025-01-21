@@ -1,10 +1,11 @@
 import { UseCase } from "../../webapp/CompositionRoot";
 import { ConfigRepository } from "../repositories/ConfigRepository";
+import { Config } from "../entities/Config";
 
-export class SetShowAllModulesUseCase implements UseCase {
+export class GetConfigUseCase implements UseCase {
     constructor(private configRepository: ConfigRepository) {}
 
-    public async execute(flag: boolean): Promise<void> {
-        return this.configRepository.setShowAllModules(flag);
+    public async execute(): Promise<Config> {
+        return this.configRepository.get();
     }
 }

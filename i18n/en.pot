@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2025-01-20T03:22:37.198Z\n"
-"PO-Revision-Date: 2025-01-20T03:22:37.198Z\n"
+"POT-Creation-Date: 2025-01-21T02:44:00.916Z\n"
+"PO-Revision-Date: 2025-01-21T02:44:00.916Z\n"
 
 msgid "Welcome to training on DHIS2"
 msgstr ""
@@ -68,10 +68,19 @@ msgstr ""
 msgid "done"
 msgstr ""
 
+msgid "Export JSON translations"
+msgstr ""
+
+msgid "Import JSON translations"
+msgstr ""
+
 msgid "Close"
 msgstr ""
 
 msgid "Home page logo"
+msgstr ""
+
+msgid "Customize application text"
 msgstr ""
 
 msgid "Welcome message"
@@ -170,9 +179,6 @@ msgstr ""
 msgid "Exporting landing page(s)"
 msgstr ""
 
-msgid "Export JSON translations"
-msgstr ""
-
 msgid "Exporting translations"
 msgstr ""
 
@@ -183,9 +189,6 @@ msgid "Move down"
 msgstr ""
 
 msgid "Import landing pages"
-msgstr ""
-
-msgid "Import JSON translations"
 msgstr ""
 
 msgid "Landing page"
@@ -563,16 +566,16 @@ msgstr ""
 msgid "The list with all the existing  modules is hidden"
 msgstr ""
 
-msgid "There are no unused documents to clean"
-msgstr ""
-
-msgid "There are {{total}} documents available to clean"
-msgstr ""
-
 msgid "Customize the landing page"
 msgstr ""
 
 msgid "Update the logo or content"
+msgstr ""
+
+msgid "There are no unused documents to clean"
+msgstr ""
+
+msgid "There are {{total}} documents available to clean"
 msgstr ""
 
 msgid "Training modules"

@@ -13,8 +13,6 @@ import { ExportLandingPagesUseCase } from "../domain/usecases/ExportLandingPages
 import { ExportModulesUseCase } from "../domain/usecases/ExportModulesUseCase";
 import { ExportModuleTranslationsUseCase } from "../domain/usecases/ExportModuleTranslationsUseCase";
 import { GetModuleUseCase } from "../domain/usecases/GetModuleUseCase";
-import { GetSettingsPermissionsUseCase } from "../domain/usecases/GetSettingsPermissionsUseCase";
-import { GetShowAllModulesUseCase } from "../domain/usecases/GetShowAllModulesUseCase";
 import { ImportLandingPagesTranslationsUseCase } from "../domain/usecases/ImportLandingPagesTranslationsUseCase";
 import { SwapLandingChildOrderUseCase } from "../domain/usecases/SwapLandingChildOrderUseCase";
 import { ImportLandingPagesUseCase } from "../domain/usecases/ImportLandingPagesUseCase";
@@ -27,23 +25,23 @@ import { ListLandingChildrenUseCase } from "../domain/usecases/ListLandingChildr
 import { ListModulesUseCase } from "../domain/usecases/ListModulesUseCase";
 import { ResetModuleDefaultValueUseCase } from "../domain/usecases/ResetModuleDefaultValueUseCase";
 import { SearchUsersUseCase } from "../domain/usecases/SearchUsersUseCase";
-import { SetShowAllModulesUseCase } from "../domain/usecases/SetShowAllModulesUseCase";
 import { SwapModuleOrderUseCase } from "../domain/usecases/SwapModuleOrderUseCase";
 import { UpdateLandingChildUseCase } from "../domain/usecases/UpdateLandingChildUseCase";
 import { UpdateModuleUseCase } from "../domain/usecases/UpdateModuleUseCase";
-import { UpdateSettingsPermissionsUseCase } from "../domain/usecases/UpdateSettingsPermissionsUseCase";
 import { UpdateUserProgressUseCase } from "../domain/usecases/UpdateUserProgressUseCase";
 import { UploadFileUseCase } from "../domain/usecases/UploadFileUseCase";
-import { GetCustomTextUseCase } from "../domain/usecases/GetCustomTextUseCase";
-import { SetCustomTextUseCase } from "../domain/usecases/SetCustomTextUseCase";
-import { GetLogoUseCase } from "../domain/usecases/GetLogoUseCase";
-import { SetLogoUseCase } from "../domain/usecases/SetLogoUseCase";
+import { GetConfigUseCase } from "../domain/usecases/GetConfigUseCase";
+import { Dhis2DocumentRepository } from "../data/repositories/Dhis2DocumentRepository";
+import { Instance } from "../data/entities/Instance";
+import { SaveConfigUseCase } from "../domain/usecases/SaveConfigUseCase";
 
 export function getCompositionRoot(baseUrl: string) {
+    const instance = new Instance({ url: baseUrl });
     const configRepository = new Dhis2ConfigRepository(baseUrl);
     const instanceRepository = new InstanceDhisRepository(configRepository);
     const trainingModuleRepository = new TrainingModuleDefaultRepository(configRepository, instanceRepository);
     const landingPageRepository = new LandingPageDefaultRepository(configRepository, instanceRepository);
+    const documentRepository = new Dhis2DocumentRepository(instance);
 
     return {
         usecases: {
@@ -74,14 +72,8 @@ export function getCompositionRoot(baseUrl: string) {
                 complete: new CompleteUserProgressUseCase(trainingModuleRepository),
             }),
             config: getExecute({
-                getSettingsPermissions: new GetSettingsPermissionsUseCase(configRepository),
-                updateSettingsPermissions: new UpdateSettingsPermissionsUseCase(configRepository),
-                getShowAllModules: new GetShowAllModulesUseCase(configRepository),
-                setShowAllModules: new SetShowAllModulesUseCase(configRepository),
-                getCustomText: new GetCustomTextUseCase(configRepository),
-                setCustomText: new SetCustomTextUseCase(configRepository),
-                getLogo: new GetLogoUseCase(configRepository),
-                setLogo: new SetLogoUseCase(configRepository),
+                get: new GetConfigUseCase(configRepository),
+                save: new SaveConfigUseCase(configRepository),
             }),
             user: getExecute({
                 checkSettingsPermissions: new CheckSettingsPermissionsUseCase(configRepository),
@@ -92,8 +84,10 @@ export function getCompositionRoot(baseUrl: string) {
                 installApp: new InstallAppUseCase(instanceRepository, trainingModuleRepository),
                 searchUsers: new SearchUsersUseCase(instanceRepository),
                 listInstalledApps: new ListInstalledAppsUseCase(instanceRepository),
-                listDanglingDocuments: new ListDanglingDocumentsUseCase(instanceRepository),
-                deleteDocuments: new DeleteDocumentsUseCase(instanceRepository),
+            }),
+            document: getExecute({
+                listDangling: new ListDanglingDocumentsUseCase(documentRepository),
+                delete: new DeleteDocumentsUseCase(documentRepository),
             }),
         },
     };

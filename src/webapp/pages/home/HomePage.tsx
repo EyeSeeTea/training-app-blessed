@@ -9,6 +9,7 @@ import { Cardboard } from "../../components/card-board/Cardboard";
 import { MarkdownViewer } from "../../components/markdown-viewer/MarkdownViewer";
 import { Modal, ModalContent, ModalParagraph, ModalTitle } from "../../components/modal";
 import { useAppContext } from "../../contexts/app-context";
+import { useAppConfigContext } from "../../contexts/AppConfigProvider";
 
 const Item: React.FC<{
     currentPage: LandingNode;
@@ -17,7 +18,8 @@ const Item: React.FC<{
     loadModule: (module: string, step: number) => void;
 }> = props => {
     const { currentPage, openPage } = props;
-    const { translate, appCustomText, logoInfo } = useAppContext();
+    const { translate } = useAppContext();
+    const { appCustomText, logoInfo } = useAppConfigContext();
     const { logoPath, logoText } = React.useMemo(() => logoInfo, [logoInfo]);
 
     if (currentPage.type === "root") {
@@ -169,13 +171,14 @@ const AdditionalComponents: React.FC<{
     currentPage: LandingNode;
     loadModule: (module: string, step: number) => void;
 }> = ({ isRoot, currentPage, loadModule }) => {
-    const { modules, translate, showAllModules } = useAppContext();
+    const { modules, translate } = useAppContext();
+    const { appConfig } = useAppConfigContext();
 
-    const pageModules = isRoot && showAllModules ? modules.map(({ id }) => id) : currentPage?.modules ?? [];
+    const pageModules = isRoot && appConfig.showAllModules ? modules.map(({ id }) => id) : currentPage?.modules ?? [];
 
     return (
         <React.Fragment>
-            {isRoot && showAllModules ? (
+            {isRoot && appConfig.showAllModules ? (
                 <ModalParagraph size={28} align={"left"}>
                     {i18n.t("Select a module below to learn how to use applications in DHIS2:")}
                 </ModalParagraph>
@@ -214,7 +217,8 @@ const AdditionalComponents: React.FC<{
 };
 
 export const HomePage: React.FC = React.memo(() => {
-    const { setAppState, hasSettingsAccess, landings, reload, isLoading } = useAppContext();
+    const { setAppState, landings, reload, isLoading } = useAppContext();
+    const { hasSettingsAccess } = useAppConfigContext();
 
     const [history, updateHistory] = useState<LandingNode[]>([]);
     const [isLoadingLong, setLoadingLong] = useState<boolean>(false);

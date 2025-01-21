@@ -1,12 +1,16 @@
 import { ConfirmationDialog } from "@eyeseetea/d2-ui-components";
-import { TextField } from "@material-ui/core";
+import { Icon, IconButton, TextField } from "@material-ui/core";
 import React, { ChangeEvent, useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
 import i18n from "../../../locales";
 import { useAppContext } from "../../contexts/app-context";
 import { getKeys } from "../../../types/utils";
 import { CustomText, CustomTextInfo, defaultCustomText } from "../../../domain/entities/CustomText";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 import _ from "lodash";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
+import { useAppConfigContext } from "../../contexts/AppConfigProvider";
 
 export interface CustomizeSettingsSaveForm {
     customText: Partial<CustomText>;
@@ -21,13 +25,17 @@ export interface CustomSettingsDialogProps extends CustomizeSettingsSaveForm {
 export const CustomizeSettingsDialog: React.FC<CustomSettingsDialogProps> = props => {
     const { onSave, customText, logo, onClose } = props;
 
-    const { usecases, appCustomText } = useAppContext();
+    const { usecases } = useAppContext();
+    const { appCustomText } = useAppConfigContext();
     const [logoVal, setLogo] = useState<string>(logo);
     const [customTextVal, setCustomText] = useState<Partial<CustomText>>(customText);
     const customTextKeys = useMemo(() => getKeys(appCustomText), [appCustomText]);
 
     const logoHasChanges = useMemo(() => logoVal !== logo, [logoVal, logo]);
-    const customTextHasChanges = useMemo(() => !(_.every(customTextVal, _.isUndefined) || _.isEqual(customTextVal, appCustomText)), [customTextVal, appCustomText]);
+    const customTextHasChanges = useMemo(
+        () => !(_.every(customTextVal, _.isUndefined) || _.isEqual(customTextVal, appCustomText)),
+        [customTextVal, appCustomText]
+    );
 
     const disableSave = useMemo(() => {
         return !logoHasChanges && !customTextHasChanges;
@@ -60,6 +68,31 @@ export const CustomizeSettingsDialog: React.FC<CustomSettingsDialogProps> = prop
         [usecases]
     );
 
+    const [menuAnchor, setMenuAnchor] = React.useState<null | HTMLElement>(null);
+    const menuOpen = Boolean(menuAnchor);
+    const handleClickMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setMenuAnchor(event.currentTarget);
+    };
+    const handleCloseMenu = () => {
+        setMenuAnchor(null);
+    };
+
+    const menuAction = useMemo(
+        () => [
+            {
+                key: "export",
+                icon: <Icon>cloud_download</Icon>,
+                text: i18n.t("Export JSON translations"),
+            },
+            {
+                key: "import",
+                icon: <Icon>translate</Icon>,
+                text: i18n.t("Import JSON translations"),
+            },
+        ],
+        []
+    );
+
     return (
         <ConfirmationDialog
             isOpen={true}
@@ -69,8 +102,8 @@ export const CustomizeSettingsDialog: React.FC<CustomSettingsDialogProps> = prop
             onCancel={onClose}
             disableSave={disableSave}
         >
+            <h3>{i18n.t("Home page logo")}</h3>
             <Row>
-                <h3>{i18n.t("Home page logo")}</h3>
                 <IconUpload>
                     <IconContainer>
                         <img src={logoVal} alt={`Home page logo`} />
@@ -78,6 +111,21 @@ export const CustomizeSettingsDialog: React.FC<CustomSettingsDialogProps> = prop
                     <FileInput type="file" onChange={handleFileUpload} />
                 </IconUpload>
             </Row>
+            <HeaderMenu>
+                <h3>{i18n.t("Customize application text")}</h3>{" "}
+                <IconButton onClick={handleClickMenu}>
+                    <MoreVertIcon />
+                </IconButton>
+                <Menu anchorEl={menuAnchor} open={menuOpen} onClose={handleCloseMenu}>
+                    {menuAction.map(action => (
+                        <StyledMenuItem key={action.key}>
+                            {action.icon}
+                            {action.text}
+                        </StyledMenuItem>
+                    ))}
+                </Menu>
+            </HeaderMenu>
+
             {customTextKeys.map(key => (
                 <Row key={key}>
                     <TextField
@@ -123,7 +171,15 @@ const FileInput = styled.input`
     outline: none;
 `;
 
-export const customTextLabel: CustomTextInfo = {
+const HeaderMenu = styled(Row)`
+    display: flex;
+`;
+
+const StyledMenuItem = styled(MenuItem)`
+    gap: 20px;
+`;
+
+const customTextLabel: CustomTextInfo = {
     root_title: i18n.t("Welcome message"),
     root_subtitle: i18n.t("Module selection"),
 };

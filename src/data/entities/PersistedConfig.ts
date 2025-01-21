@@ -1,10 +1,11 @@
-import { Permission } from "../../domain/entities/Permission";
-import { CustomText } from "../../domain/entities/CustomText";
+import { Config } from "../../domain/entities/Config";
 
-export interface PersistedConfig {
+export interface PersistedConfig extends Config {
     poeditorToken?: string;
-    settingsPermissions?: Permission;
-    showAllModules?: boolean;
-    logo?: string;
-    customText?: Partial<CustomText>;
 }
+
+export const defaultConfig = {
+    showAllModules: true,
+    settingsPermissions: {},
+    customText: {},
+};

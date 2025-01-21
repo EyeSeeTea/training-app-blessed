@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Traning App - UI Interface\n"
-"POT-Creation-Date: 2025-01-20T03:22:37.198Z\n"
+"POT-Creation-Date: 2025-01-21T02:44:00.916Z\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -68,12 +68,22 @@ msgstr "Tutorial"
 msgid "done"
 msgstr ""
 
+msgid "Export JSON translations"
+msgstr "Exportar traducciones JSON"
+
+msgid "Import JSON translations"
+msgstr "Importar traducciones JSON"
+
 msgid "Close"
 msgstr "Cerrar"
 
 #, fuzzy
 msgid "Home page logo"
 msgstr "Bienvenido"
+
+#, fuzzy
+msgid "Customize application text"
+msgstr "Instalando aplicación"
 
 #, fuzzy
 msgid "Welcome message"
@@ -174,9 +184,6 @@ msgstr "Exportar la página de destino"
 msgid "Exporting landing page(s)"
 msgstr "Exportar página(s) de destino"
 
-msgid "Export JSON translations"
-msgstr "Exportar traducciones JSON"
-
 msgid "Exporting translations"
 msgstr "Exportación de traducciones"
 
@@ -188,9 +195,6 @@ msgstr "Mover abajo"
 
 msgid "Import landing pages"
 msgstr "Importar páginas de destino"
-
-msgid "Import JSON translations"
-msgstr "Importar traducciones JSON"
 
 msgid "Landing page"
 msgstr "Bienvenido"
@@ -611,18 +615,18 @@ msgstr "Una lista con todos los módulos existentes es visible"
 msgid "The list with all the existing  modules is hidden"
 msgstr "La lista con todos los módulos existentes está oculta"
 
-msgid "There are no unused documents to clean"
-msgstr "No hay documentos no utilizados que limpiar"
-
-msgid "There are {{total}} documents available to clean"
-msgstr "Hay {{total}} documentos disponibles para limpiar"
-
 #, fuzzy
 msgid "Customize the landing page"
 msgstr "Exportar la página de destino"
 
 msgid "Update the logo or content"
 msgstr ""
+
+msgid "There are no unused documents to clean"
+msgstr "No hay documentos no utilizados que limpiar"
+
+msgid "There are {{total}} documents available to clean"
+msgstr "Hay {{total}} documentos disponibles para limpiar"
 
 msgid "Training modules"
 msgstr "Módulos de formación"

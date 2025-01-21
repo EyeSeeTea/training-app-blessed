@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Traning App - UI Interface\n"
-"POT-Creation-Date: 2025-01-20T03:22:37.198Z\n"
+"POT-Creation-Date: 2025-01-21T02:44:00.916Z\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -68,12 +68,22 @@ msgstr "Tutoriels"
 msgid "done"
 msgstr ""
 
+msgid "Export JSON translations"
+msgstr "Exportation des traductions en JSON"
+
+msgid "Import JSON translations"
+msgstr "Importer des traductions JSON"
+
 msgid "Close"
 msgstr "Fermer"
 
 #, fuzzy
 msgid "Home page logo"
 msgstr "Page d'accueil"
+
+#, fuzzy
+msgid "Customize application text"
+msgstr "Installation de l'application"
 
 #, fuzzy
 msgid "Welcome message"
@@ -174,9 +184,6 @@ msgstr "Exportation de la page de renvoi"
 msgid "Exporting landing page(s)"
 msgstr "Exportation de page(s) de destination"
 
-msgid "Export JSON translations"
-msgstr "Exportation des traductions en JSON"
-
 msgid "Exporting translations"
 msgstr "Exportation des traductions"
 
@@ -188,9 +195,6 @@ msgstr "Descendre"
 
 msgid "Import landing pages"
 msgstr "Importer des pages de renvoi"
-
-msgid "Import JSON translations"
-msgstr "Importer des traductions JSON"
 
 msgid "Landing page"
 msgstr "Page d'atterrissage"
@@ -615,18 +619,18 @@ msgstr "Une liste avec tous les modules existants est visible"
 msgid "The list with all the existing  modules is hidden"
 msgstr "La liste avec tous les modules existants est cachée"
 
-msgid "There are no unused documents to clean"
-msgstr "Il n'y a pas de documents inutilisés à nettoyer"
-
-msgid "There are {{total}} documents available to clean"
-msgstr "Il y a {{total}} documents disponibles à nettoyer"
-
 #, fuzzy
 msgid "Customize the landing page"
 msgstr "Exportation de la page de renvoi"
 
 msgid "Update the logo or content"
 msgstr ""
+
+msgid "There are no unused documents to clean"
+msgstr "Il n'y a pas de documents inutilisés à nettoyer"
+
+msgid "There are {{total}} documents available to clean"
+msgstr "Il y a {{total}} documents disponibles à nettoyer"
 
 msgid "Training modules"
 msgstr "Modules de formation"

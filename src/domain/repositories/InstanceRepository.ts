@@ -1,6 +1,5 @@
 import { UserSearch } from "../../data/entities/SearchUser";
 import { InstalledApp } from "../entities/InstalledApp";
-import { NamedRef } from "../entities/Ref";
 
 export interface InstanceRepository {
     getBaseUrl(): string;
@@ -10,8 +9,6 @@ export interface InstanceRepository {
     searchUsers(query: string): Promise<UserSearch>;
     listInstalledApps(): Promise<InstalledApp[]>;
     getVersion(): Promise<string>;
-    listDanglingDocuments(): Promise<NamedRef[]>;
-    deleteDocuments(ids: string[]): Promise<void>;
 }
 
 export interface UploadFileOptions {
