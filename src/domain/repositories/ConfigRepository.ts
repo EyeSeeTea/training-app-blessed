@@ -1,7 +1,5 @@
 import { Instance } from "../../data/entities/Instance";
 import { User } from "../../data/entities/User";
-import { Permission } from "../entities/Permission";
-import { CustomText } from "../entities/CustomText";
 import { Config } from "../entities/Config";
 
 export interface ConfigRepository {

@@ -1,5 +1,4 @@
 import { UseCase } from "../../webapp/CompositionRoot";
-import { InstanceRepository } from "../repositories/InstanceRepository";
 import { DocumentRepository } from "../repositories/DocumentRepository";
 
 export class DeleteDocumentsUseCase implements UseCase {
