@@ -1,9 +1,9 @@
 import { Instance } from "../../data/entities/Instance";
 import { User } from "../../data/entities/User";
 import { Config } from "../entities/Config";
-import { ImportExportTranslationRepository } from "./ImportExportTranslationRepository";
+import { TranslableTextRepository } from "./TranslableTextRepository";
 
-export interface ConfigRepository extends ImportExportTranslationRepository {
+export interface ConfigRepository extends TranslableTextRepository {
     getUser(): Promise<User>;
     getInstance(): Instance;
     get(): Promise<Config>;

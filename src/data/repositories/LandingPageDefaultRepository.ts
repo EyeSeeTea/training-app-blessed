@@ -99,7 +99,7 @@ export class LandingPageDefaultRepository implements LandingPageRepository {
         await this.storageClient.removeObjectsInCollection(Namespaces.LANDING_PAGES, toDelete);
     }
 
-    public async extractTranslatations(): Promise<TranslatableText[]> {
+    public async extractTranslations(): Promise<TranslatableText[]> {
         const models = await this.storageClient.getObject<PersistedLandingPage[]>(Namespaces.LANDING_PAGES);
         if (!models) throw new Error(`Unable to load landing pages`);
 

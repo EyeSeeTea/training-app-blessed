@@ -1,8 +1,8 @@
 import { PersistedTrainingModule } from "../../data/entities/PersistedTrainingModule";
 import { TrainingModule } from "../entities/TrainingModule";
-import { ImportExportTranslationRepository } from "./ImportExportTranslationRepository";
+import { TranslableTextRepository } from "./TranslableTextRepository";
 
-export interface TrainingModuleRepository extends ImportExportTranslationRepository {
+export interface TrainingModuleRepository extends TranslableTextRepository {
     list(): Promise<TrainingModule[]>;
     get(moduleKey: string, options: GetModuleOptions): Promise<TrainingModule | undefined>;
     update(module: Pick<TrainingModule, "id" | "name"> & Partial<TrainingModule>): Promise<void>;

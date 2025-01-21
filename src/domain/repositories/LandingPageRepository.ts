@@ -1,8 +1,8 @@
 import { PersistedLandingPage } from "../../data/entities/PersistedLandingPage";
 import { LandingNode } from "../entities/LandingPage";
-import { ImportExportTranslationRepository } from "./ImportExportTranslationRepository";
+import { TranslableTextRepository } from "./TranslableTextRepository";
 
-export interface LandingPageRepository extends ImportExportTranslationRepository {
+export interface LandingPageRepository extends TranslableTextRepository {
     list(): Promise<LandingNode[]>;
     export(ids: string[]): Promise<void>;
     import(files: File[]): Promise<PersistedLandingPage[]>;

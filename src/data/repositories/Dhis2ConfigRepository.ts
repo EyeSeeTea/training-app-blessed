@@ -97,7 +97,7 @@ export class Dhis2ConfigRepository implements ConfigRepository {
         return this.extractTranslatableText(updatedConfig);
     }
 
-    public async extractTranslatations(): Promise<TranslatableText[]> {
+    public async extractTranslations(): Promise<TranslatableText[]> {
         const config = await this.getConfig();
         return this.extractTranslatableText(config ?? {});
     }

@@ -172,7 +172,7 @@ export class TrainingModuleDefaultRepository implements TrainingModuleRepository
         });
     }
 
-    public async extractTranslatations(key: string): Promise<TranslatableText[]> {
+    public async extractTranslations(key: string): Promise<TranslatableText[]> {
         const model = await this.storageClient.getObjectInCollection<PersistedTrainingModule>(
             Namespaces.TRAINING_MODULES,
             key
