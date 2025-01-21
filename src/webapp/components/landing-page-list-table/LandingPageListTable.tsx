@@ -260,7 +260,6 @@ export const LandingPageListTable: React.FC<{ nodes: LandingNode[]; isLoading?: 
                 icon: <Icon>translate</Icon>,
                 onClick: async () => {
                     loading.show(true, i18n.t("Exporting translations"));
-                    // await usecases.landings.exportTranslations();
                     await exportTranslation(() => usecases.landings.extractTranslations(), "landing-page");
                     loading.reset();
                 },

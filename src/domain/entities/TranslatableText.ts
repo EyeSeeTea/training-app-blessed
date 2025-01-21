@@ -18,7 +18,7 @@ export const buildTranslate = (locale: string): TranslateMethod => {
 
 export type TranslateMethod = (string: TranslatableText) => string;
 
-export const importTranslate = <T extends TranslatableText>(item: T, language: string, term: string | undefined): T => {
+export const setTranslationValue = <T extends TranslatableText>(item: T, language: string, term: string | undefined): T => {
     if (term === undefined) {
         return item;
     } else if (language === "en") {

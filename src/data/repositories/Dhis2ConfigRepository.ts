@@ -8,7 +8,7 @@ import { Instance } from "../entities/Instance";
 import { defaultConfig, PersistedConfig } from "../entities/PersistedConfig";
 import { User } from "../entities/User";
 import { getD2APiFromInstance } from "../utils/d2-api";
-import { importTranslate, TranslatableText } from "../../domain/entities/TranslatableText";
+import { setTranslationValue, TranslatableText } from "../../domain/entities/TranslatableText";
 import _ from "lodash";
 import { CustomText } from "../../domain/entities/CustomText";
 
@@ -85,10 +85,10 @@ export class Dhis2ConfigRepository implements ConfigRepository {
         const translatedText: Partial<CustomText> = {
             ...customText,
             root_title: customText.root_title
-                ? importTranslate(customText.root_title, language, terms[customText.root_title.key])
+                ? setTranslationValue(customText.root_title, language, terms[customText.root_title.key])
                 : undefined,
             root_subtitle: customText.root_subtitle
-                ? importTranslate(customText.root_subtitle, language, terms[customText.root_subtitle.key])
+                ? setTranslationValue(customText.root_subtitle, language, terms[customText.root_subtitle.key])
                 : undefined,
         };
 

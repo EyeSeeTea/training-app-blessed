@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { LandingNode, LandingNodeModel } from "../../domain/entities/LandingPage";
-import { importTranslate, TranslatableText } from "../../domain/entities/TranslatableText";
+import { setTranslationValue, TranslatableText } from "../../domain/entities/TranslatableText";
 import { ConfigRepository } from "../../domain/repositories/ConfigRepository";
 import { InstanceRepository } from "../../domain/repositories/InstanceRepository";
 import { LandingPageRepository } from "../../domain/repositories/LandingPageRepository";
@@ -116,9 +116,9 @@ export class LandingPageDefaultRepository implements LandingPageRepository {
 
         const translatedModels: PersistedLandingPage[] = models.map(model => ({
             ...model,
-            name: importTranslate(model.name, language, terms[model.name.key]),
-            title: model.title ? importTranslate(model.title, language, terms[model.title.key]) : undefined,
-            content: model.content ? importTranslate(model.content, language, terms[model.content.key]) : undefined,
+            name: setTranslationValue(model.name, language, terms[model.name.key]),
+            title: model.title ? setTranslationValue(model.title, language, terms[model.title.key]) : undefined,
+            content: model.content ? setTranslationValue(model.content, language, terms[model.content.key]) : undefined,
         }));
 
         await this.storageClient.saveObject<PersistedLandingPage[]>(Namespaces.LANDING_PAGES, translatedModels);

@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { defaultTrainingModule, isValidTrainingType, TrainingModule } from "../../domain/entities/TrainingModule";
-import { importTranslate, TranslatableText } from "../../domain/entities/TranslatableText";
+import { setTranslationValue, TranslatableText } from "../../domain/entities/TranslatableText";
 import { UserProgress } from "../../domain/entities/UserProgress";
 import { ConfigRepository } from "../../domain/repositories/ConfigRepository";
 import { InstanceRepository } from "../../domain/repositories/InstanceRepository";
@@ -202,17 +202,17 @@ export class TrainingModuleDefaultRepository implements TrainingModuleRepository
 
         const translatedModel: PersistedTrainingModule = {
             ...model,
-            name: importTranslate(model.name, language, terms[model.name.key]),
+            name: setTranslationValue(model.name, language, terms[model.name.key]),
             contents: {
                 ...model.contents,
-                welcome: importTranslate(model.contents.welcome, language, terms[model.contents.welcome.key]),
+                welcome: setTranslationValue(model.contents.welcome, language, terms[model.contents.welcome.key]),
                 steps: model.contents.steps.map(step => ({
                     ...step,
-                    title: importTranslate(step.title, language, terms[step.title.key]),
+                    title: setTranslationValue(step.title, language, terms[step.title.key]),
                     subtitle: step.subtitle
-                        ? importTranslate(step.subtitle, language, terms[step.subtitle.key])
+                        ? setTranslationValue(step.subtitle, language, terms[step.subtitle.key])
                         : undefined,
-                    pages: step.pages.map(page => importTranslate(page, language, terms[page.key])),
+                    pages: step.pages.map(page => setTranslationValue(page, language, terms[page.key])),
                 })),
             },
         };
