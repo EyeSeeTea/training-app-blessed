@@ -1,8 +1,6 @@
-import FileSaver from "file-saver";
-import JSZip from "jszip";
 import _ from "lodash";
 import { defaultTrainingModule, isValidTrainingType, TrainingModule } from "../../domain/entities/TrainingModule";
-import { TranslatableText } from "../../domain/entities/TranslatableText";
+import { importTranslate, TranslatableText } from "../../domain/entities/TranslatableText";
 import { UserProgress } from "../../domain/entities/UserProgress";
 import { ConfigRepository } from "../../domain/repositories/ConfigRepository";
 import { InstanceRepository } from "../../domain/repositories/InstanceRepository";
@@ -174,81 +172,54 @@ export class TrainingModuleDefaultRepository implements TrainingModuleRepository
         });
     }
 
-    public async exportTranslations(key: string): Promise<void> {
+    public async extractTranslatations(key: string): Promise<TranslatableText[]> {
         const model = await this.storageClient.getObjectInCollection<PersistedTrainingModule>(
             Namespaces.TRAINING_MODULES,
             key
         );
         if (!model) throw new Error(`Module ${key} not found`);
 
-        const translations = await this.extractTranslations(model);
-        const files = _.toPairs(translations);
-        const zip = new JSZip();
-
-        for (const [lang, contents] of files) {
-            const json = JSON.stringify(contents, null, 4);
-            const blob = new Blob([json], { type: "application/json" });
-            zip.file(`${lang}.json`, blob);
-        }
-
-        const blob = await zip.generateAsync({ type: "blob" });
-        const moduleName = _.kebabCase(model.name.referenceValue);
-        FileSaver.saveAs(blob, `translations-${moduleName}.zip`);
+        return this.extractTranslatableText(model);
+    }
+    private extractTranslatableText(model: PersistedTrainingModule): TranslatableText[] {
+        return _.compact([
+            model.name,
+            model.contents.welcome,
+            ..._.flatMap(model.contents.steps, step => [step.title, step.subtitle, ...step.pages]),
+        ]);
     }
 
-    public async importTranslations(key: string, language: string, terms: Record<string, string>): Promise<number> {
+    public async importTranslations(
+        language: string,
+        terms: Record<string, string>,
+        key: string
+    ): Promise<TranslatableText[]> {
         const model = await this.storageClient.getObjectInCollection<PersistedTrainingModule>(
             Namespaces.TRAINING_MODULES,
             key
         );
         if (!model) throw new Error(`Module ${key} not found`);
-
-        const translate = <T extends TranslatableText>(item: T, language: string, term: string | undefined): T => {
-            if (term === undefined) {
-                return item;
-            } else if (language === "en") {
-                return { ...item, referenceValue: term };
-            } else {
-                return { ...item, translations: { ...item.translations, [language]: term } };
-            }
-        };
 
         const translatedModel: PersistedTrainingModule = {
             ...model,
-            name: translate(model.name, language, terms[model.name.key]),
+            name: importTranslate(model.name, language, terms[model.name.key]),
             contents: {
                 ...model.contents,
-                welcome: translate(model.contents.welcome, language, terms[model.contents.welcome.key]),
+                welcome: importTranslate(model.contents.welcome, language, terms[model.contents.welcome.key]),
                 steps: model.contents.steps.map(step => ({
                     ...step,
-                    title: translate(step.title, language, terms[step.title.key]),
-                    subtitle: step.subtitle ? translate(step.subtitle, language, terms[step.subtitle.key]) : undefined,
-                    pages: step.pages.map(page => translate(page, language, terms[page.key])),
+                    title: importTranslate(step.title, language, terms[step.title.key]),
+                    subtitle: step.subtitle
+                        ? importTranslate(step.subtitle, language, terms[step.subtitle.key])
+                        : undefined,
+                    pages: step.pages.map(page => importTranslate(page, language, terms[page.key])),
                 })),
             },
         };
 
         await this.saveDataStore(translatedModel);
 
-        const translations = await this.extractTranslations(model);
-        return _.intersection(_.keys(translations["en"]), _.keys(terms)).length;
-    }
-
-    private async extractTranslations(model: PersistedTrainingModule): Promise<Record<string, Record<string, string>>> {
-        const texts = _.compact([
-            model.name,
-            model.contents.welcome,
-            ..._.flatMap(model.contents.steps, step => [step.title, step.subtitle, ...step.pages]),
-        ]);
-
-        const referenceStrings = _.fromPairs(texts.map(({ key, referenceValue }) => [key, referenceValue]));
-        const translatedStrings = _(texts)
-            .flatMap(({ key, translations }) => _.toPairs(translations).map(([lang, value]) => ({ lang, key, value })))
-            .groupBy("lang")
-            .mapValues(array => _.fromPairs(array.map(({ key, value }) => [key, value])))
-            .value();
-
-        return { ...translatedStrings, en: referenceStrings };
+        return this.extractTranslatableText(model);
     }
 
     @cache()

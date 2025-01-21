@@ -1,6 +1,6 @@
-import { ConfirmationDialog } from "@eyeseetea/d2-ui-components";
+import { ConfirmationDialog, useLoading } from "@eyeseetea/d2-ui-components";
 import { Icon, IconButton, TextField } from "@material-ui/core";
-import React, { ChangeEvent, useCallback, useMemo, useState } from "react";
+import React, { ChangeEvent, useCallback, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import i18n from "../../../locales";
 import { useAppContext } from "../../contexts/app-context";
@@ -11,6 +11,8 @@ import _ from "lodash";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import { useAppConfigContext } from "../../contexts/AppConfigProvider";
+import { ImportTranslationDialog, ImportTranslationRef } from "../import-translation-dialog/ImportTranslationDialog";
+import { useImportExportTranslation } from "../../hooks/useImportExportTranslation";
 
 export interface CustomizeSettingsSaveForm {
     customText: Partial<CustomText>;
@@ -26,14 +28,20 @@ export const CustomizeSettingsDialog: React.FC<CustomSettingsDialogProps> = prop
     const { onSave, customText, logo, onClose } = props;
 
     const { usecases } = useAppContext();
+    const { exportTranslation, importTranslation } = useImportExportTranslation();
+    const loading = useLoading();
+
     const { appCustomText } = useAppConfigContext();
     const [logoVal, setLogo] = useState<string>(logo);
     const [customTextVal, setCustomText] = useState<Partial<CustomText>>(customText);
+    const translationImportRef = useRef<ImportTranslationRef>(null);
     const customTextKeys = useMemo(() => getKeys(appCustomText), [appCustomText]);
 
     const logoHasChanges = useMemo(() => logoVal !== logo, [logoVal, logo]);
+
+    const isCustomTextDefault = useMemo(() => _.every(customText, _.isUndefined), [customText]);
     const customTextHasChanges = useMemo(
-        () => !(_.every(customTextVal, _.isUndefined) || _.isEqual(customTextVal, appCustomText)),
+        () => !_.every(customTextVal, _.isUndefined) || _.isEqual(customTextVal, appCustomText),
         [customTextVal, appCustomText]
     );
 
@@ -83,14 +91,31 @@ export const CustomizeSettingsDialog: React.FC<CustomSettingsDialogProps> = prop
                 key: "export",
                 icon: <Icon>cloud_download</Icon>,
                 text: i18n.t("Export JSON translations"),
+                onClick: async () => {
+                    loading.show(true, i18n.t("Exporting translations"));
+                    await exportTranslation(() => usecases.config.extractTranslations(), "custom-text");
+                    loading.reset();
+                    handleCloseMenu()
+                },
             },
             {
                 key: "import",
                 icon: <Icon>translate</Icon>,
                 text: i18n.t("Import JSON translations"),
+                onClick: () => {
+                    translationImportRef.current?.startImport();
+                    handleCloseMenu()
+                },
             },
         ],
-        []
+        [exportTranslation, loading, usecases]
+    );
+
+    const handleTranslationUpload = useCallback(
+        async (_key: string | undefined, lang: string, terms: Record<string, string>) => {
+            await importTranslation(() => usecases.config.importTranslations(lang, terms));
+        },
+        [usecases, importTranslation]
     );
 
     return (
@@ -102,6 +127,7 @@ export const CustomizeSettingsDialog: React.FC<CustomSettingsDialogProps> = prop
             onCancel={onClose}
             disableSave={disableSave}
         >
+            <ImportTranslationDialog type="custom-text" ref={translationImportRef} onSave={handleTranslationUpload} />
             <h3>{i18n.t("Home page logo")}</h3>
             <Row>
                 <IconUpload>
@@ -113,17 +139,21 @@ export const CustomizeSettingsDialog: React.FC<CustomSettingsDialogProps> = prop
             </Row>
             <HeaderMenu>
                 <h3>{i18n.t("Customize application text")}</h3>{" "}
-                <IconButton onClick={handleClickMenu}>
-                    <MoreVertIcon />
-                </IconButton>
-                <Menu anchorEl={menuAnchor} open={menuOpen} onClose={handleCloseMenu}>
-                    {menuAction.map(action => (
-                        <StyledMenuItem key={action.key}>
-                            {action.icon}
-                            {action.text}
-                        </StyledMenuItem>
-                    ))}
-                </Menu>
+                {!isCustomTextDefault && (
+                    <>
+                        <IconButton onClick={handleClickMenu}>
+                            <MoreVertIcon />
+                        </IconButton>
+                        <Menu anchorEl={menuAnchor} open={menuOpen} onClose={handleCloseMenu}>
+                            {menuAction.map(action => (
+                                <StyledMenuItem key={action.key} onClick={action.onClick}>
+                                    {action.icon}
+                                    {action.text}
+                                </StyledMenuItem>
+                            ))}
+                        </Menu>
+                    </>
+                )}
             </HeaderMenu>
 
             {customTextKeys.map(key => (

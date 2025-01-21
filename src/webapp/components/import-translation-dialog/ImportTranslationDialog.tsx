@@ -119,7 +119,7 @@ export interface ImportTranslationRef {
 }
 
 export interface ImportTranslationDialogProps {
-    type: "module" | "landing-page";
+    type: "module" | "landing-page" | "custom-text";
     onSave: (key: string | undefined, lang: string, terms: Record<string, string>) => void | Promise<void>;
 }
 

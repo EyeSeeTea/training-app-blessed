@@ -1,13 +1,13 @@
 import { PersistedLandingPage } from "../../data/entities/PersistedLandingPage";
 import { LandingNode } from "../entities/LandingPage";
+import { TranslatableText } from "../entities/TranslatableText";
+import { ImportExportTranslationRepository } from "./ImportExportTranslationRepository";
 
-export interface LandingPageRepository {
+export interface LandingPageRepository extends ImportExportTranslationRepository {
     list(): Promise<LandingNode[]>;
     export(ids: string[]): Promise<void>;
     import(files: File[]): Promise<PersistedLandingPage[]>;
     updateChild(node: LandingNode): Promise<void>;
     removeChilds(ids: string[]): Promise<void>;
-    exportTranslations(): Promise<void>;
-    importTranslations(language: string, terms: Record<string, string>): Promise<number>;
     swapOrder(node1: LandingNode, node2: LandingNode): Promise<void>;
 }

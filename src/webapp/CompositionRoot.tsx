@@ -8,16 +8,12 @@ import { CompleteUserProgressUseCase } from "../domain/usecases/CompleteUserProg
 import { DeleteDocumentsUseCase } from "../domain/usecases/DeleteDocumentsUseCase";
 import { DeleteLandingChildUseCase } from "../domain/usecases/DeleteLandingChildUseCase";
 import { DeleteModulesUseCase } from "../domain/usecases/DeleteModulesUseCase";
-import { ExportLandingPagesTranslationsUseCase } from "../domain/usecases/ExportLandingPagesTranslationsUseCase";
 import { ExportLandingPagesUseCase } from "../domain/usecases/ExportLandingPagesUseCase";
 import { ExportModulesUseCase } from "../domain/usecases/ExportModulesUseCase";
-import { ExportModuleTranslationsUseCase } from "../domain/usecases/ExportModuleTranslationsUseCase";
 import { GetModuleUseCase } from "../domain/usecases/GetModuleUseCase";
-import { ImportLandingPagesTranslationsUseCase } from "../domain/usecases/ImportLandingPagesTranslationsUseCase";
 import { SwapLandingChildOrderUseCase } from "../domain/usecases/SwapLandingChildOrderUseCase";
 import { ImportLandingPagesUseCase } from "../domain/usecases/ImportLandingPagesUseCase";
 import { ImportModulesUseCase } from "../domain/usecases/ImportModulesUseCase";
-import { ImportModuleTranslationsUseCase } from "../domain/usecases/ImportModuleTranslationsUseCase";
 import { InstallAppUseCase } from "../domain/usecases/InstallAppUseCase";
 import { ListDanglingDocumentsUseCase } from "../domain/usecases/ListDanglingDocumentsUseCase";
 import { ListInstalledAppsUseCase } from "../domain/usecases/ListInstalledAppsUseCase";
@@ -34,6 +30,8 @@ import { GetConfigUseCase } from "../domain/usecases/GetConfigUseCase";
 import { Dhis2DocumentRepository } from "../data/repositories/Dhis2DocumentRepository";
 import { Instance } from "../data/entities/Instance";
 import { SaveConfigUseCase } from "../domain/usecases/SaveConfigUseCase";
+import { ExtractTranslationsUseCase } from "../domain/usecases/ExtractTranslationsUseCase";
+import { ImportTranslationsUseCase } from "../domain/usecases/ImportTranslationsUseCase";
 
 export function getCompositionRoot(baseUrl: string) {
     const instance = new Instance({ url: baseUrl });
@@ -54,8 +52,8 @@ export function getCompositionRoot(baseUrl: string) {
                 resetDefaultValue: new ResetModuleDefaultValueUseCase(trainingModuleRepository),
                 export: new ExportModulesUseCase(trainingModuleRepository),
                 import: new ImportModulesUseCase(trainingModuleRepository),
-                exportTranslations: new ExportModuleTranslationsUseCase(trainingModuleRepository),
-                importTranslations: new ImportModuleTranslationsUseCase(trainingModuleRepository),
+                importTranslations: new ImportTranslationsUseCase(trainingModuleRepository),
+                extractTranslations: new ExtractTranslationsUseCase(trainingModuleRepository),
             }),
             landings: getExecute({
                 list: new ListLandingChildrenUseCase(landingPageRepository),
@@ -63,9 +61,9 @@ export function getCompositionRoot(baseUrl: string) {
                 delete: new DeleteLandingChildUseCase(landingPageRepository),
                 export: new ExportLandingPagesUseCase(landingPageRepository),
                 import: new ImportLandingPagesUseCase(landingPageRepository),
-                exportTranslations: new ExportLandingPagesTranslationsUseCase(landingPageRepository),
-                importTranslations: new ImportLandingPagesTranslationsUseCase(landingPageRepository),
                 swapOrder: new SwapLandingChildOrderUseCase(landingPageRepository),
+                importTranslations: new ImportTranslationsUseCase(landingPageRepository),
+                extractTranslations: new ExtractTranslationsUseCase(landingPageRepository),
             }),
             progress: getExecute({
                 update: new UpdateUserProgressUseCase(trainingModuleRepository),
@@ -74,6 +72,8 @@ export function getCompositionRoot(baseUrl: string) {
             config: getExecute({
                 get: new GetConfigUseCase(configRepository),
                 save: new SaveConfigUseCase(configRepository),
+                importTranslations: new ImportTranslationsUseCase(configRepository),
+                extractTranslations: new ExtractTranslationsUseCase(configRepository),
             }),
             user: getExecute({
                 checkSettingsPermissions: new CheckSettingsPermissionsUseCase(configRepository),

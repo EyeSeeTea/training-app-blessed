@@ -20,11 +20,20 @@ export function useAppConfig() {
     );
 
     React.useEffect(() => {
-        usecases.user.checkSettingsPermissions().then(setHasSettingsAccess);
-        usecases.config
-            .get()
-            .then(setAppConfig)
-            .finally(() => setHasLoaded(true));
+        const fetchData = async () => {
+            try {
+                const config = await usecases.config.get();
+                setAppConfig(config);
+                const hasAccess = await usecases.user.checkSettingsPermissions(config);
+                setHasSettingsAccess(hasAccess);
+            } catch (error) {
+                console.error("Error:", error);
+            } finally {
+                setHasLoaded(true);
+            }
+        };
+
+        fetchData();
     }, [usecases.config, usecases.user]);
 
     return {

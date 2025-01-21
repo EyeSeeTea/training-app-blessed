@@ -1,8 +1,6 @@
-import FileSaver from "file-saver";
-import JSZip from "jszip";
 import _ from "lodash";
 import { LandingNode, LandingNodeModel } from "../../domain/entities/LandingPage";
-import { TranslatableText } from "../../domain/entities/TranslatableText";
+import { importTranslate, TranslatableText } from "../../domain/entities/TranslatableText";
 import { ConfigRepository } from "../../domain/repositories/ConfigRepository";
 import { InstanceRepository } from "../../domain/repositories/InstanceRepository";
 import { LandingPageRepository } from "../../domain/repositories/LandingPageRepository";
@@ -101,49 +99,31 @@ export class LandingPageDefaultRepository implements LandingPageRepository {
         await this.storageClient.removeObjectsInCollection(Namespaces.LANDING_PAGES, toDelete);
     }
 
-    public async exportTranslations(): Promise<void> {
+    public async extractTranslatations(): Promise<TranslatableText[]> {
         const models = await this.storageClient.getObject<PersistedLandingPage[]>(Namespaces.LANDING_PAGES);
         if (!models) throw new Error(`Unable to load landing pages`);
 
-        const translations = await this.extractTranslations(models);
-        const files = _.toPairs(translations);
-        const zip = new JSZip();
-
-        for (const [lang, contents] of files) {
-            const json = JSON.stringify(contents, null, 4);
-            const blob = new Blob([json], { type: "application/json" });
-            zip.file(`${lang}.json`, blob);
-        }
-
-        const blob = await zip.generateAsync({ type: "blob" });
-        FileSaver.saveAs(blob, `translations-landing-page.zip`);
+        return this.extractTranslatableText(models);
     }
 
-    public async importTranslations(language: string, terms: Record<string, string>): Promise<number> {
+    private extractTranslatableText(models: PersistedLandingPage[]): TranslatableText[] {
+        return _.flatMap(models, model => _.compact([model.name, model.title, model.content]));
+    }
+
+    public async importTranslations(language: string, terms: Record<string, string>): Promise<TranslatableText[]> {
         const models = await this.storageClient.getObject<PersistedLandingPage[]>(Namespaces.LANDING_PAGES);
         if (!models) throw new Error(`Unable to load landing pages`);
-
-        const translate = <T extends TranslatableText>(item: T, language: string, term: string | undefined): T => {
-            if (term === undefined) {
-                return item;
-            } else if (language === "en") {
-                return { ...item, referenceValue: term };
-            } else {
-                return { ...item, translations: { ...item.translations, [language]: term } };
-            }
-        };
 
         const translatedModels: PersistedLandingPage[] = models.map(model => ({
             ...model,
-            name: translate(model.name, language, terms[model.name.key]),
-            title: model.title ? translate(model.title, language, terms[model.title.key]) : undefined,
-            content: model.content ? translate(model.content, language, terms[model.content.key]) : undefined,
+            name: importTranslate(model.name, language, terms[model.name.key]),
+            title: model.title ? importTranslate(model.title, language, terms[model.title.key]) : undefined,
+            content: model.content ? importTranslate(model.content, language, terms[model.content.key]) : undefined,
         }));
 
         await this.storageClient.saveObject<PersistedLandingPage[]>(Namespaces.LANDING_PAGES, translatedModels);
 
-        const translations = await this.extractTranslations(models);
-        return _.intersection(_.keys(translations["en"]), _.keys(terms)).length;
+        return this.extractTranslatableText(models);
     }
 
     public async swapOrder(node1: LandingNode, node2: LandingNode) {
@@ -151,19 +131,6 @@ export class LandingPageDefaultRepository implements LandingPageRepository {
             { ...node1, order: node2.order },
             { ...node2, order: node1.order },
         ]);
-    }
-
-    private async extractTranslations(models: PersistedLandingPage[]): Promise<Record<string, Record<string, string>>> {
-        const texts = _.flatMap(models, model => _.compact([model.name, model.title, model.content]));
-
-        const referenceStrings = _.fromPairs(texts.map(({ key, referenceValue }) => [key, referenceValue]));
-        const translatedStrings = _(texts)
-            .flatMap(({ key, translations }) => _.toPairs(translations).map(([lang, value]) => ({ lang, key, value })))
-            .groupBy("lang")
-            .mapValues(array => _.fromPairs(array.map(({ key, value }) => [key, value])))
-            .value();
-
-        return { ...translatedStrings, en: referenceStrings };
     }
 }
 
