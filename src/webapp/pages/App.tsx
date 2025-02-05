@@ -21,6 +21,7 @@ import { SettingsPage } from "./settings/SettingsPage";
 import { SummaryPage } from "./summary/SummaryPage";
 import { WelcomePage } from "./welcome/WelcomePage";
 import { AppConfigProvider } from "../contexts/AppConfigProvider";
+import { D2Api } from "../../types/d2-api";
 
 export const routes: AppRoute[] = [
     {
@@ -110,7 +111,7 @@ export const routes: AppRoute[] = [
 ];
 
 const App: React.FC<{ locale: string; baseUrl: string }> = ({ locale, baseUrl }) => {
-    const compositionRoot = getCompositionRoot(baseUrl);
+    const compositionRoot = getCompositionRoot(new D2Api({ baseUrl: baseUrl }));
 
     return (
         <AppContextProvider routes={routes} compositionRoot={compositionRoot} locale={locale}>

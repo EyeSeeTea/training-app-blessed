@@ -2,24 +2,14 @@ import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
 import FileType from "file-type/browser";
 import Resizer from "react-image-file-resizer";
 import { InstalledApp } from "../../domain/entities/InstalledApp";
-import { ConfigRepository } from "../../domain/repositories/ConfigRepository";
 import { InstanceRepository, UploadFileOptions } from "../../domain/repositories/InstanceRepository";
 import { D2Api } from "../../types/d2-api";
 import { cache, clearCache } from "../../utils/cache";
 import { UserSearch } from "../entities/SearchUser";
-import { getD2APiFromInstance } from "../utils/d2-api";
 import { getUid } from "../utils/uid";
 
 export class InstanceDhisRepository implements InstanceRepository {
-    private api: D2Api;
-
-    constructor(config: ConfigRepository) {
-        this.api = getD2APiFromInstance(config.getInstance());
-    }
-
-    public getBaseUrl(): string {
-        return this.api.baseUrl;
-    }
+    constructor(private api: D2Api) {}
 
     @cache()
     public async getVersion(): Promise<string> {

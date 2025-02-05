@@ -13,6 +13,7 @@ import { ActionButton } from "../webapp/components/action-button/ActionButton";
 
 import { LoadingProvider, SnackbarProvider } from "@eyeseetea/d2-ui-components";
 import { useUpdateModuleStep } from "./useTutorial";
+import { D2Api } from "../types/d2-api";
 
 export type HeaderButtonsProps = { onExit: () => void; onMinimize?: () => void; onHome: () => void };
 export type TutorialModuleProps = { baseUrl?: string; locale?: string; moduleId: string } & HeaderButtonsProps;
@@ -20,7 +21,7 @@ export type UseTutorialModuleProps = { baseUrl: string; moduleId: string };
 
 function useTrainingModule(props: UseTutorialModuleProps) {
     const { baseUrl, moduleId } = props;
-    const compositionRoot = React.useMemo(() => getCompositionRoot(baseUrl), [baseUrl]);
+    const compositionRoot = React.useMemo(() => getCompositionRoot(new D2Api({ baseUrl: baseUrl })), [baseUrl]);
     const [module, setModule] = React.useState<TrainingModule>();
 
     React.useEffect(() => {
