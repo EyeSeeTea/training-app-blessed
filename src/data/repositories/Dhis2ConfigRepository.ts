@@ -23,6 +23,7 @@ export class Dhis2ConfigRepository implements ConfigRepository {
         this.storageClient = new DataStoreStorageClient("global", this.instance);
     }
 
+    // FIXME: This method is being used in other repositories, something that shouldn't happen (code smell)
     @cache()
     public async getUser(): Promise<User> {
         const d2User = await this.api.currentUser
