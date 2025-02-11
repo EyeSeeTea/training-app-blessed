@@ -1,7 +1,6 @@
 import _ from "lodash";
 import { LandingNode, LandingNodeModel } from "../../domain/entities/LandingPage";
 import { importTranslate, TranslatableText } from "../../domain/entities/TranslatableText";
-import { ConfigRepository } from "../../domain/repositories/ConfigRepository";
 import { InstanceRepository } from "../../domain/repositories/InstanceRepository";
 import { LandingPageRepository } from "../../domain/repositories/LandingPageRepository";
 import { ImportExportClient } from "../clients/importExport/ImportExportClient";
@@ -10,14 +9,15 @@ import { Namespaces } from "../clients/storage/Namespaces";
 import { StorageClient } from "../clients/storage/StorageClient";
 import { PersistedLandingPage } from "../entities/PersistedLandingPage";
 import { generateUid } from "../utils/uid";
+import { D2Api } from "../../types/d2-api";
 
 export class LandingPageDefaultRepository implements LandingPageRepository {
     private storageClient: StorageClient;
     private importExportClient: ImportExportClient;
 
-    constructor(config: ConfigRepository, instanceRepository: InstanceRepository) {
-        this.storageClient = new DataStoreStorageClient("global", config.getInstance());
-        this.importExportClient = new ImportExportClient(instanceRepository, "landing-pages");
+    constructor(api: D2Api, instanceRepository: InstanceRepository) {
+        this.storageClient = new DataStoreStorageClient("global", api);
+        this.importExportClient = new ImportExportClient(api, instanceRepository, "landing-pages");
     }
 
     public async list(): Promise<LandingNode[]> {
