@@ -33,7 +33,8 @@ import { ExtractTranslationsUseCase } from "../domain/usecases/ExtractTranslatio
 import { ImportTranslationsUseCase } from "../domain/usecases/ImportTranslationsUseCase";
 import { D2Api } from "../types/d2-api";
 
-export function getCompositionRoot(api: D2Api) {
+export function getCompositionRoot(baseUrl: string) {
+    const api = new D2Api({ baseUrl: baseUrl });
     const configRepository = new Dhis2ConfigRepository(api);
     const instanceRepository = new InstanceDhisRepository(api);
     const trainingModuleRepository = new TrainingModuleDefaultRepository(api, configRepository, instanceRepository);

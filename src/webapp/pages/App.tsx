@@ -111,7 +111,7 @@ export const routes: AppRoute[] = [
 ];
 
 const App: React.FC<{ locale: string; baseUrl: string }> = ({ locale, baseUrl }) => {
-    const compositionRoot = getCompositionRoot(new D2Api({ baseUrl: baseUrl }));
+    const compositionRoot = getCompositionRoot(baseUrl);
 
     return (
         <AppContextProvider routes={routes} compositionRoot={compositionRoot} locale={locale}>
