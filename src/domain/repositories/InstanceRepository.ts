@@ -2,7 +2,6 @@ import { UserSearch } from "../../data/entities/SearchUser";
 import { InstalledApp } from "../entities/InstalledApp";
 
 export interface InstanceRepository {
-    getBaseUrl(): string;
     uploadFile(file: ArrayBuffer, options?: UploadFileOptions): Promise<string>;
     installApp(appId: string): Promise<boolean>;
     isAppInstalledByUrl(launchUrl: string): Promise<boolean>;

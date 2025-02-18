@@ -7,6 +7,7 @@ import { InstanceRepository } from "../../../domain/repositories/InstanceReposit
 import { fromPairs } from "../../../types/utils";
 import { promiseMap } from "../../../utils/promises";
 import { getUrls, replaceUrls } from "../../../utils/urls";
+import { D2Api } from "../../../types/d2-api";
 
 export type Mapping = MappingItem[];
 
@@ -27,7 +28,7 @@ export class ImportExportClient {
         filesFolder: "files",
     };
 
-    constructor(private instanceRepository: InstanceRepository, private prefix: string) {}
+    constructor(private api: D2Api, private instanceRepository: InstanceRepository, private prefix: string) {}
 
     public async import<T>(files: Blob[]): Promise<T[]> {
         const modules = await promiseMap(files, async file => {
@@ -66,7 +67,7 @@ export class ImportExportClient {
             .uniq()
             .value();
 
-        const files = await this.getFiles(urls, this.instanceRepository.getBaseUrl());
+        const files = await this.getFiles(urls, this.api.baseUrl);
         const filesFolder = _(files).isEmpty() ? null : zip.folder(this.exportConfig.filesFolder);
 
         if (filesFolder) {

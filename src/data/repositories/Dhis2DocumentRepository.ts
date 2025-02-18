@@ -3,13 +3,10 @@ import { DocumentRepository } from "../../domain/repositories/DocumentRepository
 import { D2Api } from "../../types/d2-api";
 import { getD2APiFromInstance } from "../utils/d2-api";
 import { Instance } from "../entities/Instance";
+import { getUid } from "../utils/uid";
 
 export class Dhis2DocumentRepository implements DocumentRepository {
-    private api: D2Api;
-
-    constructor(instance: Instance) {
-        this.api = getD2APiFromInstance(instance);
-    }
+    constructor(private api: D2Api) {}
 
     public async get(): Promise<Document[]> {
         return this.api.models.documents

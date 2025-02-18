@@ -18,6 +18,7 @@ import { JSONTrainingModule } from "../entities/JSONTrainingModule";
 import { PersistedTrainingModule } from "../entities/PersistedTrainingModule";
 import { validateUserPermission } from "../entities/User";
 import { getMajorVersion } from "../utils/d2-api";
+import { D2Api } from "../../types/d2-api";
 
 export class TrainingModuleDefaultRepository implements TrainingModuleRepository {
     private storageClient: StorageClient;
@@ -25,16 +26,20 @@ export class TrainingModuleDefaultRepository implements TrainingModuleRepository
     private importExportClient: ImportExportClient;
     private assetClient: HttpClient;
 
-    constructor(private config: ConfigRepository, private instanceRepository: InstanceRepository) {
-        this.storageClient = new DataStoreStorageClient("global", config.getInstance());
-        this.progressStorageClient = new DataStoreStorageClient("user", config.getInstance());
-        this.importExportClient = new ImportExportClient(this.instanceRepository, "training-modules");
+    constructor(
+        api: D2Api,
+        private configRepository: ConfigRepository,
+        private instanceRepository: InstanceRepository
+    ) {
+        this.storageClient = new DataStoreStorageClient("global", api);
+        this.progressStorageClient = new DataStoreStorageClient("user", api);
+        this.importExportClient = new ImportExportClient(api, this.instanceRepository, "training-modules");
         this.assetClient = new FetchHttpClient({});
     }
 
     public async list(): Promise<TrainingModule[]> {
         try {
-            const currentUser = await this.config.getUser();
+            const currentUser = await this.configRepository.getUser();
             const progress = await this.progressStorageClient.getObject<UserProgress[]>(Namespaces.PROGRESS);
             const dataStoreModules = await this.storageClient.listObjectsInCollection<PersistedTrainingModule>(
                 Namespaces.TRAINING_MODULES
@@ -263,7 +268,7 @@ export class TrainingModuleDefaultRepository implements TrainingModuleRepository
     }
 
     private async saveDataStore(model: PersistedTrainingModule, options?: { recreate?: boolean; revision?: number }) {
-        const currentUser = await this.config.getUser();
+        const currentUser = await this.configRepository.getUser();
         const user = { id: currentUser.id, name: currentUser.name };
         const date = new Date().toISOString();
 
@@ -300,7 +305,7 @@ export class TrainingModuleDefaultRepository implements TrainingModuleRepository
 
         const { created, lastUpdated, type, contents, ...rest } = model;
         const validType = isValidTrainingType(type) ? type : "app";
-        const currentUser = await this.config.getUser();
+        const currentUser = await this.configRepository.getUser();
         const instanceVersion = await this.instanceRepository.getVersion();
 
         return {
@@ -326,7 +331,7 @@ export class TrainingModuleDefaultRepository implements TrainingModuleRepository
     }
 
     private async buildPersistedModel(model: JSONTrainingModule): Promise<PersistedTrainingModule> {
-        const currentUser = await this.config.getUser();
+        const currentUser = await this.configRepository.getUser();
         const defaultUser = { id: currentUser.id, name: currentUser.name };
 
         return {

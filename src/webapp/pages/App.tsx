@@ -21,6 +21,7 @@ import { SettingsPage } from "./settings/SettingsPage";
 import { SummaryPage } from "./summary/SummaryPage";
 import { WelcomePage } from "./welcome/WelcomePage";
 import { AppConfigProvider } from "../contexts/AppConfigProvider";
+import { D2Api } from "../../types/d2-api";
 
 export const routes: AppRoute[] = [
     {

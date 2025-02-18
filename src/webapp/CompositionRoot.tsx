@@ -28,18 +28,18 @@ import { UpdateUserProgressUseCase } from "../domain/usecases/UpdateUserProgress
 import { UploadFileUseCase } from "../domain/usecases/UploadFileUseCase";
 import { GetConfigUseCase } from "../domain/usecases/GetConfigUseCase";
 import { Dhis2DocumentRepository } from "../data/repositories/Dhis2DocumentRepository";
-import { Instance } from "../data/entities/Instance";
 import { SaveConfigUseCase } from "../domain/usecases/SaveConfigUseCase";
 import { ExtractTranslationsUseCase } from "../domain/usecases/ExtractTranslationsUseCase";
 import { ImportTranslationsUseCase } from "../domain/usecases/ImportTranslationsUseCase";
+import { D2Api } from "../types/d2-api";
 
 export function getCompositionRoot(baseUrl: string) {
-    const instance = new Instance({ url: baseUrl });
-    const configRepository = new Dhis2ConfigRepository(baseUrl);
-    const instanceRepository = new InstanceDhisRepository(configRepository);
-    const trainingModuleRepository = new TrainingModuleDefaultRepository(configRepository, instanceRepository);
-    const landingPageRepository = new LandingPageDefaultRepository(configRepository, instanceRepository);
-    const documentRepository = new Dhis2DocumentRepository(instance);
+    const api = new D2Api({ baseUrl: baseUrl });
+    const configRepository = new Dhis2ConfigRepository(api);
+    const instanceRepository = new InstanceDhisRepository(api);
+    const trainingModuleRepository = new TrainingModuleDefaultRepository(api, configRepository, instanceRepository);
+    const landingPageRepository = new LandingPageDefaultRepository(api, instanceRepository);
+    const documentRepository = new Dhis2DocumentRepository(api);
 
     return {
         usecases: {

@@ -4,7 +4,6 @@ import { cache } from "../../utils/cache";
 import { DataStoreStorageClient } from "../clients/storage/DataStoreStorageClient";
 import { Namespaces } from "../clients/storage/Namespaces";
 import { StorageClient } from "../clients/storage/StorageClient";
-import { Instance } from "../entities/Instance";
 import { defaultConfig, PersistedConfig } from "../entities/PersistedConfig";
 import { User } from "../entities/User";
 import { getD2APiFromInstance } from "../utils/d2-api";
@@ -13,14 +12,10 @@ import _ from "lodash";
 import { CustomText } from "../../domain/entities/CustomText";
 
 export class Dhis2ConfigRepository implements ConfigRepository {
-    private readonly instance: Instance;
-    private api: D2Api;
     private storageClient: StorageClient;
 
-    constructor(baseUrl: string) {
-        this.instance = new Instance({ url: baseUrl });
-        this.api = getD2APiFromInstance(this.instance);
-        this.storageClient = new DataStoreStorageClient("global", this.instance);
+    constructor(private api: D2Api) {
+        this.storageClient = new DataStoreStorageClient("global", api);
     }
 
     // FIXME: This method is being used in other repositories, something that shouldn't happen (code smell)
@@ -47,10 +42,6 @@ export class Dhis2ConfigRepository implements ConfigRepository {
             userGroups: d2User.userGroups,
             ...d2User.userCredentials,
         };
-    }
-
-    public getInstance(): Instance {
-        return this.instance;
     }
 
     private async getConfig() {
