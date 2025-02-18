@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Traning App - UI Interface\n"
-"POT-Creation-Date: 2025-01-21T02:44:00.916Z\n"
+"POT-Creation-Date: 2025-02-18T08:45:55.109Z\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -77,21 +77,20 @@ msgstr "Importer des traductions JSON"
 msgid "Close"
 msgstr "Fermer"
 
-#, fuzzy
 msgid "Home page logo"
-msgstr "Page d'accueil"
+msgstr "Logo de la page d'accueil"
 
-#, fuzzy
-msgid "Customize application text"
-msgstr "Installation de l'application"
+msgid "Customize landing page text"
+msgstr "Personnaliser le texte de la page d'accueil"
 
-#, fuzzy
 msgid "Welcome message"
-msgstr "Page d'accueil"
+msgstr "Message de bienvenue"
 
-#, fuzzy
 msgid "Module selection"
-msgstr "Ajouter une section"
+msgstr "Sélection du module"
+
+msgid "Exporting translations"
+msgstr "Exportation des traductions"
 
 msgid "You need to select a module"
 msgstr "Vous devez sélectionner un module"
@@ -157,12 +156,6 @@ msgstr "Oui"
 msgid "No"
 msgstr "Pas de"
 
-msgid "Imported {{total}} translation terms"
-msgstr "Termes de traduction importées {{total}}"
-
-msgid "Unable to import translation terms"
-msgstr "Impossible d'importer les termes de la traduction"
-
 msgid "Add section"
 msgstr "Ajouter une section"
 
@@ -183,9 +176,6 @@ msgstr "Exportation de la page de renvoi"
 
 msgid "Exporting landing page(s)"
 msgstr "Exportation de page(s) de destination"
-
-msgid "Exporting translations"
-msgstr "Exportation des traductions"
 
 msgid "Move up"
 msgstr "Avancez"
@@ -412,6 +402,12 @@ msgstr "Suivant"
 
 msgid "Sub step {{position}} of {{total}}"
 msgstr "Sous-étape {{position}} de {{total}}"
+
+msgid "Imported {{total}} translation terms"
+msgstr "Termes de traduction importées {{total}}"
+
+msgid "Unable to import translation terms"
+msgstr "Impossible d'importer les termes de la traduction"
 
 msgid "Welcome"
 msgstr "Bienvenue sur"

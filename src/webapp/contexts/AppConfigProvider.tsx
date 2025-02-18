@@ -1,15 +1,13 @@
 import React, { createContext, useContext } from "react";
 import { useAppConfig } from "../hooks/useAppConfig";
-import { PersistedConfig } from "../../data/entities/PersistedConfig";
 import { LogoInfo } from "../hooks/useAppConfig";
-import { CustomText } from "../../domain/entities/CustomText";
+import { Config } from "../../domain/entities/Config";
 
 interface ConfigContextState {
-    appConfig: PersistedConfig;
-    save: (settings: PersistedConfig) => void;
+    appConfig: Config;
+    save: (settings: Partial<Config>) => Promise<void>;
     hasSettingsAccess: boolean;
     logoInfo: LogoInfo;
-    appCustomText: CustomText;
     hasLoaded: boolean;
 }
 

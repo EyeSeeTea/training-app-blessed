@@ -1,30 +1,29 @@
 import i18n from "../../locales";
-import { getKeys } from "../../types/utils";
 import { TranslatableText } from "./TranslatableText";
+import { Maybe } from "../../types/utils";
 
-export interface CustomText {
-    root_title: TranslatableText;
-    root_subtitle: TranslatableText;
-}
+export type CustomText = {
+    rootTitle: TranslatableText;
+    rootSubtitle: TranslatableText;
+};
 
+export const CustomTextFields: (keyof CustomText)[] = ["rootTitle", "rootSubtitle"];
 export type CustomTextInfo = { [K in keyof CustomText]: string };
 
-export const defaultCustomText: CustomText = {
-    root_title: {
-        key: "root_title",
-        referenceValue: i18n.t("Welcome to training on DHIS2"),
-        translations: {},
-    },
-    root_subtitle: {
-        key: "root_subtitle",
-        referenceValue: i18n.t("What do you want to learn in DHIS2?"),
-        translations: {},
-    },
-};
+export type DefaultCustomText = CustomText & { isDefault?: Maybe<boolean> };
 
-export const getCustomizableAppText = (customText: Partial<CustomText>): CustomText => {
-    return getKeys(defaultCustomText).reduce((acc: CustomText, key) => {
-        acc[key] = customText[key] || defaultCustomText[key];
-        return acc;
-    }, {} as CustomText);
-};
+export function getDefaultCustomText(isDefault: { isDefault?: Maybe<boolean> } = {}): DefaultCustomText {
+    return {
+        rootTitle: {
+            key: "root-title",
+            referenceValue: i18n.t("Welcome to training on DHIS2"),
+            translations: {},
+        },
+        rootSubtitle: {
+            key: "root-subtitle",
+            referenceValue: i18n.t("What do you want to learn in DHIS2?"),
+            translations: {},
+        },
+        ...isDefault,
+    };
+}

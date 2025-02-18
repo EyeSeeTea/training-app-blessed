@@ -33,13 +33,17 @@ import { ExtractTranslationsUseCase } from "../domain/usecases/ExtractTranslatio
 import { ImportTranslationsUseCase } from "../domain/usecases/ImportTranslationsUseCase";
 import { D2Api } from "../types/d2-api";
 
-export function getCompositionRoot(baseUrl: string) {
-    const api = new D2Api({ baseUrl: baseUrl });
+export function getCompositionRoot(api: D2Api) {
     const configRepository = new Dhis2ConfigRepository(api);
     const instanceRepository = new InstanceDhisRepository(api);
-    const trainingModuleRepository = new TrainingModuleDefaultRepository(api, configRepository, instanceRepository);
-    const landingPageRepository = new LandingPageDefaultRepository(api, instanceRepository);
     const documentRepository = new Dhis2DocumentRepository(api);
+    const trainingModuleRepository = new TrainingModuleDefaultRepository(
+        api,
+        configRepository,
+        instanceRepository,
+        documentRepository
+    );
+    const landingPageRepository = new LandingPageDefaultRepository(api, documentRepository);
 
     return {
         usecases: {
@@ -80,13 +84,13 @@ export function getCompositionRoot(baseUrl: string) {
                 checkAdminAuthority: new CheckAdminAuthorityUseCase(configRepository),
             }),
             instance: getExecute({
-                uploadFile: new UploadFileUseCase(instanceRepository),
                 installApp: new InstallAppUseCase(instanceRepository, trainingModuleRepository),
                 searchUsers: new SearchUsersUseCase(instanceRepository),
                 listInstalledApps: new ListInstalledAppsUseCase(instanceRepository),
             }),
             document: getExecute({
                 listDangling: new ListDanglingDocumentsUseCase(documentRepository),
+                uploadFile: new UploadFileUseCase(documentRepository),
                 delete: new DeleteDocumentsUseCase(documentRepository),
             }),
         },

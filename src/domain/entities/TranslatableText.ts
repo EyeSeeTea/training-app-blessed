@@ -1,5 +1,6 @@
 import { GetSchemaType, Schema } from "../../utils/codec";
 import _ from "lodash";
+import { Maybe } from "../../types/utils";
 
 export const TranslatableTextModel = Schema.object({
     key: Schema.string,
@@ -18,7 +19,10 @@ export const buildTranslate = (locale: string): TranslateMethod => {
 
 export type TranslateMethod = (string: TranslatableText) => string;
 
-export const setTranslationValue = <T extends TranslatableText>(item: T, language: string, term: string | undefined): T => {
+//{lang: {key: translatedText}}
+export type Translations = Record<string, Record<string, string>>;
+
+export function setTranslationValue<T extends TranslatableText>(item: T, language: string, term: Maybe<string>): T {
     if (term === undefined) {
         return item;
     } else if (language === "en") {
@@ -26,9 +30,9 @@ export const setTranslationValue = <T extends TranslatableText>(item: T, languag
     } else {
         return { ...item, translations: { ...item.translations, [language]: term } };
     }
-};
+}
 
-export const buildTranslationMap = (texts: TranslatableText[]) => {
+export function buildTranslationMap(texts: TranslatableText[]): Translations {
     const referenceStrings = _.fromPairs(texts.map(({ key, referenceValue }) => [key, referenceValue]));
     const translatedStrings = _(texts)
         .flatMap(({ key, translations }) => _.toPairs(translations).map(([lang, value]) => ({ lang, key, value })))
@@ -37,4 +41,4 @@ export const buildTranslationMap = (texts: TranslatableText[]) => {
         .value();
 
     return { ...translatedStrings, en: referenceStrings };
-};
+}

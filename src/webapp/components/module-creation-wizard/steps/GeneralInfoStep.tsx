@@ -62,7 +62,7 @@ export const GeneralInfoStep: React.FC<ModuleCreationWizardStepProps> = ({ modul
         (event: ChangeEvent<HTMLInputElement>) => {
             const file = event.target.files ? event.target.files[0] : undefined;
             file?.arrayBuffer().then(async data => {
-                const icon = await usecases.instance.uploadFile(data, file.name);
+                const icon = await usecases.document.uploadFile(data, file.name);
                 onChange(module => ({ ...module, icon }));
             });
         },
@@ -184,5 +184,5 @@ const dhisVersions = [
     { value: "2.38", text: "2.38" },
     { value: "2.39", text: "2.39" },
     { value: "2.40", text: "2.40" },
-    { value: "2.41", text: "2.41" }
+    { value: "2.41", text: "2.41" },
 ];

@@ -19,6 +19,7 @@ import { PersistedTrainingModule } from "../entities/PersistedTrainingModule";
 import { validateUserPermission } from "../entities/User";
 import { getMajorVersion } from "../utils/d2-api";
 import { D2Api } from "../../types/d2-api";
+import { DocumentRepository } from "../../domain/repositories/DocumentRepository";
 
 export class TrainingModuleDefaultRepository implements TrainingModuleRepository {
     private storageClient: StorageClient;
@@ -29,11 +30,12 @@ export class TrainingModuleDefaultRepository implements TrainingModuleRepository
     constructor(
         api: D2Api,
         private configRepository: ConfigRepository,
-        private instanceRepository: InstanceRepository
+        private instanceRepository: InstanceRepository,
+        private documentRepository: DocumentRepository
     ) {
         this.storageClient = new DataStoreStorageClient("global", api);
         this.progressStorageClient = new DataStoreStorageClient("user", api);
-        this.importExportClient = new ImportExportClient(api, this.instanceRepository, "training-modules");
+        this.importExportClient = new ImportExportClient(api, this.documentRepository, "training-modules");
         this.assetClient = new FetchHttpClient({});
     }
 

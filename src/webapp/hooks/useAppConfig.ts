@@ -1,19 +1,19 @@
-import { useAppContext } from "../contexts/app-context";
-import { defaultConfig, PersistedConfig } from "../../data/entities/PersistedConfig";
 import React, { useMemo, useState } from "react";
-import { getCustomizableAppText } from "../../domain/entities/CustomText";
 import _ from "lodash";
+
+import { useAppContext } from "../contexts/app-context";
+import { Config, getDefaultConfig } from "../../domain/entities/Config";
+import { Maybe } from "../../types/utils";
 
 export function useAppConfig() {
     const { usecases } = useAppContext();
-    const [appConfig, setAppConfig] = React.useState<PersistedConfig>(defaultConfig);
+    const [appConfig, setAppConfig] = React.useState<Config>(getDefaultConfig());
     const [hasSettingsAccess, setHasSettingsAccess] = useState(false);
     const [hasLoaded, setHasLoaded] = useState(false);
-    const appCustomText = useMemo(() => getCustomizableAppText(appConfig?.customText || {}), [appConfig]);
     const logoInfo = useMemo(() => getLogoInfo(appConfig?.logo), [appConfig]);
 
     const save = React.useCallback(
-        async (config: PersistedConfig) => {
+        (config: Partial<Config>) => {
             return usecases.config.save(config).then(setAppConfig);
         },
         [usecases.config]
@@ -41,7 +41,6 @@ export function useAppConfig() {
         save,
         hasSettingsAccess,
         logoInfo,
-        appCustomText,
         hasLoaded,
     };
 }
@@ -51,7 +50,7 @@ export interface LogoInfo {
     logoText: string;
 }
 
-function getLogoInfo(logo?: string | null): LogoInfo {
+function getLogoInfo(logo?: Maybe<string>): LogoInfo {
     const logoPath = logo || process.env["REACT_APP_LOGO_PATH"] || "img/logo-eyeseetea.png";
     const filename = logoPath.split("/").reverse()[0] || "";
     const name = filename.substring(0, filename.lastIndexOf("."));

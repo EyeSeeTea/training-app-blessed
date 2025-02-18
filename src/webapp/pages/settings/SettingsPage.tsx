@@ -31,7 +31,7 @@ export const SettingsPage: React.FC = () => {
     const loading = useLoading();
 
     const [permissionsType, setPermissionsType] = useState<string | null>(null);
-    const [showCustomSettings, setShowCustomSettings] = useState<boolean>(false);
+    const [showCustomSettings, setShowCustomSettings] = useState(false);
     const [danglingDocuments, setDanglingDocuments] = useState<NamedRef[]>([]);
     const [dialogProps, updateDialog] = useState<ConfirmationDialogProps | null>(null);
 
@@ -40,11 +40,11 @@ export const SettingsPage: React.FC = () => {
     }, [setAppState]);
 
     const updateSettingsPermissions = useCallback(
-        async ({ userAccesses, userGroupAccesses }: SharedUpdate) => {
+        async ({ userAccesses = [], userGroupAccesses = [] }: SharedUpdate) => {
             return save({
                 settingsPermissions: {
-                    users: userAccesses?.map(({ id, name }) => ({ id, name })),
-                    userGroups: userGroupAccesses?.map(({ id, name }) => ({ id, name })),
+                    users: userAccesses.map(({ id, name }) => ({ id, name })),
+                    userGroups: userGroupAccesses.map(({ id, name }) => ({ id, name })),
                 },
             });
         },
@@ -65,8 +65,8 @@ export const SettingsPage: React.FC = () => {
 
     const buildSharingDescription = useCallback(() => {
         const settingsPermissions = appConfig.settingsPermissions;
-        const users = settingsPermissions?.users?.length ?? 0;
-        const userGroups = settingsPermissions?.userGroups?.length ?? 0;
+        const users = settingsPermissions.users.length;
+        const userGroups = settingsPermissions.userGroups.length;
 
         if (users > 0 && userGroups > 0) {
             return i18n.t("Accessible to {{users}} users and {{userGroups}} user groups", {
@@ -115,8 +115,8 @@ export const SettingsPage: React.FC = () => {
         setAppState({ type: "CREATE_MODULE" });
     }, [setAppState]);
 
-    const toggleShowAllModules = useCallback(async () => {
-        save({
+    const toggleShowAllModules = useCallback(() => {
+        return save({
             showAllModules: !appConfig.showAllModules,
         });
     }, [appConfig, save]);
@@ -127,6 +127,8 @@ export const SettingsPage: React.FC = () => {
         },
         [usecases.modules]
     );
+
+    const openCustomizeSettingsDialog = useCallback(() => setShowCustomSettings(true), []);
 
     const tableActions: ComponentParameter<typeof ModuleListTable, "tableActions"> = useMemo(
         () => ({
@@ -153,7 +155,7 @@ export const SettingsPage: React.FC = () => {
                 if (module) await usecases.modules.update(updateOrder(module, from, to));
                 else snackbar.error(i18n.t("Unable to move item"));
             },
-            uploadFile: ({ data, name }) => usecases.instance.uploadFile(data, name),
+            uploadFile: ({ data, name }) => usecases.document.uploadFile(data, name),
             installApp: ({ id }) => usecases.instance.installApp(id),
             addStep: async ({ id, title }) => {
                 const module = await getModule(id);
@@ -195,7 +197,7 @@ export const SettingsPage: React.FC = () => {
             {showCustomSettings && (
                 <CustomizeSettingsDialog
                     onSave={saveCustomSettings}
-                    customText={appConfig?.customText ?? {}}
+                    customText={appConfig?.customText ?? emptyObject}
                     onClose={closeCustomSettingsDialog}
                     logo={logoInfo.logoPath}
                 />
@@ -207,12 +209,12 @@ export const SettingsPage: React.FC = () => {
                         name: "Access to settings",
                         publicAccess: "--------",
                         userAccesses:
-                            appConfig.settingsPermissions?.users?.map(ref => ({
+                            appConfig.settingsPermissions.users.map(ref => ({
                                 ...ref,
                                 access: "rw----",
                             })) ?? [],
                         userGroupAccesses:
-                            appConfig.settingsPermissions?.userGroups?.map(ref => ({
+                            appConfig.settingsPermissions.userGroups.map(ref => ({
                                 ...ref,
                                 access: "rw----",
                             })) ?? [],
@@ -251,7 +253,7 @@ export const SettingsPage: React.FC = () => {
                         />
                     </ListItem>
 
-                    <ListItem button onClick={() => setShowCustomSettings(true)}>
+                    <ListItem button onClick={openCustomizeSettingsDialog}>
                         <ListItemIcon>
                             <Icon>format_shapes</Icon>
                         </ListItemIcon>
@@ -297,6 +299,8 @@ export const SettingsPage: React.FC = () => {
         </DhisPage>
     );
 };
+
+const emptyObject = {};
 
 const Title = styled.h3`
     margin-top: 25px;
