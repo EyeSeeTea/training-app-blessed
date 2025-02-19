@@ -33,8 +33,8 @@ export const useCustomizeSettingsDialog = ({
 
     const save = useCallback(() => {
         onSave({
-            customText: customTextHasChanges ? { ...customText, ...customTextVal } : undefined,
-            logo: logoHasChanges ? logoVal : undefined,
+            ...(customTextHasChanges ? { customText: { ...customText, ...customTextVal } } : {}),
+            ...(logoHasChanges ? { logo: logoVal } : {}),
         });
     }, [onSave, customText, customTextVal, customTextHasChanges, logoVal, logoHasChanges]);
 

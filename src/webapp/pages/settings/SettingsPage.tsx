@@ -56,8 +56,8 @@ export const SettingsPage: React.FC = () => {
     }, []);
 
     const saveCustomSettings = useCallback(
-        async ({ customText, logo }) => {
-            await save({ customText, logo });
+        async data => {
+            await save(data);
             closeCustomSettingsDialog();
         },
         [save, closeCustomSettingsDialog]

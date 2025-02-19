@@ -1,4 +1,4 @@
-import _, { merge } from "lodash";
+import _, { assign } from "lodash";
 
 import { ConfigRepository } from "../../domain/repositories/ConfigRepository";
 import { D2Api } from "../../types/d2-api";
@@ -49,7 +49,7 @@ export class Dhis2ConfigRepository implements ConfigRepository {
 
     public async save(update: PartialConfig): Promise<Partial<Config>> {
         const config = await this.get();
-        const updatedConfig: Partial<Config> = merge({}, config, update);
+        const updatedConfig: Partial<Config> = assign({}, config, update);
 
         return this.storageClient
             .saveObject<Partial<Config>>(Namespaces.CONFIG, updatedConfig)
