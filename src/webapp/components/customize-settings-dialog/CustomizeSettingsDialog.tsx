@@ -89,7 +89,7 @@ export const CustomizeSettingsDialog: React.FC<CustomSettingsDialogProps> = prop
             <Box marginBottom={3}>
                 <IconUpload>
                     <IconContainer>
-                        <img src={logoVal} alt={`Home page logo`} />
+                        <img src={logoVal} alt={i18n.t("Home page logo")} />
                     </IconContainer>
                     <FileInput type="file" onChange={handleFileUpload} />
                 </IconUpload>
@@ -137,11 +137,11 @@ const IconContainer = styled.div`
     flex-shrink: 0;
     background-color: #276696;
     width: 100%;
-    border-radius: 8px;
+    border-radius: 0.5rem;
     text-align: center;
 
     img {
-        padding: 10px;
+        padding: 0.75rem;
         max-height: 100px;
     }
 `;
@@ -149,7 +149,7 @@ const IconContainer = styled.div`
 const IconUpload = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 1em;
 `;
 
 const FileInput = styled.input`
@@ -157,7 +157,7 @@ const FileInput = styled.input`
 `;
 
 const StyledMenuItem = styled(MenuItem)`
-    gap: 20px;
+    gap: 1.25em;
 `;
 
 const customTextLabel: CustomTextInfo = {
