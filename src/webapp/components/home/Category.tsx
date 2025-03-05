@@ -6,6 +6,7 @@ import React from "react";
 import { GroupContainer, Header, HomePageProps, IconContainer, MarkdownContents } from "./HomePageContent";
 import { useAppContext } from "../../contexts/app-context";
 import { Modules } from "./Modules";
+import i18n from "../../../locales";
 
 export const Category: React.FC<HomePageProps> = props => {
     const { currentPage, loadModule, isRoot, openPage } = props;
@@ -16,7 +17,7 @@ export const Category: React.FC<HomePageProps> = props => {
             <Header>
                 {currentPage.icon ? (
                     <IconContainer>
-                        <img src={currentPage.icon} alt={`Page icon`} />
+                        <img src={currentPage.icon} alt={i18n.t("Page icon")} />
                     </IconContainer>
                 ) : null}
 
@@ -34,7 +35,10 @@ export const Category: React.FC<HomePageProps> = props => {
                                 onClick={() => openPage(item)}
                                 icon={
                                     item.icon ? (
-                                        <img src={item.icon} alt={`Icon for ${translate(item.name)}`} />
+                                        <img
+                                            src={item.icon}
+                                            alt={i18n.t("Icon for {{name}}", { name: translate(item.name) })}
+                                        />
                                     ) : undefined
                                 }
                             />

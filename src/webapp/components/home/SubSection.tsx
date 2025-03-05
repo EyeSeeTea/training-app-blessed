@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { GroupContainer, HomePageProps, MarkdownContents } from "./HomePageContent";
 import { Modules } from "./Modules";
 import { useAppContext } from "../../contexts/app-context";
+import i18n from "../../../locales";
 
 export const SubSection: React.FC<HomePageProps> = props => {
     const { currentPage, loadModule, isRoot, openPage } = props;
@@ -25,7 +26,12 @@ export const SubSection: React.FC<HomePageProps> = props => {
                             label={translate(item.name)}
                             onClick={() => openPage(item)}
                             icon={
-                                item.icon ? <img src={item.icon} alt={`Icon for ${translate(item.name)}`} /> : undefined
+                                item.icon ? (
+                                    <img
+                                        src={item.icon}
+                                        alt={i18n.t("Icon for {{name}}", { name: translate(item.name) })}
+                                    />
+                                ) : undefined
                             }
                         />
                     );

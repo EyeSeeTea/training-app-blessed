@@ -8,6 +8,7 @@ import { useAppConfigContext } from "../../contexts/AppConfigProvider";
 import { ModalContent, ModalParagraph, ModalTitle } from "../modal";
 import { HomePageProps } from "./HomePageContent";
 import { Modules } from "./Modules";
+import i18n from "../../../locales";
 
 export const Root: React.FC<HomePageProps> = props => {
     const { currentPage, loadModule, isRoot, openPage } = props;
@@ -38,7 +39,10 @@ export const Root: React.FC<HomePageProps> = props => {
                                 onClick={() => openPage(item)}
                                 icon={
                                     item.icon ? (
-                                        <img src={item.icon} alt={`Icon for ${translate(item.name)}`} />
+                                        <img
+                                            src={item.icon}
+                                            alt={i18n.t("Icon for {{name}}", { name: translate(item.name) })}
+                                        />
                                     ) : undefined
                                 }
                             />

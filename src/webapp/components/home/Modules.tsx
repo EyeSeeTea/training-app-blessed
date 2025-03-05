@@ -46,10 +46,14 @@ export const Modules: React.FC<{
                         <BigCard
                             key={`card-${moduleId}`}
                             label={name}
-                            progress={module?.progress.completed ? 100 : percentage}
+                            progress={module.progress.completed ? 100 : percentage}
                             onClick={handleClick}
-                            disabled={module?.disabled}
-                            icon={module?.icon ? <img src={module.icon} alt={`Icon for ${name}`} /> : undefined}
+                            disabled={module.disabled}
+                            icon={
+                                module.icon ? (
+                                    <img src={module.icon} alt={i18n.t("Icon for {{name}}", { name: name })} />
+                                ) : undefined
+                            }
                         />
                     );
                 })}
