@@ -66,7 +66,7 @@ msgid "Tutorial"
 msgstr "Tutoriels"
 
 msgid "done"
-msgstr ""
+msgstr "Fait"
 
 msgid "Export JSON translations"
 msgstr "Exportation des traductions en JSON"
@@ -430,7 +430,6 @@ msgstr "À propos de Training App"
 msgid "Distributed under GNU GLPv3"
 msgstr "Distribué sous GNU GLPv3"
 
-#, fuzzy
 msgid ""
 "DHIS2 Training App is a DHIS2 application to provide online training for end "
 "users. The application contains generic training on data entry, data import, "
@@ -448,7 +447,6 @@ msgstr ""
 "les utilisateurs dans des processus de collecte de données spécifiques (par "
 "exemple, le remplissage de formulaires de collecte de données spécifiques)."
 
-#, fuzzy
 msgid ""
 "This application has been funded by the WHO Global Malaria Programme and by "
 "Samaritan’s Purse to support countries using DHIS2 in strengthening the "
@@ -475,7 +473,6 @@ msgid ""
 "features, please contact [EyeSeeTea](mailto:hello@eyeseetea.com)."
 msgstr ""
 
-#, fuzzy
 msgid ""
 "*Disclaimer: The WHO originally developed this application to support "
 "countries build capacity for health data collection and use. WHO provides a "
@@ -524,7 +521,6 @@ msgid "All your changes will be lost. Are you sure you want to proceed?"
 msgstr ""
 "Toutes vos modifications seront perdues. Êtes-vous sûr de vouloir continuer?"
 
-#, fuzzy
 msgid "New module"
 msgstr "Ajouter un module"
 
@@ -599,9 +595,8 @@ msgstr "Impossible de supprimer l'étape"
 msgid "Unable to remove page"
 msgstr "Impossible de supprimer la page"
 
-#, fuzzy
 msgid "General Settings"
-msgstr "Informations générales"
+msgstr "Paramètres généraux"
 
 msgid "Access to Settings"
 msgstr "Accès aux paramètres"
@@ -615,12 +610,11 @@ msgstr "Une liste avec tous les modules existants est visible"
 msgid "The list with all the existing  modules is hidden"
 msgstr "La liste avec tous les modules existants est cachée"
 
-#, fuzzy
 msgid "Customize the landing page"
-msgstr "Exportation de la page de renvoi"
+msgstr "Personnaliser la page de couverture"
 
 msgid "Update the logo or content"
-msgstr ""
+msgstr "Mettre à jour le logo ou le contenu"
 
 msgid "There are no unused documents to clean"
 msgstr "Il n'y a pas de documents inutilisés à nettoyer"
@@ -630,10 +624,3 @@ msgstr "Il y a {{total}} documents disponibles à nettoyer"
 
 msgid "Training modules"
 msgstr "Modules de formation"
-
-#, fuzzy
-#~ msgid "Select module"
-#~ msgstr "Supprimer le module"
-
-#~ msgid "Permissions"
-#~ msgstr "Permissions"

@@ -66,7 +66,7 @@ msgid "Tutorial"
 msgstr "Tutorial"
 
 msgid "done"
-msgstr ""
+msgstr "Hecho"
 
 msgid "Export JSON translations"
 msgstr "Exportar traducciones JSON"
@@ -232,7 +232,7 @@ msgid "Minimize window"
 msgstr "Minimizar ventana"
 
 msgid "Code {{code}} already exists"
-msgstr ""
+msgstr "El código {{code}} ya existe"
 
 msgid "Note: The sharing settings are only applied to the current module"
 msgstr "Nota: Los ajustes de compartición sólo se aplican al módulo actual"
@@ -368,7 +368,7 @@ msgid "Edit module"
 msgstr "Editar modulo"
 
 msgid "Clone module"
-msgstr ""
+msgstr "Duplicar módulo"
 
 msgid "Edit page"
 msgstr "Editar página"
@@ -419,7 +419,7 @@ msgid "Exit"
 msgstr "Salir"
 
 msgid "Clone"
-msgstr ""
+msgstr "Duplicar"
 
 msgid "Create"
 msgstr "Crear"
@@ -430,7 +430,6 @@ msgstr "Acerca de Training App"
 msgid "Distributed under GNU GLPv3"
 msgstr "Distribuido bajo GNU GLPv3"
 
-#, fuzzy
 msgid ""
 "DHIS2 Training App is a DHIS2 application to provide online training for end "
 "users. The application contains generic training on data entry, data import, "
@@ -448,7 +447,6 @@ msgstr ""
 "usuarios a través de procesos específicos de recogida de datos (por ejemplo, "
 "la cumplimentación de formularios específicos de recogida de datos)."
 
-#, fuzzy
 msgid ""
 "This application has been funded by the WHO Global Malaria Programme and by "
 "Samaritan’s Purse to support countries using DHIS2 in strengthening the "
@@ -474,8 +472,9 @@ msgid ""
 "If you wish to contribute to the development of Training App with new "
 "features, please contact [EyeSeeTea](mailto:hello@eyeseetea.com)."
 msgstr ""
+"Si desea contribuir al desarrollo de la aplicación Training App con "
+"nuevas funciones, comuníquese con [EyeSeeTea](mailto:hello@eyeseetea.com)."
 
-#, fuzzy
 msgid ""
 "*Disclaimer: The WHO originally developed this application to support "
 "countries build capacity for health data collection and use. WHO provides a "
@@ -514,15 +513,14 @@ msgid "Cancel module editing?"
 msgstr "¿Cancelar la edición del módulo?"
 
 msgid "Cancel module cloning?"
-msgstr ""
+msgstr "¿Cancelar duplicación del módulo?"
 
 msgid "Cancel module creation?"
-msgstr ""
+msgstr "¿Cancelar la creación del módulo?"
 
 msgid "All your changes will be lost. Are you sure you want to proceed?"
 msgstr "Todos sus cambios se perderán. ¿Desea continuar?"
 
-#, fuzzy
 msgid "New module"
 msgstr "Añadir modulo"
 
@@ -595,9 +593,8 @@ msgstr "No se puede eliminar el paso"
 msgid "Unable to remove page"
 msgstr "No se puede eliminar la página"
 
-#, fuzzy
 msgid "General Settings"
-msgstr "Información general"
+msgstr "Configuración general"
 
 msgid "Access to Settings"
 msgstr "Acceso a la configuración"
@@ -611,12 +608,11 @@ msgstr "Una lista con todos los módulos existentes es visible"
 msgid "The list with all the existing  modules is hidden"
 msgstr "La lista con todos los módulos existentes está oculta"
 
-#, fuzzy
 msgid "Customize the landing page"
-msgstr "Exportar la página de destino"
+msgstr "Personalizar la página de portada"
 
 msgid "Update the logo or content"
-msgstr ""
+msgstr "Actualizar el logotipo o el contenido"
 
 msgid "There are no unused documents to clean"
 msgstr "No hay documentos no utilizados que limpiar"
@@ -626,10 +622,3 @@ msgstr "Hay {{total}} documentos disponibles para limpiar"
 
 msgid "Training modules"
 msgstr "Módulos de formación"
-
-#, fuzzy
-#~ msgid "Select module"
-#~ msgstr "Eliminar modulo"
-
-#~ msgid "Permissions"
-#~ msgstr "Permisos"
