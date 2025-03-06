@@ -11,7 +11,7 @@ export class CheckSettingsPermissionsUseCase implements UseCase {
 
     public async execute(config: Config): Promise<boolean> {
         const user = await this.configRepository.getUser();
-        const { settingsPermissions: permissions } = config ?? (await this.configRepository.get());
+        const { settingsPermissions: permissions } = config;
 
         const isAdmin = !!user.userRoles.find(role => role.authorities.find(authority => authority === "ALL"));
 
