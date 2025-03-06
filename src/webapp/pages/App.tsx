@@ -113,7 +113,7 @@ export const routes: AppRoute[] = [
 const App: React.FC<{ locale: string; baseUrl: string }> = ({ locale, baseUrl }) => {
     const compositionRoot = getCompositionRoot(baseUrl);
 
-    const [username, setUsername] = useState<string>("");
+    const [username, setUsername] = useState("");
 
     useEffect(() => {
         async function setup() {
