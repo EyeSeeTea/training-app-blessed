@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { MainButton } from "../webapp/components/main-button/MainButton";
 import { Modal, ModalContent, ModalFooter } from "../webapp/components/modal";
 import { MarkdownViewer } from "../webapp/components/markdown-viewer/MarkdownViewer";
-import i18n from "../locales";
+import i18n from "../utils/i18n";
 import { TrainingModule } from "../domain/entities/TrainingModule";
 import { TranslateMethod } from "../domain/entities/TranslatableText";
 import { HeaderButtonsProps } from "./TutorialRoot";

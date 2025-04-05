@@ -7,7 +7,6 @@ import { CompositionRoot } from "../CompositionRoot";
 import { AppState } from "../entities/AppState";
 import { AppRoute } from "../router/AppRoute";
 import { cacheImages } from "../utils/image-cache";
-import i18n from "../../locales";
 
 const AppContext = React.createContext<AppContextState | null>(null);
 
@@ -79,7 +78,6 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 
 export function useAppContext(): UseAppContextResult {
     const context = useContext(AppContext);
-    i18n.setDefaultNamespace("training-app");
     if (!context) throw new Error("Context not initialized");
 
     const {

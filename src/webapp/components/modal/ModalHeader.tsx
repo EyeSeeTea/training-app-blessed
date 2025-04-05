@@ -8,7 +8,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import AboutIcon from "@material-ui/icons/Info";
 import React from "react";
 import styled from "styled-components";
-import i18n from "../../../locales";
+import i18n from "../../../utils/i18n";
 import { Tooltip, TooltipText, TooltipWrapper } from "../tooltip/Tooltip";
 import { Grid } from "@material-ui/core";
 

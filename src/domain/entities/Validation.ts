@@ -1,5 +1,5 @@
 import _ from "lodash";
-import i18n from "../../locales";
+import i18n from "../../utils/i18n";
 import { Ref } from "./Ref";
 import { TrainingModuleStep } from "./TrainingModule";
 
@@ -37,7 +37,7 @@ const availableValidations = {
     },
     hasPages: {
         error: "has_pages",
-        getDescription: (field: string) => i18n.t("All steps need to have at least one page", { field }),
+        getDescription: (_: string) => i18n.t("All steps need to have at least one page"),
         check: (array?: TrainingModuleStep[]) => _.some(array, ({ pages }) => !pages || pages.length === 0),
     },
     isUrl: {
