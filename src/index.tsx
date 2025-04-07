@@ -9,13 +9,6 @@ import { D2Api } from "./types/d2-api";
 import App from "./webapp/pages/App";
 import "./webapp/utils/wdyr";
 
-declare global {
-    interface Window {
-        $: { feedbackDhis2(d2: object, appKey: string, feedbackOptions: object): void };
-        api: D2Api;
-    }
-}
-
 const isDev = process.env.NODE_ENV === "development";
 
 async function getBaseUrl() {

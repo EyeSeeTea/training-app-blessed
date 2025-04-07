@@ -1,7 +1,7 @@
 import { LoadingProvider, SnackbarProvider } from "@eyeseetea/d2-ui-components";
 import { MuiThemeProvider, StylesProvider } from "@material-ui/core/styles";
 import OldMuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { HashRouter } from "react-router-dom";
 import i18n from "../../utils/i18n";
 import { getCompositionRoot } from "../CompositionRoot";
@@ -20,6 +20,8 @@ import { HomePage } from "./home/HomePage";
 import { SettingsPage } from "./settings/SettingsPage";
 import { SummaryPage } from "./summary/SummaryPage";
 import { WelcomePage } from "./welcome/WelcomePage";
+import { Feedback } from "@eyeseetea/feedback-component";
+import { appConfig } from "../../app-config";
 
 export const routes: AppRoute[] = [
     {
@@ -111,6 +113,16 @@ export const routes: AppRoute[] = [
 const App: React.FC<{ locale: string; baseUrl: string }> = ({ locale, baseUrl }) => {
     const compositionRoot = getCompositionRoot(baseUrl);
 
+    const [username, setUsername] = useState("");
+
+    useEffect(() => {
+        async function setup() {
+            const currentUser = await compositionRoot.usecases.user.getCurrent();
+
+            setUsername(currentUser.username);
+        }
+        setup();
+    }, [compositionRoot.usecases.user]);
     return (
         <AppContextProvider routes={routes} compositionRoot={compositionRoot} locale={locale}>
             <StylesProvider injectFirst>
@@ -123,6 +135,7 @@ const App: React.FC<{ locale: string; baseUrl: string }> = ({ locale, baseUrl })
                                         <Router baseUrl={baseUrl} />
                                     </HashRouter>
                                 </div>
+                                <Feedback options={appConfig.feedback} username={username} />
                             </LoadingProvider>
                         </SnackbarProvider>
                     </OldMuiThemeProvider>

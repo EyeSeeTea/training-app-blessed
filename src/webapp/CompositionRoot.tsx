@@ -34,6 +34,7 @@ import { UpdateModuleUseCase } from "../domain/usecases/UpdateModuleUseCase";
 import { UpdateSettingsPermissionsUseCase } from "../domain/usecases/UpdateSettingsPermissionsUseCase";
 import { UpdateUserProgressUseCase } from "../domain/usecases/UpdateUserProgressUseCase";
 import { UploadFileUseCase } from "../domain/usecases/UploadFileUseCase";
+import { GetCurrentUserUseCase } from "../domain/usecases/GetCurrentUserUseCase";
 
 export function getCompositionRoot(baseUrl: string) {
     const configRepository = new Dhis2ConfigRepository(baseUrl);
@@ -78,6 +79,7 @@ export function getCompositionRoot(baseUrl: string) {
             user: getExecute({
                 checkSettingsPermissions: new CheckSettingsPermissionsUseCase(configRepository),
                 checkAdminAuthority: new CheckAdminAuthorityUseCase(configRepository),
+                getCurrent: new GetCurrentUserUseCase(configRepository),
             }),
             instance: getExecute({
                 uploadFile: new UploadFileUseCase(instanceRepository),
