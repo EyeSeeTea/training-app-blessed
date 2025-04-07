@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { GroupContainer, HomePageProps, MarkdownContents } from "./HomePageContent";
 import { Modules } from "./Modules";
 import { useAppContext } from "../../contexts/app-context";
-import i18n from "../../../locales";
+import i18n from "../../../utils/i18n";
 
 export const SubSection: React.FC<HomePageProps> = props => {
     const { currentPage, loadModule, isRoot, openPage } = props;

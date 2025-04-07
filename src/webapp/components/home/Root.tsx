@@ -8,7 +8,7 @@ import { useAppConfigContext } from "../../contexts/AppConfigProvider";
 import { ModalContent, ModalParagraph, ModalTitle } from "../modal";
 import { HomePageProps } from "./HomePageContent";
 import { Modules } from "./Modules";
-import i18n from "../../../locales";
+import i18n from "../../../utils/i18n";
 
 export const Root: React.FC<HomePageProps> = props => {
     const { currentPage, loadModule, isRoot, openPage } = props;

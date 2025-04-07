@@ -127,22 +127,24 @@ const App: React.FC<{ locale: string; baseUrl: string }> = ({ locale, baseUrl })
     }, [compositionRoot.usecases.user]);
     return (
         <AppContextProvider routes={routes} compositionRoot={compositionRoot} locale={locale}>
-            <StylesProvider injectFirst>
-                <MuiThemeProvider theme={muiTheme}>
-                    <OldMuiThemeProvider muiTheme={muiThemeLegacy}>
-                        <SnackbarProvider>
-                            <LoadingProvider>
-                                <div id="app" className="content">
-                                    <HashRouter>
-                                        <Router baseUrl={baseUrl} />
-                                    </HashRouter>
-                                </div>
-                                <Feedback options={appConfig.feedback} username={username} />
-                            </LoadingProvider>
-                        </SnackbarProvider>
-                    </OldMuiThemeProvider>
-                </MuiThemeProvider>
-            </StylesProvider>
+            <AppConfigProvider>
+                <StylesProvider injectFirst>
+                    <MuiThemeProvider theme={muiTheme}>
+                        <OldMuiThemeProvider muiTheme={muiThemeLegacy}>
+                            <SnackbarProvider>
+                                <LoadingProvider>
+                                    <div id="app" className="content">
+                                        <HashRouter>
+                                            <Router baseUrl={baseUrl} />
+                                        </HashRouter>
+                                    </div>
+                                    <Feedback options={appConfig.feedback} username={username} />
+                                </LoadingProvider>
+                            </SnackbarProvider>
+                        </OldMuiThemeProvider>
+                    </MuiThemeProvider>
+                </StylesProvider>
+            </AppConfigProvider>
         </AppContextProvider>
     );
 };

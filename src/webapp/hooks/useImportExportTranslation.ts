@@ -3,7 +3,7 @@ import _ from "lodash";
 import JSZip from "jszip";
 import FileSaver from "file-saver";
 
-import i18n from "../../locales";
+import i18n from "../../utils/i18n";
 import { useSnackbar } from "@eyeseetea/d2-ui-components";
 import { Translations } from "../../domain/entities/TranslatableText";
 

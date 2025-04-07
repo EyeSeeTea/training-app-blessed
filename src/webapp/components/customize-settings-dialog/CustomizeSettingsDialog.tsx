@@ -7,7 +7,7 @@ import styled from "styled-components";
 import Typography from "@material-ui/core/Typography";
 
 import { ConfirmationDialog } from "@eyeseetea/d2-ui-components";
-import i18n from "../../../locales";
+import i18n from "../../../utils/i18n";
 import { CustomText, CustomTextInfo } from "../../../domain/entities/CustomText";
 import { ImportTranslationDialog } from "../import-translation-dialog/ImportTranslationDialog";
 import { useCustomizeSettingsDialog } from "./useCustomizeSettingsDialog";

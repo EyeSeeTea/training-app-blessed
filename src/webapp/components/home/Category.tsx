@@ -6,7 +6,7 @@ import React from "react";
 import { GroupContainer, Header, HomePageProps, IconContainer, MarkdownContents } from "./HomePageContent";
 import { useAppContext } from "../../contexts/app-context";
 import { Modules } from "./Modules";
-import i18n from "../../../locales";
+import i18n from "../../../utils/i18n";
 
 export const Category: React.FC<HomePageProps> = props => {
     const { currentPage, loadModule, isRoot, openPage } = props;

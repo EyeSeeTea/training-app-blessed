@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2025-02-18T08:45:55.109Z\n"
-"PO-Revision-Date: 2025-02-18T08:45:55.109Z\n"
+"POT-Creation-Date: 2025-04-07T11:18:42.330Z\n"
+"PO-Revision-Date: 2025-04-07T11:18:42.330Z\n"
 
 msgid "Welcome to training on DHIS2"
 msgstr ""
@@ -21,9 +21,6 @@ msgid "You need to add at least one {{field}}"
 msgstr ""
 
 msgid "All steps need to have at least one page"
-msgstr ""
-
-msgid "Field {{field}} needs to be a valid url"
 msgstr ""
 
 msgid "Field {{field}} is not valid"
@@ -90,6 +87,12 @@ msgid "Module selection"
 msgstr ""
 
 msgid "Exporting translations"
+msgstr ""
+
+msgid "Page icon"
+msgstr ""
+
+msgid "Icon for {{name}}"
 msgstr ""
 
 msgid "You need to select a module"

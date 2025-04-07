@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Traning App - UI Interface\n"
-"POT-Creation-Date: 2025-02-18T08:45:55.109Z\n"
+"POT-Creation-Date: 2025-04-07T11:18:42.330Z\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,9 +22,6 @@ msgstr "Vous devez ajouter au moins un {{champ}}."
 
 msgid "All steps need to have at least one page"
 msgstr "Toutes les étapes doivent avoir au moins une page"
-
-msgid "Field {{field}} needs to be a valid url"
-msgstr "Le champ {{field}} doit être une url valide."
 
 msgid "Field {{field}} is not valid"
 msgstr "Le champ {{field}} n'est pas valide"
@@ -91,6 +88,12 @@ msgstr "Sélection du module"
 
 msgid "Exporting translations"
 msgstr "Exportation des traductions"
+
+msgid "Page icon"
+msgstr ""
+
+msgid "Icon for {{name}}"
+msgstr "Icône de {{name}}"
 
 msgid "You need to select a module"
 msgstr "Vous devez sélectionner un module"

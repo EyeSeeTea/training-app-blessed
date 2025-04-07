@@ -6,7 +6,7 @@ import { LandingNode } from "../../../domain/entities/LandingPage";
 import { useAppContext } from "../../contexts/app-context";
 import { useAppConfigContext } from "../../contexts/AppConfigProvider";
 import { ModalParagraph } from "../modal";
-import i18n from "../../../locales";
+import i18n from "../../../utils/i18n";
 
 export const Modules: React.FC<{
     isRoot: boolean;

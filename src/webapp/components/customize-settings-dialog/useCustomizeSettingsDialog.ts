@@ -8,7 +8,7 @@ import { useAppContext } from "../../contexts/app-context";
 import { useAppConfigContext } from "../../contexts/AppConfigProvider";
 import { useImportExportTranslation } from "../../hooks/useImportExportTranslation";
 import { useLoading } from "@eyeseetea/d2-ui-components";
-import i18n from "../../../locales";
+import i18n from "../../../utils/i18n";
 
 export const useCustomizeSettingsDialog = ({
     logo,
