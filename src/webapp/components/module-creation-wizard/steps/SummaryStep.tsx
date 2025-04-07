@@ -1,7 +1,7 @@
 import { Button } from "@material-ui/core";
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
-import i18n from "../../../../locales";
+import i18n from "../../../../utils/i18n";
 import { useAppContext } from "../../../contexts/app-context";
 import { ModalBody } from "../../modal";
 import { TrainingWizard } from "../../training-wizard/TrainingWizard";

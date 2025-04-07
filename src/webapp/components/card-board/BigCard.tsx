@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import styled from "styled-components";
 import { CardTitleIcon } from "./CardTitleIcon";
-import i18n from "../../../locales";
+import i18n from "../../../utils/i18n";
 import { CardProgress, CardProgressBar, CardProgressText } from "./CardProgress";
 
 const BaseCard: React.FC<BigCardProps> = ({ className, label, icon, progress, onClick, onContextMenu, disabled }) => {

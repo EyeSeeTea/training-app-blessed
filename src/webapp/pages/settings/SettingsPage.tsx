@@ -12,7 +12,7 @@ import {
     updateOrder,
     updateTranslation,
 } from "../../../domain/helpers/TrainingModuleHelpers";
-import i18n from "../../../locales";
+import i18n from "../../../utils/i18n";
 import { ComponentParameter } from "../../../types/utils";
 import { LandingPageListTable } from "../../components/landing-page-list-table/LandingPageListTable";
 import { buildListModules, ModuleListTable } from "../../components/module-list-table/ModuleListTable";
