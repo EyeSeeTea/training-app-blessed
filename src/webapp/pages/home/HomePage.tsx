@@ -3,7 +3,7 @@ import CircularProgress from "material-ui/CircularProgress";
 import styled from "styled-components";
 
 import { LandingNode } from "../../../domain/entities/LandingPage";
-import i18n from "../../../locales";
+import i18n from "../../../utils/i18n";
 import { Modal, ModalContent, ModalTitle } from "../../components/modal";
 import { useAppContext } from "../../contexts/app-context";
 import { useAppConfigContext } from "../../contexts/AppConfigProvider";

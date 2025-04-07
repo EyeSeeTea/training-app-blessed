@@ -4,7 +4,7 @@ import React, { useCallback, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { trainingModuleValidations } from "../../../domain/entities/TrainingModule";
 import { validateModel } from "../../../domain/entities/Validation";
-import i18n from "../../../locales";
+import i18n from "../../../utils/i18n";
 import { useAppContext } from "../../contexts/app-context";
 import { ModuleCreationWizardStepProps, moduleCreationWizardSteps } from "./steps";
 

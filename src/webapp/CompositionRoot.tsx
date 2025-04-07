@@ -32,6 +32,7 @@ import { SaveConfigUseCase } from "../domain/usecases/SaveConfigUseCase";
 import { ExtractTranslationsUseCase } from "../domain/usecases/ExtractTranslationsUseCase";
 import { ImportTranslationsUseCase } from "../domain/usecases/ImportTranslationsUseCase";
 import { D2Api } from "../types/d2-api";
+import { GetCurrentUserUseCase } from "../domain/usecases/GetCurrentUserUseCase";
 
 export function getCompositionRoot(api: D2Api) {
     const configRepository = new Dhis2ConfigRepository(api);
@@ -82,6 +83,7 @@ export function getCompositionRoot(api: D2Api) {
             user: getExecute({
                 checkSettingsPermissions: new CheckSettingsPermissionsUseCase(configRepository),
                 checkAdminAuthority: new CheckAdminAuthorityUseCase(configRepository),
+                getCurrent: new GetCurrentUserUseCase(configRepository),
             }),
             instance: getExecute({
                 installApp: new InstallAppUseCase(instanceRepository, trainingModuleRepository),

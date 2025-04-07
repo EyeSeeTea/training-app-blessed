@@ -18,7 +18,7 @@ import { FileRejection } from "react-dropzone";
 import styled from "styled-components";
 import { PartialTrainingModule, TrainingModule, TrainingModuleStep } from "../../../domain/entities/TrainingModule";
 import { TranslatableText } from "../../../domain/entities/TranslatableText";
-import i18n from "../../../locales";
+import i18n from "../../../utils/i18n";
 import { zipMimeType } from "../../../utils/files";
 import { FlattenUnion } from "../../../utils/flatten-union";
 import { useAppContext } from "../../contexts/app-context";

@@ -1,5 +1,5 @@
 import { Provider } from "@dhis2/app-runtime";
-import i18n from "@dhis2/d2-i18n";
+import i18n from "./utils/i18n";
 import axios from "axios";
 import { init } from "d2";
 import _ from "lodash";
@@ -8,13 +8,6 @@ import ReactDOM from "react-dom";
 import { D2Api } from "./types/d2-api";
 import App from "./webapp/pages/App";
 import "./webapp/utils/wdyr";
-
-declare global {
-    interface Window {
-        $: { feedbackDhis2(d2: object, appKey: string, feedbackOptions: object): void };
-        api: D2Api;
-    }
-}
 
 const isDev = process.env.NODE_ENV === "development";
 
