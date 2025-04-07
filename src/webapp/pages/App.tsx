@@ -3,7 +3,7 @@ import { MuiThemeProvider, StylesProvider } from "@material-ui/core/styles";
 import OldMuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import React from "react";
 import { HashRouter } from "react-router-dom";
-import i18n from "../../locales";
+import i18n from "../../utils/i18n";
 import { getCompositionRoot } from "../CompositionRoot";
 import { AppContextProvider } from "../contexts/app-context";
 import { AppRoute } from "../router/AppRoute";

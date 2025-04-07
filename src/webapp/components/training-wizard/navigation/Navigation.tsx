@@ -3,7 +3,7 @@ import _ from "lodash";
 import React, { useCallback } from "react";
 import styled from "styled-components";
 import { extractStepFromKey } from "../../../../domain/entities/TrainingModule";
-import i18n from "../../../../locales";
+import i18n from "../../../../utils/i18n";
 import { arrayFill } from "../../../../utils/array";
 import { MainButton } from "../../main-button/MainButton";
 import { NavigationBullet } from "./NavigationBullet";

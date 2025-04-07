@@ -7,7 +7,7 @@ import {
     updateOrder,
     updateTranslation,
 } from "../../../../domain/helpers/TrainingModuleHelpers";
-import i18n from "../../../../locales";
+import i18n from "../../../../utils/i18n";
 import { ComponentParameter } from "../../../../types/utils";
 import { useAppContext } from "../../../contexts/app-context";
 import { InputDialog, InputDialogProps } from "../../input-dialog/InputDialog";

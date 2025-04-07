@@ -2,7 +2,7 @@ import _ from "lodash";
 import styled from "styled-components";
 
 import { TrainingModule } from "../domain/entities/TrainingModule";
-import i18n from "../locales";
+import i18n from "../utils/i18n";
 import { MainButton } from "../webapp/components/main-button/MainButton";
 import { Modal, ModalContent, ModalFooter, ModalParagraph, ModalTitle } from "../webapp/components/modal";
 import { Stepper } from "../webapp/components/training-wizard/stepper/Stepper";

@@ -4,7 +4,7 @@ import CircularProgress from "material-ui/CircularProgress";
 import styled from "styled-components";
 
 import { LandingNode } from "../../../domain/entities/LandingPage";
-import i18n from "../../../locales";
+import i18n from "../../../utils/i18n";
 import { BigCard } from "../../components/card-board/BigCard";
 import { Cardboard } from "../../components/card-board/Cardboard";
 import { MarkdownViewer } from "../../components/markdown-viewer/MarkdownViewer";
