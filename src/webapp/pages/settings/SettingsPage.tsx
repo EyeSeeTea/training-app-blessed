@@ -2,7 +2,6 @@ import { ConfirmationDialog, ConfirmationDialogProps, useLoading, useSnackbar } 
 import { FormGroup, Icon, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
-import { Permission } from "../../../domain/entities/Permission";
 import { NamedRef } from "../../../domain/entities/Ref";
 import {
     addPage,
@@ -20,15 +19,19 @@ import { PageHeader } from "../../components/page-header/PageHeader";
 import { PermissionsDialog, SharedUpdate } from "../../components/permissions-dialog/PermissionsDialog";
 import { useAppContext } from "../../contexts/app-context";
 import { DhisPage } from "../dhis/DhisPage";
+import { CustomizeSettingsDialog } from "../../components/customize-settings-dialog/CustomizeSettingsDialog";
+import { useAppConfigContext } from "../../contexts/AppConfigProvider";
 
 export const SettingsPage: React.FC = () => {
-    const { modules, landings, reload, usecases, setAppState, showAllModules, isLoading, isAdmin } = useAppContext();
+    const { modules, landings, reload, usecases, setAppState, isLoading, isAdmin } = useAppContext();
+
+    const { appConfig, logoInfo, save, hasLoaded } = useAppConfigContext();
 
     const snackbar = useSnackbar();
     const loading = useLoading();
 
     const [permissionsType, setPermissionsType] = useState<string | null>(null);
-    const [settingsPermissions, setSettingsPermissions] = useState<Permission>();
+    const [showCustomSettings, setShowCustomSettings] = useState(false);
     const [danglingDocuments, setDanglingDocuments] = useState<NamedRef[]>([]);
     const [dialogProps, updateDialog] = useState<ConfirmationDialogProps | null>(null);
 
@@ -37,21 +40,33 @@ export const SettingsPage: React.FC = () => {
     }, [setAppState]);
 
     const updateSettingsPermissions = useCallback(
-        async ({ userAccesses, userGroupAccesses }: SharedUpdate) => {
-            await usecases.config.updateSettingsPermissions({
-                users: userAccesses?.map(({ id, name }) => ({ id, name })),
-                userGroups: userGroupAccesses?.map(({ id, name }) => ({ id, name })),
+        async ({ userAccesses = [], userGroupAccesses = [] }: SharedUpdate) => {
+            return save({
+                settingsPermissions: {
+                    users: userAccesses.map(({ id, name }) => ({ id, name })),
+                    userGroups: userGroupAccesses.map(({ id, name }) => ({ id, name })),
+                },
             });
-
-            const newSettings = await usecases.config.getSettingsPermissions();
-            setSettingsPermissions(newSettings);
         },
-        [usecases]
+        [save]
+    );
+
+    const closeCustomSettingsDialog = useCallback(() => {
+        setShowCustomSettings(false);
+    }, []);
+
+    const saveCustomSettings = useCallback(
+        async data => {
+            await save(data);
+            closeCustomSettingsDialog();
+        },
+        [save, closeCustomSettingsDialog]
     );
 
     const buildSharingDescription = useCallback(() => {
-        const users = settingsPermissions?.users?.length ?? 0;
-        const userGroups = settingsPermissions?.userGroups?.length ?? 0;
+        const settingsPermissions = appConfig.settingsPermissions;
+        const users = settingsPermissions.users.length;
+        const userGroups = settingsPermissions.userGroups.length;
 
         if (users > 0 && userGroups > 0) {
             return i18n.t("Accessible to {{users}} users and {{userGroups}} user groups", {
@@ -65,7 +80,7 @@ export const SettingsPage: React.FC = () => {
         } else {
             return i18n.t("Only accessible to system administrators");
         }
-    }, [settingsPermissions]);
+    }, [appConfig.settingsPermissions]);
 
     const cleanUpDanglingDocuments = useCallback(async () => {
         updateDialog({
@@ -81,9 +96,8 @@ export const SettingsPage: React.FC = () => {
             onSave: async () => {
                 loading.show(true, i18n.t("Deleting dangling documents"));
 
-                await usecases.instance.deleteDocuments(danglingDocuments.map(({ id }) => id));
-                const newDanglingList = await usecases.instance.listDanglingDocuments();
-                setDanglingDocuments(newDanglingList);
+                await usecases.document.delete(danglingDocuments.map(({ id }) => id));
+                setDanglingDocuments([]);
 
                 snackbar.success(i18n.t("Deleted dangling documents"));
                 loading.reset();
@@ -94,18 +108,18 @@ export const SettingsPage: React.FC = () => {
     }, [danglingDocuments, loading, snackbar, usecases]);
 
     const refreshModules = useCallback(async () => {
-        usecases.instance.listDanglingDocuments().then(setDanglingDocuments);
         await reload();
-    }, [reload, usecases]);
+    }, [reload]);
 
     const openAddModule = useCallback(() => {
         setAppState({ type: "CREATE_MODULE" });
     }, [setAppState]);
 
-    const toggleShowAllModules = useCallback(async () => {
-        await usecases.config.setShowAllModules(!showAllModules);
-        await reload();
-    }, [showAllModules, reload, usecases]);
+    const toggleShowAllModules = useCallback(() => {
+        return save({
+            showAllModules: !appConfig.showAllModules,
+        });
+    }, [appConfig, save]);
 
     const getModule = React.useCallback(
         (id: string) => {
@@ -113,6 +127,8 @@ export const SettingsPage: React.FC = () => {
         },
         [usecases.modules]
     );
+
+    const openCustomizeSettingsDialog = useCallback(() => setShowCustomSettings(true), []);
 
     const tableActions: ComponentParameter<typeof ModuleListTable, "tableActions"> = useMemo(
         () => ({
@@ -139,7 +155,7 @@ export const SettingsPage: React.FC = () => {
                 if (module) await usecases.modules.update(updateOrder(module, from, to));
                 else snackbar.error(i18n.t("Unable to move item"));
             },
-            uploadFile: ({ data, name }) => usecases.instance.uploadFile(data, name),
+            uploadFile: ({ data, name }) => usecases.document.uploadFile(data, name),
             installApp: ({ id }) => usecases.instance.installApp(id),
             addStep: async ({ id, title }) => {
                 const module = await getModule(id);
@@ -166,9 +182,10 @@ export const SettingsPage: React.FC = () => {
     );
 
     useEffect(() => {
-        usecases.config.getSettingsPermissions().then(setSettingsPermissions);
-        usecases.instance.listDanglingDocuments().then(setDanglingDocuments);
-    }, [usecases]);
+        if (!hasLoaded || isLoading) return;
+        const data = [...modules, ...landings, appConfig];
+        usecases.document.listDangling(data).then(setDanglingDocuments);
+    }, [usecases, modules, landings, appConfig, isLoading, hasLoaded]);
 
     useEffect(() => {
         reload();
@@ -177,6 +194,14 @@ export const SettingsPage: React.FC = () => {
     return (
         <DhisPage>
             {dialogProps && <ConfirmationDialog isOpen={true} maxWidth={"lg"} fullWidth={true} {...dialogProps} />}
+            {showCustomSettings && (
+                <CustomizeSettingsDialog
+                    onSave={saveCustomSettings}
+                    customText={appConfig?.customText ?? emptyObject}
+                    onClose={closeCustomSettingsDialog}
+                    logo={logoInfo.logoPath}
+                />
+            )}
 
             {!!permissionsType && (
                 <PermissionsDialog
@@ -184,12 +209,12 @@ export const SettingsPage: React.FC = () => {
                         name: "Access to settings",
                         publicAccess: "--------",
                         userAccesses:
-                            settingsPermissions?.users?.map(ref => ({
+                            appConfig.settingsPermissions.users.map(ref => ({
                                 ...ref,
                                 access: "rw----",
                             })) ?? [],
                         userGroupAccesses:
-                            settingsPermissions?.userGroups?.map(ref => ({
+                            appConfig.settingsPermissions.userGroups.map(ref => ({
                                 ...ref,
                                 access: "rw----",
                             })) ?? [],
@@ -202,7 +227,7 @@ export const SettingsPage: React.FC = () => {
             <Header title={i18n.t("Settings")} onBackClick={openTraining} />
 
             <Container>
-                <Title>{i18n.t("Permissions")}</Title>
+                <Title>{i18n.t("General Settings")}</Title>
 
                 <Group row={true}>
                     <ListItem button onClick={() => setPermissionsType("settings")}>
@@ -213,16 +238,28 @@ export const SettingsPage: React.FC = () => {
                     </ListItem>
 
                     <ListItem button onClick={toggleShowAllModules}>
+                        {appConfig.showAllModules}
+
                         <ListItemIcon>
-                            <Icon>{showAllModules ? "visibility" : "visibility_off"}</Icon>
+                            <Icon>{appConfig.showAllModules ? "visibility" : "visibility_off"}</Icon>
                         </ListItemIcon>
                         <ListItemText
                             primary={i18n.t("Show list with modules on main landing page")}
                             secondary={
-                                showAllModules
+                                appConfig.showAllModules
                                     ? i18n.t("A list with all the existing modules is visible")
                                     : i18n.t("The list with all the existing  modules is hidden")
                             }
+                        />
+                    </ListItem>
+
+                    <ListItem button onClick={openCustomizeSettingsDialog}>
+                        <ListItemIcon>
+                            <Icon>format_shapes</Icon>
+                        </ListItemIcon>
+                        <ListItemText
+                            primary={i18n.t("Customize the landing page")}
+                            secondary={i18n.t("Update the logo or content")}
                         />
                     </ListItem>
 
@@ -262,6 +299,8 @@ export const SettingsPage: React.FC = () => {
         </DhisPage>
     );
 };
+
+const emptyObject = {};
 
 const Title = styled.h3`
     margin-top: 25px;

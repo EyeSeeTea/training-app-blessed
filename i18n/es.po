@@ -1,12 +1,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Traning App - UI Interface\n"
-"POT-Creation-Date: 2024-11-04T02:21:30.584Z\n"
+"POT-Creation-Date: 2025-04-07T11:18:42.330Z\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: POEditor.com\n"
+
+msgid "Welcome to training on DHIS2"
+msgstr "Bienvenido a la formación sobre DHIS2"
+
+msgid "What do you want to learn in DHIS2?"
+msgstr "¿Qué quiere aprender en DHIS2?"
 
 msgid "Field {{field}} cannot be blank"
 msgstr "El campo {{field}} no puede estar vacío"
@@ -16,9 +22,6 @@ msgstr "Es necesario añadir al menos un {{campo}}"
 
 msgid "All steps need to have at least one page"
 msgstr "Todos los pasos deben tener al menos una página"
-
-msgid "Field {{field}} needs to be a valid url"
-msgstr "El campo {{field}} debe ser una url válida"
 
 msgid "Field {{field}} is not valid"
 msgstr "El campo {{field}} no es válido"
@@ -60,7 +63,37 @@ msgid "Tutorial"
 msgstr "Tutorial"
 
 msgid "done"
+msgstr "Hecho"
+
+msgid "Export JSON translations"
+msgstr "Exportar traducciones JSON"
+
+msgid "Import JSON translations"
+msgstr "Importar traducciones JSON"
+
+msgid "Close"
+msgstr "Cerrar"
+
+msgid "Home page logo"
+msgstr "Logotipo de la página de inicio"
+
+msgid "Customize landing page text"
+msgstr "Personalizar el texto de la página de destino"
+
+msgid "Welcome message"
+msgstr "Mensaje de bienvenida"
+
+msgid "Module selection"
+msgstr "Selección de módulo"
+
+msgid "Exporting translations"
+msgstr "Exportación de traducciones"
+
+msgid "Page icon"
 msgstr ""
+
+msgid "Icon for {{name}}"
+msgstr "Icono de {{name}}"
 
 msgid "You need to select a module"
 msgstr "Debe seleccionar un módulo"
@@ -126,12 +159,6 @@ msgstr "Sí"
 msgid "No"
 msgstr "No"
 
-msgid "Imported {{total}} translation terms"
-msgstr "{{total}} traducciones importadas"
-
-msgid "Unable to import translation terms"
-msgstr "No se pueden importar términos de traducción"
-
 msgid "Add section"
 msgstr "Añadir sección "
 
@@ -153,12 +180,6 @@ msgstr "Exportar la página de destino"
 msgid "Exporting landing page(s)"
 msgstr "Exportar página(s) de destino"
 
-msgid "Export JSON translations"
-msgstr "Exportar traducciones JSON"
-
-msgid "Exporting translations"
-msgstr "Exportación de traducciones"
-
 msgid "Move up"
 msgstr "Mover arriba"
 
@@ -167,9 +188,6 @@ msgstr "Mover abajo"
 
 msgid "Import landing pages"
 msgstr "Importar páginas de destino"
-
-msgid "Import JSON translations"
-msgstr "Importar traducciones JSON"
 
 msgid "Landing page"
 msgstr "Bienvenido"
@@ -217,7 +235,7 @@ msgid "Minimize window"
 msgstr "Minimizar ventana"
 
 msgid "Code {{code}} already exists"
-msgstr ""
+msgstr "El código {{code}} ya existe"
 
 msgid "Note: The sharing settings are only applied to the current module"
 msgstr "Nota: Los ajustes de compartición sólo se aplican al módulo actual"
@@ -353,7 +371,7 @@ msgid "Edit module"
 msgstr "Editar modulo"
 
 msgid "Clone module"
-msgstr ""
+msgstr "Duplicar módulo"
 
 msgid "Edit page"
 msgstr "Editar página"
@@ -376,9 +394,6 @@ msgstr "Importar módulos"
 msgid "Help"
 msgstr "Ayuda"
 
-msgid "Close"
-msgstr "Cerrar"
-
 msgid "Previous step"
 msgstr "Paso anterior"
 
@@ -391,6 +406,12 @@ msgstr "Siguiente"
 msgid "Sub step {{position}} of {{total}}"
 msgstr "Sub paso {{posición}} de {{total}}"
 
+msgid "Imported {{total}} translation terms"
+msgstr "{{total}} traducciones importadas"
+
+msgid "Unable to import translation terms"
+msgstr "No se pueden importar términos de traducción"
+
 msgid "Welcome"
 msgstr "Bienvenido"
 
@@ -401,7 +422,7 @@ msgid "Exit"
 msgstr "Salir"
 
 msgid "Clone"
-msgstr ""
+msgstr "Duplicar"
 
 msgid "Create"
 msgstr "Crear"
@@ -412,7 +433,6 @@ msgstr "Acerca de Training App"
 msgid "Distributed under GNU GLPv3"
 msgstr "Distribuido bajo GNU GLPv3"
 
-#, fuzzy
 msgid ""
 "DHIS2 Training App is a DHIS2 application to provide online training for end "
 "users. The application contains generic training on data entry, data import, "
@@ -430,7 +450,6 @@ msgstr ""
 "usuarios a través de procesos específicos de recogida de datos (por ejemplo, "
 "la cumplimentación de formularios específicos de recogida de datos)."
 
-#, fuzzy
 msgid ""
 "This application has been funded by the WHO Global Malaria Programme and by "
 "Samaritan’s Purse to support countries using DHIS2 in strengthening the "
@@ -456,8 +475,9 @@ msgid ""
 "If you wish to contribute to the development of Training App with new "
 "features, please contact [EyeSeeTea](mailto:hello@eyeseetea.com)."
 msgstr ""
+"Si desea contribuir al desarrollo de la aplicación Training App con nuevas "
+"funciones, comuníquese con [EyeSeeTea](mailto:hello@eyeseetea.com)."
 
-#, fuzzy
 msgid ""
 "*Disclaimer: The WHO originally developed this application to support "
 "countries build capacity for health data collection and use. WHO provides a "
@@ -496,15 +516,14 @@ msgid "Cancel module editing?"
 msgstr "¿Cancelar la edición del módulo?"
 
 msgid "Cancel module cloning?"
-msgstr ""
+msgstr "¿Cancelar duplicación del módulo?"
 
 msgid "Cancel module creation?"
-msgstr ""
+msgstr "¿Cancelar la creación del módulo?"
 
 msgid "All your changes will be lost. Are you sure you want to proceed?"
 msgstr "Todos sus cambios se perderán. ¿Desea continuar?"
 
-#, fuzzy
 msgid "New module"
 msgstr "Añadir modulo"
 
@@ -530,12 +549,6 @@ msgstr ""
 "Si desea continuar con la formación, seleccione 'Continuar con el tutorial' "
 "a continuación o si desea seleccionar un tutorial diferente, haga clic en el "
 "botón 'Inicio'."
-
-msgid "Welcome to training on DHIS2"
-msgstr "Bienvenido a la formación sobre DHIS2"
-
-msgid "What do you want to learn in DHIS2?"
-msgstr "¿Qué quiere aprender en DHIS2?"
 
 msgid "First load can take a couple of minutes, please wait..."
 msgstr "La primera carga puede tardar un par de minutos, por favor espere..."
@@ -583,8 +596,8 @@ msgstr "No se puede eliminar el paso"
 msgid "Unable to remove page"
 msgstr "No se puede eliminar la página"
 
-msgid "Permissions"
-msgstr "Permisos"
+msgid "General Settings"
+msgstr "Configuración general"
 
 msgid "Access to Settings"
 msgstr "Acceso a la configuración"
@@ -597,6 +610,12 @@ msgstr "Una lista con todos los módulos existentes es visible"
 
 msgid "The list with all the existing  modules is hidden"
 msgstr "La lista con todos los módulos existentes está oculta"
+
+msgid "Customize the landing page"
+msgstr "Personalizar la página de portada"
+
+msgid "Update the logo or content"
+msgstr "Actualizar el logotipo o el contenido"
 
 msgid "There are no unused documents to clean"
 msgstr "No hay documentos no utilizados que limpiar"

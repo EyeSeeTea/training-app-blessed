@@ -29,6 +29,7 @@ import { InputDialog, InputDialogProps } from "../input-dialog/InputDialog";
 import { MarkdownEditorDialog, MarkdownEditorDialogProps } from "../markdown-editor/MarkdownEditorDialog";
 import { MarkdownViewer } from "../markdown-viewer/MarkdownViewer";
 import { ModalBody } from "../modal";
+import { useImportExportTranslation } from "../../hooks/useImportExportTranslation";
 
 export interface ModuleListTableProps {
     rows: ListItem[];
@@ -41,6 +42,7 @@ export interface ModuleListTableProps {
 export const ModuleListTable: React.FC<ModuleListTableProps> = props => {
     const { rows, tableActions, onActionButtonClick, refreshRows = async () => {}, isLoading } = props;
     const { usecases } = useAppContext();
+    const { exportTranslation, importTranslation } = useImportExportTranslation();
 
     const loading = useLoading();
     const snackbar = useSnackbar();
@@ -77,14 +79,9 @@ export const ModuleListTable: React.FC<ModuleListTableProps> = props => {
     const handleTranslationUpload = useCallback(
         async (key: string | undefined, lang: string, terms: Record<string, string>) => {
             if (!key) return;
-            const total = await usecases.modules.importTranslations(key, lang, terms);
-            if (total > 0) {
-                snackbar.success(i18n.t("Imported {{total}} translation terms", { total }));
-            } else {
-                snackbar.warning(i18n.t("Unable to import translation terms"));
-            }
+            await importTranslation(() => usecases.modules.importTranslations(lang, terms, key));
         },
-        [usecases, snackbar]
+        [usecases, importTranslation]
     );
 
     const deleteModules = useCallback(
@@ -372,10 +369,10 @@ export const ModuleListTable: React.FC<ModuleListTableProps> = props => {
         async (ids: string[]) => {
             if (!ids[0]) return;
             loading.show(true, i18n.t("Exporting translations"));
-            await usecases.modules.exportTranslations(ids[0]);
+            await exportTranslation(() => usecases.modules.extractTranslations(ids[0]), ids[0]);
             loading.reset();
         },
-        [loading, usecases]
+        [loading, usecases, exportTranslation]
     );
 
     const onTableChange = useCallback(({ selection }: TableState<ListItem>) => {

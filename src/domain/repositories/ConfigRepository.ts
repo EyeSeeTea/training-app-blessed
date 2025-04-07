@@ -1,12 +1,9 @@
-import { Instance } from "../../data/entities/Instance";
 import { User } from "../../data/entities/User";
-import { Permission } from "../entities/Permission";
+import { Config, PartialConfig } from "../entities/Config";
+import { TranslableTextRepository } from "./TranslableTextRepository";
 
-export interface ConfigRepository {
+export interface ConfigRepository extends TranslableTextRepository {
     getUser(): Promise<User>;
-    getInstance(): Instance;
-    getSettingsPermissions(): Promise<Permission>;
-    updateSettingsPermissions(update: Partial<Permission>): Promise<void>;
-    getShowAllModules(): Promise<boolean>;
-    setShowAllModules(flag: boolean): Promise<void>;
+    get(): Promise<Partial<Config>>;
+    save(update: PartialConfig): Promise<Partial<Config>>;
 }

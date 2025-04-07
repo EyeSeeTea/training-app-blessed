@@ -79,7 +79,7 @@ export const LandingPageEditDialog: React.FC<LandingPageEditDialogProps> = props
         (event: ChangeEvent<HTMLInputElement>) => {
             const file = event.target.files ? event.target.files[0] : undefined;
             file?.arrayBuffer().then(async data => {
-                const icon = await usecases.instance.uploadFile(data, file.name);
+                const icon = await usecases.document.uploadFile(data, file.name);
                 setValue(node => ({ ...node, icon }));
             });
         },
@@ -153,7 +153,7 @@ export const LandingPageEditDialog: React.FC<LandingPageEditDialogProps> = props
                         }))
                     }
                     markdownPreview={markdown => <StepPreview value={markdown} />}
-                    onUpload={(data, file) => usecases.instance.uploadFile(data, file.name)}
+                    onUpload={(data, file) => usecases.document.uploadFile(data, file.name)}
                 />
             </Row>
         </ConfirmationDialog>

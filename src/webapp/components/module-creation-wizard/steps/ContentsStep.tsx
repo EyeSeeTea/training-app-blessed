@@ -35,7 +35,7 @@ export const ContentsStep: React.FC<ModuleCreationWizardStepProps> = ({ module, 
 
     const tableActions: ComponentParameter<typeof ModuleListTable, "tableActions"> = useMemo(
         () => ({
-            uploadFile: ({ data, name }) => usecases.instance.uploadFile(data, name),
+            uploadFile: ({ data, name }) => usecases.document.uploadFile(data, name),
             editContents: async ({ text, value }) => onChange(module => updateTranslation(module, text.key, value)),
             swap: async ({ type, from, to }) => {
                 if (type === "module") return;
