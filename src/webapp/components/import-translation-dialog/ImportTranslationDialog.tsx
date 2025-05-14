@@ -4,7 +4,7 @@ import React, { useCallback, useImperativeHandle, useRef, useState } from "react
 import styled from "styled-components";
 import { TrainingModule } from "../../../domain/entities/TrainingModule";
 import { TranslateMethod } from "../../../domain/entities/TranslatableText";
-import i18n from "../../../locales";
+import i18n from "../../../utils/i18n";
 import { useAppContext } from "../../contexts/app-context";
 
 export const ImportTranslationDialog = React.forwardRef(
@@ -119,7 +119,7 @@ export interface ImportTranslationRef {
 }
 
 export interface ImportTranslationDialogProps {
-    type: "module" | "landing-page";
+    type: "module" | "landing-page" | "custom-text";
     onSave: (key: string | undefined, lang: string, terms: Record<string, string>) => void | Promise<void>;
 }
 

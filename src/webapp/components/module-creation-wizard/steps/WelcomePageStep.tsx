@@ -1,4 +1,4 @@
-import i18n from "@eyeseetea/d2-ui-components/locales";
+import i18n from "../../../../utils/i18n";
 import React, { useCallback } from "react";
 import styled from "styled-components";
 import { TranslatableText } from "../../../../domain/entities/TranslatableText";
@@ -26,7 +26,7 @@ export const WelcomePageStep: React.FC<ModuleCreationWizardStepProps> = ({ modul
                 value={module.contents.welcome.referenceValue}
                 onChange={value => onChangeTranslation(module.contents.welcome, value)}
                 markdownPreview={markdown => <StepPreview value={markdown} />}
-                onUpload={(data, file) => usecases.instance.uploadFile(data, file.name)}
+                onUpload={(data, file) => usecases.document.uploadFile(data, file.name)}
             />
         </Row>
     );

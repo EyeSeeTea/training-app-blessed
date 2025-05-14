@@ -7,7 +7,7 @@ import {
     updateOrder,
     updateTranslation,
 } from "../../../../domain/helpers/TrainingModuleHelpers";
-import i18n from "../../../../locales";
+import i18n from "../../../../utils/i18n";
 import { ComponentParameter } from "../../../../types/utils";
 import { useAppContext } from "../../../contexts/app-context";
 import { InputDialog, InputDialogProps } from "../../input-dialog/InputDialog";
@@ -35,7 +35,7 @@ export const ContentsStep: React.FC<ModuleCreationWizardStepProps> = ({ module, 
 
     const tableActions: ComponentParameter<typeof ModuleListTable, "tableActions"> = useMemo(
         () => ({
-            uploadFile: ({ data, name }) => usecases.instance.uploadFile(data, name),
+            uploadFile: ({ data, name }) => usecases.document.uploadFile(data, name),
             editContents: async ({ text, value }) => onChange(module => updateTranslation(module, text.key, value)),
             swap: async ({ type, from, to }) => {
                 if (type === "module") return;

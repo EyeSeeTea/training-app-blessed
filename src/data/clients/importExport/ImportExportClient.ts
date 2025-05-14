@@ -3,10 +3,11 @@ import JSZip from "jszip";
 import _ from "lodash";
 import moment from "moment";
 import { TranslatableText } from "../../../domain/entities/TranslatableText";
-import { InstanceRepository } from "../../../domain/repositories/InstanceRepository";
 import { fromPairs } from "../../../types/utils";
 import { promiseMap } from "../../../utils/promises";
 import { getUrls, replaceUrls } from "../../../utils/urls";
+import { D2Api } from "../../../types/d2-api";
+import { DocumentRepository } from "../../../domain/repositories/DocumentRepository";
 
 export type Mapping = MappingItem[];
 
@@ -27,7 +28,7 @@ export class ImportExportClient {
         filesFolder: "files",
     };
 
-    constructor(private instanceRepository: InstanceRepository, private prefix: string) {}
+    constructor(private api: D2Api, private documentRepository: DocumentRepository, private prefix: string) {}
 
     public async import<T>(files: Blob[]): Promise<T[]> {
         const modules = await promiseMap(files, async file => {
@@ -66,7 +67,7 @@ export class ImportExportClient {
             .uniq()
             .value();
 
-        const files = await this.getFiles(urls, this.instanceRepository.getBaseUrl());
+        const files = await this.getFiles(urls, this.api.baseUrl);
         const filesFolder = _(files).isEmpty() ? null : zip.folder(this.exportConfig.filesFolder);
 
         if (filesFolder) {
@@ -94,7 +95,7 @@ export class ImportExportClient {
     ) {
         const fileUrlByFilename = fromPairs(
             await promiseMap(fileContents, async ({ filename, arrayBuffer }) => {
-                const fileUrl = await this.instanceRepository.uploadFile(arrayBuffer);
+                const fileUrl = await this.documentRepository.uploadFile(arrayBuffer);
                 return [filename, fileUrl];
             })
         );

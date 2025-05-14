@@ -5,8 +5,14 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-11-04T02:21:30.584Z\n"
-"PO-Revision-Date: 2024-11-04T02:21:30.584Z\n"
+"POT-Creation-Date: 2025-04-07T11:18:42.330Z\n"
+"PO-Revision-Date: 2025-04-07T11:18:42.330Z\n"
+
+msgid "Welcome to training on DHIS2"
+msgstr ""
+
+msgid "What do you want to learn in DHIS2?"
+msgstr ""
 
 msgid "Field {{field}} cannot be blank"
 msgstr ""
@@ -15,9 +21,6 @@ msgid "You need to add at least one {{field}}"
 msgstr ""
 
 msgid "All steps need to have at least one page"
-msgstr ""
-
-msgid "Field {{field}} needs to be a valid url"
 msgstr ""
 
 msgid "Field {{field}} is not valid"
@@ -60,6 +63,36 @@ msgid "Tutorial"
 msgstr ""
 
 msgid "done"
+msgstr ""
+
+msgid "Export JSON translations"
+msgstr ""
+
+msgid "Import JSON translations"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Home page logo"
+msgstr ""
+
+msgid "Customize landing page text"
+msgstr ""
+
+msgid "Welcome message"
+msgstr ""
+
+msgid "Module selection"
+msgstr ""
+
+msgid "Exporting translations"
+msgstr ""
+
+msgid "Page icon"
+msgstr ""
+
+msgid "Icon for {{name}}"
 msgstr ""
 
 msgid "You need to select a module"
@@ -125,12 +158,6 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-msgid "Imported {{total}} translation terms"
-msgstr ""
-
-msgid "Unable to import translation terms"
-msgstr ""
-
 msgid "Add section"
 msgstr ""
 
@@ -152,12 +179,6 @@ msgstr ""
 msgid "Exporting landing page(s)"
 msgstr ""
 
-msgid "Export JSON translations"
-msgstr ""
-
-msgid "Exporting translations"
-msgstr ""
-
 msgid "Move up"
 msgstr ""
 
@@ -165,9 +186,6 @@ msgid "Move down"
 msgstr ""
 
 msgid "Import landing pages"
-msgstr ""
-
-msgid "Import JSON translations"
 msgstr ""
 
 msgid "Landing page"
@@ -370,9 +388,6 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
-msgid "Close"
-msgstr ""
-
 msgid "Previous step"
 msgstr ""
 
@@ -383,6 +398,12 @@ msgid "Next"
 msgstr ""
 
 msgid "Sub step {{position}} of {{total}}"
+msgstr ""
+
+msgid "Imported {{total}} translation terms"
+msgstr ""
+
+msgid "Unable to import translation terms"
 msgstr ""
 
 msgid "Welcome"
@@ -488,12 +509,6 @@ msgid ""
 "'Home' button."
 msgstr ""
 
-msgid "Welcome to training on DHIS2"
-msgstr ""
-
-msgid "What do you want to learn in DHIS2?"
-msgstr ""
-
 msgid "First load can take a couple of minutes, please wait..."
 msgstr ""
 
@@ -539,7 +554,7 @@ msgstr ""
 msgid "Unable to remove page"
 msgstr ""
 
-msgid "Permissions"
+msgid "General Settings"
 msgstr ""
 
 msgid "Access to Settings"
@@ -552,6 +567,12 @@ msgid "A list with all the existing modules is visible"
 msgstr ""
 
 msgid "The list with all the existing  modules is hidden"
+msgstr ""
+
+msgid "Customize the landing page"
+msgstr ""
+
+msgid "Update the logo or content"
 msgstr ""
 
 msgid "There are no unused documents to clean"

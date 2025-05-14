@@ -1,5 +1,5 @@
 import React from "react";
-import i18n from "../../../../locales";
+import i18n from "../../../../utils/i18n";
 import { MarkdownViewer } from "../../markdown-viewer/MarkdownViewer";
 import { ModalContent } from "../../modal/ModalContent";
 import { TrainingWizardStepProps } from "../TrainingWizard";
