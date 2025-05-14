@@ -1,12 +1,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Traning App - UI Interface\n"
-"POT-Creation-Date: 2021-12-13T10:54:04.302Z\n"
+"POT-Creation-Date: 2025-04-07T11:18:42.330Z\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: POEditor.com\n"
+
+msgid "Welcome to training on DHIS2"
+msgstr "Bienvenue dans les tutoriels de formation DHIS2\n"
+
+msgid "What do you want to learn in DHIS2?"
+msgstr "Que voulez-vous apprendre dans DHIS2 aujourd'hui?"
 
 msgid "Field {{field}} cannot be blank"
 msgstr "Le champ {{field}} ne peut pas être vide"
@@ -17,14 +23,77 @@ msgstr "Vous devez ajouter au moins un {{champ}}."
 msgid "All steps need to have at least one page"
 msgstr "Toutes les étapes doivent avoir au moins une page"
 
-msgid "Field {{field}} needs to be a valid url"
-msgstr "Le champ {{field}} doit être une url valide."
-
 msgid "Field {{field}} is not valid"
 msgstr "Le champ {{field}} n'est pas valide"
 
+msgid "Well done!"
+msgstr "Bien joué!"
+
+msgid "You've completed the {{name}} tutorial!"
+msgstr "Vous avez fini le tutoriel {{nom}}!"
+
+msgid "Back to tutorial"
+msgstr "Retour au tutoriel"
+
+msgid "Finish"
+msgstr "Sortir"
+
+msgid "What did you learn in this tutorial?"
+msgstr "Qu'avez-vous appris dans ce tutoriel?"
+
+msgid "What will this tutorial cover?"
+msgstr "Que couvrira ce tutoriel?"
+
+msgid "Previous"
+msgstr "Précédent"
+
+msgid "Take another tutorial"
+msgstr "Prenez un autre tutoriel"
+
+msgid "Start"
+msgstr "Début"
+
+msgid "Exit Tutorial"
+msgstr "Sortir du tutoriel"
+
+msgid "Start Tutorial"
+msgstr "Démarrer le tutoriel"
+
 msgid "Tutorial"
 msgstr "Tutoriels"
+
+msgid "done"
+msgstr "Fait"
+
+msgid "Export JSON translations"
+msgstr "Exportation des traductions en JSON"
+
+msgid "Import JSON translations"
+msgstr "Importer des traductions JSON"
+
+msgid "Close"
+msgstr "Fermer"
+
+msgid "Home page logo"
+msgstr "Logo de la page d'accueil"
+
+msgid "Customize landing page text"
+msgstr "Personnaliser le texte de la page d'accueil"
+
+msgid "Welcome message"
+msgstr "Message de bienvenue"
+
+msgid "Module selection"
+msgstr "Sélection du module"
+
+msgid "Exporting translations"
+msgstr "Exportation des traductions"
+
+msgid "Page icon"
+msgstr ""
+
+msgid "Icon for {{name}}"
+msgstr "Icône de {{name}}"
 
 msgid "You need to select a module"
 msgstr "Vous devez sélectionner un module"
@@ -90,12 +159,6 @@ msgstr "Oui"
 msgid "No"
 msgstr "Pas de"
 
-msgid "Imported {{total}} translation terms"
-msgstr "Termes de traduction importées {{total}}"
-
-msgid "Unable to import translation terms"
-msgstr "Impossible d'importer les termes de la traduction"
-
 msgid "Add section"
 msgstr "Ajouter une section"
 
@@ -117,12 +180,6 @@ msgstr "Exportation de la page de renvoi"
 msgid "Exporting landing page(s)"
 msgstr "Exportation de page(s) de destination"
 
-msgid "Export JSON translations"
-msgstr "Exportation des traductions en JSON"
-
-msgid "Exporting translations"
-msgstr "Exportation des traductions"
-
 msgid "Move up"
 msgstr "Avancez"
 
@@ -131,9 +188,6 @@ msgstr "Descendre"
 
 msgid "Import landing pages"
 msgstr "Importer des pages de renvoi"
-
-msgid "Import JSON translations"
-msgstr "Importer des traductions JSON"
 
 msgid "Landing page"
 msgstr "Page d'atterrissage"
@@ -340,14 +394,8 @@ msgstr "Modules d'importation"
 msgid "Help"
 msgstr "Aide"
 
-msgid "Close"
-msgstr "Fermer"
-
 msgid "Previous step"
 msgstr "Étape précédente"
-
-msgid "Previous"
-msgstr "Précédent"
 
 msgid "Next step"
 msgstr "Étape suivante"
@@ -357,6 +405,12 @@ msgstr "Suivant"
 
 msgid "Sub step {{position}} of {{total}}"
 msgstr "Sous-étape {{position}} de {{total}}"
+
+msgid "Imported {{total}} translation terms"
+msgstr "Termes de traduction importées {{total}}"
+
+msgid "Unable to import translation terms"
+msgstr "Impossible d'importer les termes de la traduction"
 
 msgid "Welcome"
 msgstr "Bienvenue sur"
@@ -380,9 +434,8 @@ msgid "Distributed under GNU GLPv3"
 msgstr "Distribué sous GNU GLPv3"
 
 msgid ""
-"DHIS2 Training App is a DHIS2 application that aims to provide online "
-"training for end users on common processes performed in DHIS2. The "
-"application contains generic trainings on data entry, data import, "
+"DHIS2 Training App is a DHIS2 application to provide online training for end "
+"users. The application contains generic training on data entry, data import, "
 "generation of visualizations and creation of dashboards. It also allows "
 "administrators to create their own custom tutorials to guide users through "
 "specific data collection processes (e.g. completion of specific data "
@@ -398,16 +451,13 @@ msgstr ""
 "exemple, le remplissage de formulaires de collecte de données spécifiques)."
 
 msgid ""
-"This application has been entirely funded by the WHO Global Malaria "
-"Programme to support countries using DHIS2 in strengthening the collection "
-"and use of health data. The application has been designed by [Lushomo]"
-"(https://lushomo.net) and developed by [EyeSeeTea SL](http://eyeseetea.com). "
-"The source code and release notes can be found at the [WHO GitHub repository]"
-"(https://github.com/WorldHealthOrganization/training-app-blessed). If you "
-"wish to contribute to the development of Training App with new features, "
-"please contact [EyeSeeTea](mailto:hello@eyeseetea.com). To continue "
-"developing the tool in a coordinated manner please always contact also [WHO]"
-"(mailto:integrated-data@who.int)"
+"This application has been funded by the WHO Global Malaria Programme and by "
+"Samaritan’s Purse to support countries using DHIS2 in strengthening the "
+"collection and use of health data. The application has been designed by "
+"[Lushomo](https://lushomo.net) and developed by [EyeSeeTea SL](http://"
+"eyeseetea.com). The source code and release notes can be found at the "
+"[EyeSeetea GitHub repository](https://github.com/EyeSeeTea/training-app-"
+"blessed/releases/)."
 msgstr ""
 "Cette application a été entièrement financée par le Programme mondial de "
 "lutte contre le paludisme de l'OMS pour aider les pays utilisant DHIS2 à "
@@ -422,14 +472,19 @@ msgstr ""
 "contacter également [OMS](mailto:integrated-data@who.int)."
 
 msgid ""
-"*Disclaimer: The WHO has developed this application to support countries "
-"build capacity for health data collection and use. WHO provides a series of "
-"tutorials to support countries to use the WHO DHIS2 standard packages which "
-"can be found in the [WHO Tutorial GitHub repository](https://github.com/"
-"WorldHealthOrganization/DHIS2-tutorials) and can be installed in the "
-"application. WHO provides no assurance as to the validity, accuracy or "
+"If you wish to contribute to the development of Training App with new "
+"features, please contact [EyeSeeTea](mailto:hello@eyeseetea.com)."
+msgstr ""
+
+msgid ""
+"*Disclaimer: The WHO originally developed this application to support "
+"countries build capacity for health data collection and use. WHO provides a "
+"series of tutorials to support countries to use the WHO DHIS2 standard "
+"packages which can be found in the [WHO Tutorial GitHub repository](https://"
+"github.com/WorldHealthOrganization/DHIS2-tutorials) and can be installed in "
+"the application. WHO provides no assurance as to the validity, accuracy or "
 "completeness of any other tutorials built by the application's user "
-"community.*"
+"community..*"
 msgstr ""
 "*Avis de non-responsabilité: L'OMS a développé cette application pour aider "
 "les pays à renforcer leurs capacités de collecte et d'utilisation des "
@@ -443,6 +498,9 @@ msgstr ""
 
 msgid "World Health Organization"
 msgstr "World Health Organization"
+
+msgid "Samaritan’s Purse"
+msgstr ""
 
 msgid "EyeSeeTea"
 msgstr "EyeSeeTea"
@@ -466,15 +524,11 @@ msgid "All your changes will be lost. Are you sure you want to proceed?"
 msgstr ""
 "Toutes vos modifications seront perdues. Êtes-vous sûr de vouloir continuer?"
 
-#, fuzzy
 msgid "New module"
 msgstr "Ajouter un module"
 
 msgid "Continue Tutorial"
 msgstr "Continuer le tutoriel"
-
-msgid "Exit Tutorial"
-msgstr "Sortir du tutoriel"
 
 msgid "Are you sure you want to exit?"
 msgstr "Vous êtes sûr de vouloir sortir?"
@@ -495,24 +549,6 @@ msgstr ""
 "Si vous souhaitez poursuivre la formation, sélectionnez 'Continuer le "
 "tutoriel' ci-dessous ou si vous souhaitez sélectionner un autre tutoriel, "
 "cliquez sur le bouton 'Accueil'."
-
-msgid "Well done!"
-msgstr "Bien joué!"
-
-msgid "You've completed the {{name}} tutorial!"
-msgstr "Vous avez fini le tutoriel {{nom}}!"
-
-msgid "Back to tutorial"
-msgstr "Retour au tutoriel"
-
-msgid "Finish"
-msgstr "Sortir"
-
-msgid "Welcome to training on DHIS2"
-msgstr "Bienvenue dans les tutoriels de formation DHIS2\n"
-
-msgid "What do you want to learn in DHIS2?"
-msgstr "Que voulez-vous apprendre dans DHIS2 aujourd'hui?"
 
 msgid "First load can take a couple of minutes, please wait..."
 msgstr ""
@@ -562,8 +598,8 @@ msgstr "Impossible de supprimer l'étape"
 msgid "Unable to remove page"
 msgstr "Impossible de supprimer la page"
 
-msgid "Permissions"
-msgstr "Permissions"
+msgid "General Settings"
+msgstr "Paramètres généraux"
 
 msgid "Access to Settings"
 msgstr "Accès aux paramètres"
@@ -577,6 +613,12 @@ msgstr "Une liste avec tous les modules existants est visible"
 msgid "The list with all the existing  modules is hidden"
 msgstr "La liste avec tous les modules existants est cachée"
 
+msgid "Customize the landing page"
+msgstr "Personnaliser la page de couverture"
+
+msgid "Update the logo or content"
+msgstr "Mettre à jour le logo ou le contenu"
+
 msgid "There are no unused documents to clean"
 msgstr "Il n'y a pas de documents inutilisés à nettoyer"
 
@@ -585,18 +627,3 @@ msgstr "Il y a {{total}} documents disponibles à nettoyer"
 
 msgid "Training modules"
 msgstr "Modules de formation"
-
-msgid "What did you learn in this tutorial?"
-msgstr "Qu'avez-vous appris dans ce tutoriel?"
-
-msgid "What will this tutorial cover?"
-msgstr "Que couvrira ce tutoriel?"
-
-msgid "Take another tutorial"
-msgstr "Prenez un autre tutoriel"
-
-msgid "Start"
-msgstr "Début"
-
-msgid "Start Tutorial"
-msgstr "Démarrer le tutoriel"

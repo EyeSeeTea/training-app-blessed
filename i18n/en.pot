@@ -5,8 +5,14 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2021-12-13T10:54:04.302Z\n"
-"PO-Revision-Date: 2021-12-13T10:54:04.302Z\n"
+"POT-Creation-Date: 2025-04-07T11:18:42.330Z\n"
+"PO-Revision-Date: 2025-04-07T11:18:42.330Z\n"
+
+msgid "Welcome to training on DHIS2"
+msgstr ""
+
+msgid "What do you want to learn in DHIS2?"
+msgstr ""
 
 msgid "Field {{field}} cannot be blank"
 msgstr ""
@@ -17,13 +23,76 @@ msgstr ""
 msgid "All steps need to have at least one page"
 msgstr ""
 
-msgid "Field {{field}} needs to be a valid url"
-msgstr ""
-
 msgid "Field {{field}} is not valid"
 msgstr ""
 
+msgid "Well done!"
+msgstr ""
+
+msgid "You've completed the {{name}} tutorial!"
+msgstr ""
+
+msgid "Back to tutorial"
+msgstr ""
+
+msgid "Finish"
+msgstr ""
+
+msgid "What did you learn in this tutorial?"
+msgstr ""
+
+msgid "What will this tutorial cover?"
+msgstr ""
+
+msgid "Previous"
+msgstr ""
+
+msgid "Take another tutorial"
+msgstr ""
+
+msgid "Start"
+msgstr ""
+
+msgid "Exit Tutorial"
+msgstr ""
+
+msgid "Start Tutorial"
+msgstr ""
+
 msgid "Tutorial"
+msgstr ""
+
+msgid "done"
+msgstr ""
+
+msgid "Export JSON translations"
+msgstr ""
+
+msgid "Import JSON translations"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Home page logo"
+msgstr ""
+
+msgid "Customize landing page text"
+msgstr ""
+
+msgid "Welcome message"
+msgstr ""
+
+msgid "Module selection"
+msgstr ""
+
+msgid "Exporting translations"
+msgstr ""
+
+msgid "Page icon"
+msgstr ""
+
+msgid "Icon for {{name}}"
 msgstr ""
 
 msgid "You need to select a module"
@@ -89,12 +158,6 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-msgid "Imported {{total}} translation terms"
-msgstr ""
-
-msgid "Unable to import translation terms"
-msgstr ""
-
 msgid "Add section"
 msgstr ""
 
@@ -116,12 +179,6 @@ msgstr ""
 msgid "Exporting landing page(s)"
 msgstr ""
 
-msgid "Export JSON translations"
-msgstr ""
-
-msgid "Exporting translations"
-msgstr ""
-
 msgid "Move up"
 msgstr ""
 
@@ -129,9 +186,6 @@ msgid "Move down"
 msgstr ""
 
 msgid "Import landing pages"
-msgstr ""
-
-msgid "Import JSON translations"
 msgstr ""
 
 msgid "Landing page"
@@ -334,13 +388,7 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
-msgid "Close"
-msgstr ""
-
 msgid "Previous step"
-msgstr ""
-
-msgid "Previous"
 msgstr ""
 
 msgid "Next step"
@@ -350,6 +398,12 @@ msgid "Next"
 msgstr ""
 
 msgid "Sub step {{position}} of {{total}}"
+msgstr ""
+
+msgid "Imported {{total}} translation terms"
+msgstr ""
+
+msgid "Unable to import translation terms"
 msgstr ""
 
 msgid "Welcome"
@@ -374,41 +428,44 @@ msgid "Distributed under GNU GLPv3"
 msgstr ""
 
 msgid ""
-"DHIS2 Training App is a DHIS2 application that aims to provide online "
-"training for end users on common processes performed in DHIS2. The "
-"application contains generic trainings on data entry, data import, "
-"generation of visualizations and creation of dashboards. It also allows "
-"administrators to create their own custom tutorials to guide users through "
-"specific data collection processes (e.g. completion of specific data "
-"collection forms)."
+"DHIS2 Training App is a DHIS2 application to provide online training for "
+"end users. The application contains generic training on data entry, data "
+"import, generation of visualizations and creation of dashboards. It also "
+"allows administrators to create their own custom tutorials to guide users "
+"through specific data collection processes (e.g. completion of specific "
+"data collection forms)."
 msgstr ""
 
 msgid ""
-"This application has been entirely funded by the WHO Global Malaria "
-"Programme to support countries using DHIS2 in strengthening the collection "
-"and use of health data. The application has been designed by "
+"This application has been funded by the WHO Global Malaria Programme and by "
+"Samaritan’s Purse to support countries using DHIS2 in strengthening the "
+"collection and use of health data. The application has been designed by "
 "[Lushomo](https://lushomo.net) and developed by [EyeSeeTea "
 "SL](http://eyeseetea.com). The source code and release notes can be found "
-"at the [WHO GitHub "
-"repository](https://github.com/WorldHealthOrganization/training-app-blessed)"
-". If you wish to contribute to the development of Training App with new "
-"features, please contact [EyeSeeTea](mailto:hello@eyeseetea.com). To "
-"continue developing the tool in a coordinated manner please always contact "
-"also [WHO](mailto:integrated-data@who.int)"
+"at the [EyeSeetea GitHub "
+"repository](https://github.com/EyeSeeTea/training-app-blessed/releases/)."
 msgstr ""
 
 msgid ""
-"*Disclaimer: The WHO has developed this application to support countries "
-"build capacity for health data collection and use. WHO provides a series of "
-"tutorials to support countries to use the WHO DHIS2 standard packages which "
-"can be found in the [WHO Tutorial GitHub "
+"If you wish to contribute to the development of Training App with new "
+"features, please contact [EyeSeeTea](mailto:hello@eyeseetea.com)."
+msgstr ""
+
+msgid ""
+"*Disclaimer: The WHO originally developed this application to support "
+"countries build capacity for health data collection and use. WHO provides a "
+"series of tutorials to support countries to use the WHO DHIS2 standard "
+"packages which can be found in the [WHO Tutorial GitHub "
 "repository](https://github.com/WorldHealthOrganization/DHIS2-tutorials) and "
 "can be installed in the application. WHO provides no assurance as to the "
 "validity, accuracy or completeness of any other tutorials built by the "
-"application's user community.*"
+"application's user community..*"
 msgstr ""
 
 msgid "World Health Organization"
+msgstr ""
+
+msgid "Samaritan’s Purse"
 msgstr ""
 
 msgid "EyeSeeTea"
@@ -438,9 +495,6 @@ msgstr ""
 msgid "Continue Tutorial"
 msgstr ""
 
-msgid "Exit Tutorial"
-msgstr ""
-
 msgid "Are you sure you want to exit?"
 msgstr ""
 
@@ -453,24 +507,6 @@ msgid ""
 "If you would like to continue with training, select 'Continue tutorial' "
 "below or if you would like to select a different tutorial, click on the "
 "'Home' button."
-msgstr ""
-
-msgid "Well done!"
-msgstr ""
-
-msgid "You've completed the {{name}} tutorial!"
-msgstr ""
-
-msgid "Back to tutorial"
-msgstr ""
-
-msgid "Finish"
-msgstr ""
-
-msgid "Welcome to training on DHIS2"
-msgstr ""
-
-msgid "What do you want to learn in DHIS2?"
 msgstr ""
 
 msgid "First load can take a couple of minutes, please wait..."
@@ -518,7 +554,7 @@ msgstr ""
 msgid "Unable to remove page"
 msgstr ""
 
-msgid "Permissions"
+msgid "General Settings"
 msgstr ""
 
 msgid "Access to Settings"
@@ -533,6 +569,12 @@ msgstr ""
 msgid "The list with all the existing  modules is hidden"
 msgstr ""
 
+msgid "Customize the landing page"
+msgstr ""
+
+msgid "Update the logo or content"
+msgstr ""
+
 msgid "There are no unused documents to clean"
 msgstr ""
 
@@ -540,19 +582,4 @@ msgid "There are {{total}} documents available to clean"
 msgstr ""
 
 msgid "Training modules"
-msgstr ""
-
-msgid "What did you learn in this tutorial?"
-msgstr ""
-
-msgid "What will this tutorial cover?"
-msgstr ""
-
-msgid "Take another tutorial"
-msgstr ""
-
-msgid "Start"
-msgstr ""
-
-msgid "Start Tutorial"
 msgstr ""

@@ -1,9 +1,5 @@
-import React, { useCallback } from "react";
-import styled from "styled-components";
-import i18n from "../../../locales";
-import { MainButton } from "../../components/main-button/MainButton";
-import { MarkdownViewer } from "../../components/markdown-viewer/MarkdownViewer";
-import { Modal, ModalContent, ModalFooter } from "../../components/modal";
+import { useCallback } from "react";
+import { WelcomeTraining } from "../../../tutorial-module/WelcomeTraining";
 import { useAppContext } from "../../contexts/app-context";
 
 export const WelcomePage = () => {
@@ -29,37 +25,13 @@ export const WelcomePage = () => {
     if (!module) return null;
 
     return (
-        <StyledModal onMinimize={minimize} onClose={exitTutorial} onGoHome={goHome} centerChildren={true}>
-            <WelcomePageContent welcome={translate(module.contents.welcome)} />
-            <ModalFooter>
-                <MainButton color="secondary" onClick={exitTutorial}>
-                    {i18n.t("Exit Tutorial")}
-                </MainButton>
-                <MainButton color="primary" onClick={startTutorial}>
-                    {i18n.t("Start Tutorial")}
-                </MainButton>
-            </ModalFooter>
-        </StyledModal>
-    );
-};
-
-const StyledModal = styled(Modal)`
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-
-    ${ModalContent} {
-        padding-top: 25px;
-        height: 100%;
-        max-height: unset;
-    }
-`;
-
-export const WelcomePageContent: React.FC<{ welcome: string }> = ({ welcome }) => {
-    return (
-        <ModalContent>
-            <MarkdownViewer source={welcome} center={true} />
-        </ModalContent>
+        <WelcomeTraining
+            module={module}
+            onExit={exitTutorial}
+            onHome={goHome}
+            onMinimize={minimize}
+            onStart={startTutorial}
+            translate={translate}
+        />
     );
 };

@@ -1,7 +1,7 @@
 import { useConfig } from "@dhis2/app-runtime";
 import React, { useCallback } from "react";
 import styled from "styled-components";
-import i18n from "../../../locales";
+import i18n from "../../../utils/i18n";
 import { MainButton } from "../../components/main-button/MainButton";
 import { MarkdownViewer } from "../../components/markdown-viewer/MarkdownViewer";
 import { Modal, ModalContent, ModalFooter } from "../../components/modal";

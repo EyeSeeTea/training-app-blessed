@@ -1,6 +1,5 @@
 import { MultipleDropdown } from "@eyeseetea/d2-ui-components";
-import i18n from "@eyeseetea/d2-ui-components/locales";
-import { TextField } from "@material-ui/core";
+import i18n from "../../../../utils/i18n";
 import { Dictionary } from "lodash";
 import React, { ChangeEvent, useCallback, useState } from "react";
 import styled from "styled-components";
@@ -10,6 +9,7 @@ import { updateTranslation } from "../../../../domain/helpers/TrainingModuleHelp
 import { ComponentParameter } from "../../../../types/utils";
 import { imagesMimeType } from "../../../../utils/files";
 import { useAppContext } from "../../../contexts/app-context";
+import TextFieldOnBlur from "../../form/TextFieldOnBlur";
 import { ModuleCreationWizardStepProps } from "./index";
 
 export const GeneralInfoStep: React.FC<ModuleCreationWizardStepProps> = ({ module, onChange, isEdit }) => {
@@ -62,7 +62,7 @@ export const GeneralInfoStep: React.FC<ModuleCreationWizardStepProps> = ({ modul
         (event: ChangeEvent<HTMLInputElement>) => {
             const file = event.target.files ? event.target.files[0] : undefined;
             file?.arrayBuffer().then(async data => {
-                const icon = await usecases.instance.uploadFile(data, file.name);
+                const icon = await usecases.document.uploadFile(data, file.name);
                 onChange(module => ({ ...module, icon }));
             });
         },
@@ -72,7 +72,7 @@ export const GeneralInfoStep: React.FC<ModuleCreationWizardStepProps> = ({ modul
     return (
         <React.Fragment>
             <Row>
-                <TextField
+                <TextFieldOnBlur
                     disabled={!!isEdit}
                     fullWidth={true}
                     label={i18n.t("Code *")}
@@ -84,7 +84,7 @@ export const GeneralInfoStep: React.FC<ModuleCreationWizardStepProps> = ({ modul
             </Row>
 
             <Row>
-                <TextField
+                <TextFieldOnBlur
                     fullWidth={true}
                     label={i18n.t("Name *")}
                     value={module.name.referenceValue}
@@ -122,7 +122,7 @@ export const GeneralInfoStep: React.FC<ModuleCreationWizardStepProps> = ({ modul
             <Row>
                 <h3>{i18n.t("Launch application")}</h3>
 
-                <TextField
+                <TextFieldOnBlur
                     fullWidth={true}
                     label={i18n.t("DHIS2 application")}
                     value={module.dhisLaunchUrl}
@@ -181,4 +181,8 @@ const dhisVersions = [
     { value: "2.35", text: "2.35" },
     { value: "2.36", text: "2.36" },
     { value: "2.37", text: "2.37" },
+    { value: "2.38", text: "2.38" },
+    { value: "2.39", text: "2.39" },
+    { value: "2.40", text: "2.40" },
+    { value: "2.41", text: "2.41" },
 ];

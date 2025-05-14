@@ -1,6 +1,4 @@
 import { D2Api, DataStore } from "../../../types/d2-api";
-import { Instance } from "../../entities/Instance";
-import { getD2APiFromInstance } from "../../utils/d2-api";
 import { dataStoreNamespace } from "./Namespaces";
 import { StorageClient } from "./StorageClient";
 
@@ -8,9 +6,9 @@ export class DataStoreStorageClient extends StorageClient {
     private api: D2Api;
     private dataStore: DataStore;
 
-    constructor(type: "user" | "global", instance: Instance) {
+    constructor(type: "user" | "global", api: D2Api) {
         super();
-        this.api = getD2APiFromInstance(instance);
+        this.api = api;
         this.dataStore =
             type === "user" ? this.api.userDataStore(dataStoreNamespace) : this.api.dataStore(dataStoreNamespace);
     }

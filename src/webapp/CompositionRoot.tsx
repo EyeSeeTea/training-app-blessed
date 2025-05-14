@@ -8,18 +8,12 @@ import { CompleteUserProgressUseCase } from "../domain/usecases/CompleteUserProg
 import { DeleteDocumentsUseCase } from "../domain/usecases/DeleteDocumentsUseCase";
 import { DeleteLandingChildUseCase } from "../domain/usecases/DeleteLandingChildUseCase";
 import { DeleteModulesUseCase } from "../domain/usecases/DeleteModulesUseCase";
-import { ExportLandingPagesTranslationsUseCase } from "../domain/usecases/ExportLandingPagesTranslationsUseCase";
 import { ExportLandingPagesUseCase } from "../domain/usecases/ExportLandingPagesUseCase";
 import { ExportModulesUseCase } from "../domain/usecases/ExportModulesUseCase";
-import { ExportModuleTranslationsUseCase } from "../domain/usecases/ExportModuleTranslationsUseCase";
 import { GetModuleUseCase } from "../domain/usecases/GetModuleUseCase";
-import { GetSettingsPermissionsUseCase } from "../domain/usecases/GetSettingsPermissionsUseCase";
-import { GetShowAllModulesUseCase } from "../domain/usecases/GetShowAllModulesUseCase";
-import { ImportLandingPagesTranslationsUseCase } from "../domain/usecases/ImportLandingPagesTranslationsUseCase";
 import { SwapLandingChildOrderUseCase } from "../domain/usecases/SwapLandingChildOrderUseCase";
 import { ImportLandingPagesUseCase } from "../domain/usecases/ImportLandingPagesUseCase";
 import { ImportModulesUseCase } from "../domain/usecases/ImportModulesUseCase";
-import { ImportModuleTranslationsUseCase } from "../domain/usecases/ImportModuleTranslationsUseCase";
 import { InstallAppUseCase } from "../domain/usecases/InstallAppUseCase";
 import { ListDanglingDocumentsUseCase } from "../domain/usecases/ListDanglingDocumentsUseCase";
 import { ListInstalledAppsUseCase } from "../domain/usecases/ListInstalledAppsUseCase";
@@ -27,19 +21,30 @@ import { ListLandingChildrenUseCase } from "../domain/usecases/ListLandingChildr
 import { ListModulesUseCase } from "../domain/usecases/ListModulesUseCase";
 import { ResetModuleDefaultValueUseCase } from "../domain/usecases/ResetModuleDefaultValueUseCase";
 import { SearchUsersUseCase } from "../domain/usecases/SearchUsersUseCase";
-import { SetShowAllModulesUseCase } from "../domain/usecases/SetShowAllModulesUseCase";
 import { SwapModuleOrderUseCase } from "../domain/usecases/SwapModuleOrderUseCase";
 import { UpdateLandingChildUseCase } from "../domain/usecases/UpdateLandingChildUseCase";
 import { UpdateModuleUseCase } from "../domain/usecases/UpdateModuleUseCase";
-import { UpdateSettingsPermissionsUseCase } from "../domain/usecases/UpdateSettingsPermissionsUseCase";
 import { UpdateUserProgressUseCase } from "../domain/usecases/UpdateUserProgressUseCase";
 import { UploadFileUseCase } from "../domain/usecases/UploadFileUseCase";
+import { GetConfigUseCase } from "../domain/usecases/GetConfigUseCase";
+import { Dhis2DocumentRepository } from "../data/repositories/Dhis2DocumentRepository";
+import { SaveConfigUseCase } from "../domain/usecases/SaveConfigUseCase";
+import { ExtractTranslationsUseCase } from "../domain/usecases/ExtractTranslationsUseCase";
+import { ImportTranslationsUseCase } from "../domain/usecases/ImportTranslationsUseCase";
+import { D2Api } from "../types/d2-api";
+import { GetCurrentUserUseCase } from "../domain/usecases/GetCurrentUserUseCase";
 
-export function getCompositionRoot(baseUrl: string) {
-    const configRepository = new Dhis2ConfigRepository(baseUrl);
-    const instanceRepository = new InstanceDhisRepository(configRepository);
-    const trainingModuleRepository = new TrainingModuleDefaultRepository(configRepository, instanceRepository);
-    const landingPageRepository = new LandingPageDefaultRepository(configRepository, instanceRepository);
+export function getCompositionRoot(api: D2Api) {
+    const configRepository = new Dhis2ConfigRepository(api);
+    const instanceRepository = new InstanceDhisRepository(api);
+    const documentRepository = new Dhis2DocumentRepository(api);
+    const trainingModuleRepository = new TrainingModuleDefaultRepository(
+        api,
+        configRepository,
+        instanceRepository,
+        documentRepository
+    );
+    const landingPageRepository = new LandingPageDefaultRepository(api, documentRepository);
 
     return {
         usecases: {
@@ -52,8 +57,8 @@ export function getCompositionRoot(baseUrl: string) {
                 resetDefaultValue: new ResetModuleDefaultValueUseCase(trainingModuleRepository),
                 export: new ExportModulesUseCase(trainingModuleRepository),
                 import: new ImportModulesUseCase(trainingModuleRepository),
-                exportTranslations: new ExportModuleTranslationsUseCase(trainingModuleRepository),
-                importTranslations: new ImportModuleTranslationsUseCase(trainingModuleRepository),
+                importTranslations: new ImportTranslationsUseCase(trainingModuleRepository),
+                extractTranslations: new ExtractTranslationsUseCase(trainingModuleRepository),
             }),
             landings: getExecute({
                 list: new ListLandingChildrenUseCase(landingPageRepository),
@@ -61,31 +66,34 @@ export function getCompositionRoot(baseUrl: string) {
                 delete: new DeleteLandingChildUseCase(landingPageRepository),
                 export: new ExportLandingPagesUseCase(landingPageRepository),
                 import: new ImportLandingPagesUseCase(landingPageRepository),
-                exportTranslations: new ExportLandingPagesTranslationsUseCase(landingPageRepository),
-                importTranslations: new ImportLandingPagesTranslationsUseCase(landingPageRepository),
                 swapOrder: new SwapLandingChildOrderUseCase(landingPageRepository),
+                importTranslations: new ImportTranslationsUseCase(landingPageRepository),
+                extractTranslations: new ExtractTranslationsUseCase(landingPageRepository),
             }),
             progress: getExecute({
                 update: new UpdateUserProgressUseCase(trainingModuleRepository),
                 complete: new CompleteUserProgressUseCase(trainingModuleRepository),
             }),
             config: getExecute({
-                getSettingsPermissions: new GetSettingsPermissionsUseCase(configRepository),
-                updateSettingsPermissions: new UpdateSettingsPermissionsUseCase(configRepository),
-                getShowAllModules: new GetShowAllModulesUseCase(configRepository),
-                setShowAllModules: new SetShowAllModulesUseCase(configRepository),
+                get: new GetConfigUseCase(configRepository),
+                save: new SaveConfigUseCase(configRepository),
+                importTranslations: new ImportTranslationsUseCase(configRepository),
+                extractTranslations: new ExtractTranslationsUseCase(configRepository),
             }),
             user: getExecute({
                 checkSettingsPermissions: new CheckSettingsPermissionsUseCase(configRepository),
                 checkAdminAuthority: new CheckAdminAuthorityUseCase(configRepository),
+                getCurrent: new GetCurrentUserUseCase(configRepository),
             }),
             instance: getExecute({
-                uploadFile: new UploadFileUseCase(instanceRepository),
                 installApp: new InstallAppUseCase(instanceRepository, trainingModuleRepository),
                 searchUsers: new SearchUsersUseCase(instanceRepository),
                 listInstalledApps: new ListInstalledAppsUseCase(instanceRepository),
-                listDanglingDocuments: new ListDanglingDocumentsUseCase(instanceRepository),
-                deleteDocuments: new DeleteDocumentsUseCase(instanceRepository),
+            }),
+            document: getExecute({
+                listDangling: new ListDanglingDocumentsUseCase(documentRepository),
+                uploadFile: new UploadFileUseCase(documentRepository),
+                delete: new DeleteDocumentsUseCase(documentRepository),
             }),
         },
     };

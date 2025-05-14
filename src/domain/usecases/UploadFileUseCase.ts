@@ -1,10 +1,10 @@
 import { UseCase } from "../../webapp/CompositionRoot";
-import { InstanceRepository } from "../repositories/InstanceRepository";
+import { DocumentRepository } from "../repositories/DocumentRepository";
 
 export class UploadFileUseCase implements UseCase {
-    constructor(private instanceRepository: InstanceRepository) {}
+    constructor(private documentRepository: DocumentRepository) {}
 
     public async execute(data: ArrayBuffer, name: string): Promise<string> {
-        return this.instanceRepository.uploadFile(data, { name });
+        return this.documentRepository.uploadFile(data, { name });
     }
 }
