@@ -1,5 +1,9 @@
 import { Codec, GetSchemaType, Schema } from "../../utils/codec";
 import { TranslatableText, TranslatableTextModel } from "./TranslatableText";
+import { SharedProperties, SharedPropertiesModel } from "./Ref";
+import { User, validateUserPermission } from "../../data/entities/User";
+import { generateUid } from "../../data/utils/uid";
+import _ from "lodash";
 
 export const LandingPageNodeTypeModel = Schema.oneOf([
     Schema.exact("root"),
@@ -21,6 +25,7 @@ export interface LandingNode {
     content: TranslatableText | undefined;
     modules: string[];
     children: LandingNode[];
+    permissions: SharedProperties;
 }
 
 export const LandingNodeModel: Codec<LandingNode> = Schema.object({
@@ -34,6 +39,7 @@ export const LandingNodeModel: Codec<LandingNode> = Schema.object({
     content: Schema.optional(TranslatableTextModel),
     modules: Schema.optionalSafe(Schema.array(Schema.string), []),
     children: Schema.lazy(() => Schema.array(LandingNodeModel)),
+    permissions: SharedPropertiesModel,
 });
 
 export interface OrderedLandingNode extends LandingNode {
@@ -47,3 +53,34 @@ export const buildOrderedLandingNodes = (nodes: LandingNode[]): OrderedLandingNo
         children: buildOrderedLandingNodes(node.children),
     }));
 };
+
+export function getUserRootLandings(nodes: LandingNode[], user: User) {
+    return nodes.filter(node => {
+        return node.type === "root" && validateUserPermission(node.permissions, "read", user);
+    });
+}
+
+export function getDefaultLandingNode(props: { type: LandingNodeType; parent: string; order: number }): LandingNode {
+    const { type, parent, order } = props;
+    return {
+        id: generateUid(),
+        type,
+        parent,
+        icon: "",
+        order,
+        name: { key: "", referenceValue: "", translations: {} },
+        title: undefined,
+        content: undefined,
+        children: [],
+        modules: [],
+        permissions: {
+            publicAccess: "r-------",
+            userAccesses: [],
+            userGroupAccesses: [],
+        },
+    };
+}
+
+export function flattenNodes(nodes: LandingNode[]): LandingNode[] {
+    return _.flatMap(nodes, row => [row, ...flattenNodes(row.children)]);
+}

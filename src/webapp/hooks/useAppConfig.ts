@@ -4,6 +4,7 @@ import _ from "lodash";
 import { useAppContext } from "../contexts/app-context";
 import { Config, getDefaultConfig } from "../../domain/entities/Config";
 import { Maybe } from "../../types/utils";
+import { PartialConfig } from "../../domain/usecases/SaveConfigUseCase";
 
 export function useAppConfig() {
     const { usecases } = useAppContext();
@@ -12,18 +13,27 @@ export function useAppConfig() {
     const [hasLoaded, setHasLoaded] = useState(false);
     const logoInfo = useMemo(() => getLogoInfo(appConfig?.logo), [appConfig]);
 
-    const save = React.useCallback(
-        (config: Partial<Config>) => {
-            return usecases.config.save(config).then(setAppConfig);
-        },
+    const reloadConfig = React.useCallback(
+        async () =>
+            usecases.config.get().then(config => {
+                setAppConfig(config);
+                return config;
+            }),
         [usecases.config]
+    );
+
+    const save = React.useCallback(
+        async (config: PartialConfig) => {
+            await usecases.config.save(config);
+            await reloadConfig();
+        },
+        [usecases.config, reloadConfig]
     );
 
     React.useEffect(() => {
         const fetchData = async () => {
             try {
-                const config = await usecases.config.get();
-                setAppConfig(config);
+                const config = await reloadConfig();
                 const hasAccess = await usecases.user.checkSettingsPermissions(config);
                 setHasSettingsAccess(hasAccess);
             } catch (error) {
@@ -34,7 +44,7 @@ export function useAppConfig() {
         };
 
         fetchData();
-    }, [usecases.config, usecases.user]);
+    }, [usecases.config, usecases.user, reloadConfig]);
 
     return {
         appConfig,
@@ -42,6 +52,7 @@ export function useAppConfig() {
         hasSettingsAccess,
         logoInfo,
         hasLoaded,
+        reloadConfig,
     };
 }
 
@@ -50,7 +61,7 @@ export interface LogoInfo {
     logoText: string;
 }
 
-function getLogoInfo(logo?: Maybe<string>): LogoInfo {
+export function getLogoInfo(logo?: Maybe<string>): LogoInfo {
     const logoPath = logo || process.env["REACT_APP_LOGO_PATH"] || "img/logo-eyeseetea.png";
     const filename = logoPath.split("/").reverse()[0] || "";
     const name = filename.substring(0, filename.lastIndexOf("."));

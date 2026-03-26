@@ -1,40 +1,54 @@
-import { isEmpty, isEqual } from "lodash";
-
 import { UseCase } from "../../webapp/CompositionRoot";
 import { ConfigRepository } from "../repositories/ConfigRepository";
-import { Maybe } from "../../types/utils";
 import { CustomText, getDefaultCustomText } from "../entities/CustomText";
+import { Config } from "../entities/Config";
+import { Permission } from "../entities/Permission";
+import { Maybe } from "../../types/utils";
 import { TranslatableText } from "../entities/TranslatableText";
-import { getMergedConfig } from "./GetConfigUseCase";
 
-export type CustomTextForm = {
-    rootTitle?: Maybe<TranslatableText>;
-    rootSubtitle?: Maybe<TranslatableText>;
+export type PartialConfig = Pick<Partial<Config>, "showAllModules" | "logo" | "containerConfig"> & {
+    settingsPermissions?: Partial<Permission>;
+    customText?: Partial<CustomText>;
 };
 
 export class SaveConfigUseCase implements UseCase {
     constructor(private configRepository: ConfigRepository) {}
 
-    public async execute(config: Partial<any>): Promise<any> {
-        const { customText, ...rest } = config;
-
-        const configUpdates = {
-            ...rest,
-            ...(config.customText && { customText: this.cleanCustomText(customText) }),
-        };
-
-        const newConfig = await this.configRepository.save(configUpdates);
-        return getMergedConfig(newConfig);
-    }
-
-    private cleanCustomText(customText: Partial<CustomText>): CustomTextForm {
+    public async execute(update: PartialConfig): Promise<void> {
+        const config = await this.configRepository.get();
         const defaultCustomText = getDefaultCustomText();
 
-        return Object.entries(customText).reduce((acc, [key, value]) => {
-            if (isEmpty(value)) return acc;
-            else if (isEqual(value, defaultCustomText[key as keyof CustomText]) || !value.referenceValue)
-                return { ...acc, [key]: undefined };
-            else return { ...acc, [key]: value };
-        }, {});
+        const updatedConfig: Config = {
+            settingsPermissions: {
+                users: update.settingsPermissions?.users ?? config.settingsPermissions?.users ?? [],
+                userGroups: update.settingsPermissions?.userGroups ?? config.settingsPermissions?.userGroups ?? [],
+            },
+            showAllModules: update.showAllModules ?? config.showAllModules,
+            logo: update.logo ?? config.logo,
+            customText: {
+                rootTitle:
+                    this.normalizeTextField(update.customText?.rootTitle, defaultCustomText.rootTitle) ??
+                    config.customText.rootTitle,
+                rootSubtitle:
+                    this.normalizeTextField(update.customText?.rootSubtitle, defaultCustomText.rootSubtitle) ??
+                    config.customText.rootSubtitle,
+            },
+            containerConfig: update.containerConfig ?? config.containerConfig,
+        };
+
+        return await this.configRepository.save(updatedConfig);
+    }
+
+    private normalizeTextField(
+        field: Maybe<TranslatableText>,
+        defaultValue: TranslatableText
+    ): Maybe<TranslatableText> {
+        if (!field) return undefined;
+
+        if (field.referenceValue?.trim() === "") {
+            return defaultValue;
+        }
+
+        return field;
     }
 }

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import { FinalTraining } from "../../../tutorial-module/FinalTraining";
+import { FinalTraining } from "../../../tutorial-module/training-module/FinalTraining";
 import { useAppContext } from "../../contexts/app-context";
 
 export const FinalPage: React.FC = () => {

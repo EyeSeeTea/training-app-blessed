@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Traning App - UI Interface\n"
-"POT-Creation-Date: 2025-04-07T11:18:42.330Z\n"
+"POT-Creation-Date: 2026-03-10T08:57:33.873Z\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,23 +26,32 @@ msgstr "Toutes les étapes doivent avoir au moins une page"
 msgid "Field {{field}} is not valid"
 msgstr "Le champ {{field}} n'est pas valide"
 
-msgid "Well done!"
-msgstr "Bien joué!"
+msgid "Back"
+msgstr "Arrière"
 
-msgid "You've completed the {{name}} tutorial!"
-msgstr "Vous avez fini le tutoriel {{nom}}!"
+msgid "Settings page"
+msgstr "Paramètres"
 
-msgid "Back to tutorial"
-msgstr "Retour au tutoriel"
+msgid "Home"
+msgstr "Accueil"
 
-msgid "Finish"
-msgstr "Sortir"
+msgid "help"
+msgstr ""
+
+msgid "Exit Tutorial"
+msgstr "Sortir du tutoriel"
+
+msgid "Start Tutorial"
+msgstr "Démarrer le tutoriel"
 
 msgid "What did you learn in this tutorial?"
 msgstr "Qu'avez-vous appris dans ce tutoriel?"
 
 msgid "What will this tutorial cover?"
 msgstr "Que couvrira ce tutoriel?"
+
+msgid "Back to tutorial"
+msgstr "Retour au tutoriel"
 
 msgid "Previous"
 msgstr "Précédent"
@@ -53,11 +62,21 @@ msgstr "Prenez un autre tutoriel"
 msgid "Start"
 msgstr "Début"
 
-msgid "Exit Tutorial"
-msgstr "Sortir du tutoriel"
+msgid "Well done!"
+msgstr "Bien joué!"
 
-msgid "Start Tutorial"
-msgstr "Démarrer le tutoriel"
+msgid "You've completed the {{name}} tutorial!"
+msgstr "Vous avez fini le tutoriel {{nom}}!"
+
+msgid "Finish"
+msgstr "Sortir"
+
+#, fuzzy
+msgid "Expand panel"
+msgstr "Agrandir la fenêtre"
+
+msgid "Collapse panel"
+msgstr ""
 
 msgid "Tutorial"
 msgstr "Tutoriels"
@@ -65,26 +84,56 @@ msgstr "Tutoriels"
 msgid "done"
 msgstr "Fait"
 
-msgid "Export JSON translations"
-msgstr "Exportation des traductions en JSON"
+msgid "Container Configuration"
+msgstr ""
 
-msgid "Import JSON translations"
-msgstr "Importer des traductions JSON"
+msgid "Type"
+msgstr ""
+
+msgid "Position"
+msgstr "Position"
+
+msgid "Width"
+msgstr ""
+
+msgid "Unit"
+msgstr ""
+
+msgid "Collapse Mode"
+msgstr ""
+
+msgid "Dialog"
+msgstr ""
+
+msgid "Side bar"
+msgstr ""
+
+msgid "Left"
+msgstr ""
+
+msgid "Right"
+msgstr ""
 
 msgid "Close"
 msgstr "Fermer"
 
-msgid "Home page logo"
-msgstr "Logo de la page d'accueil"
-
-msgid "Customize landing page text"
-msgstr "Personnaliser le texte de la page d'accueil"
+msgid "Logo"
+msgstr ""
 
 msgid "Welcome message"
 msgstr "Message de bienvenue"
 
 msgid "Module selection"
 msgstr "Sélection du module"
+
+msgid "Export JSON translations"
+msgstr "Exportation des traductions en JSON"
+
+msgid "Import JSON translations"
+msgstr "Importer des traductions JSON"
+
+msgid "Customize main landing page"
+msgstr "Personnaliser la page d'accueil principale"
 
 msgid "Exporting translations"
 msgstr "Exportation des traductions"
@@ -159,6 +208,9 @@ msgstr "Oui"
 msgid "No"
 msgstr "Pas de"
 
+msgid "Access to landing page"
+msgstr "Accès à la page d’atterrissage"
+
 msgid "Add section"
 msgstr "Ajouter une section"
 
@@ -170,6 +222,9 @@ msgstr "Ajouter une catégorie"
 
 msgid "Edit"
 msgstr "Modifier"
+
+msgid "Sharing settings"
+msgstr "Paramètres de partage"
 
 msgid "Delete"
 msgstr "Supprimer"
@@ -210,17 +265,49 @@ msgstr "Sauvez"
 msgid "Uploading file..."
 msgstr "Téléchargement du fichier..."
 
-msgid "Home"
-msgstr "Accueil"
+msgid "There are pending migrations"
+msgstr ""
+
+msgid "Migrations finished successfully, you may now continue to the app"
+msgstr ""
+
+msgid ""
+"There has been an error. You can either retry or contact your administrator "
+"if you think there has been an un recoverable error"
+msgstr ""
+
+msgid "Migrate instance"
+msgstr ""
+
+msgid "Migrating..."
+msgstr ""
+
+msgid "Continue to the App"
+msgstr "Continuer vers l’application"
+
+msgid ""
+"The app needs to run pending migrations (from version {{instanceVersion}} to "
+"version {{appVersion}}) in order to continue. This may take a long time, "
+"make sure the process is not interrupted."
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "Continue to the app anyway"
+msgstr ""
+
+msgid ""
+"The database version ({{instanceVersion}}) is greater than the app version "
+"({{appVersion}}), cannot continue. Please contact the administrator to "
+"update the app."
+msgstr ""
 
 msgid "Settings"
 msgstr "Paramètres"
 
 msgid "About"
 msgstr "À propos de"
-
-msgid "Back"
-msgstr "Arrière"
 
 msgid "Move window"
 msgstr "Déplacer la fenêtre"
@@ -313,14 +400,8 @@ msgstr "Êtes-vous sûr de vouloir supprimer la page sélectionnée?"
 msgid "Delete page"
 msgstr "Supprimer la page"
 
-msgid "Add new page"
-msgstr "Ajouter une nouvelle page"
-
 msgid "Edit step"
 msgstr "Étape d'édition"
-
-msgid "Edit contents of {{name}}"
-msgstr "Modifier le contenu de {{nom}}"
 
 msgid "Installing application"
 msgstr "Installation de l'application"
@@ -344,19 +425,6 @@ msgstr "Réinitialiser l'application aux paramètres d'usine"
 
 msgid "Exporting module(s)"
 msgstr "Module(s) d'exportation"
-
-msgid "App is not installed in this instance"
-msgstr "L'application n'est pas installée dans ce cas"
-
-msgid "Module does not support this DHIS2 version"
-msgstr "Le module ne supporte pas cette version du DHIS2"
-
-msgid ""
-"There's a new version of this module, please reset to default values to "
-"update"
-msgstr ""
-"Il y a une nouvelle version de ce module, s'il vous plaît réinitialiser aux "
-"valeurs par défaut pour mettre à jour"
 
 msgid "Add module"
 msgstr "Ajouter un module"
@@ -390,6 +458,93 @@ msgstr "Module d'exportation"
 
 msgid "Import modules"
 msgstr "Modules d'importation"
+
+msgid "App is not installed in this instance"
+msgstr "L'application n'est pas installée dans ce cas"
+
+msgid "Module does not support this DHIS2 version"
+msgstr "Le module ne supporte pas cette version du DHIS2"
+
+msgid ""
+"There's a new version of this module, please reset to default values to "
+"update"
+msgstr ""
+"Il y a une nouvelle version de ce module, s'il vous plaît réinitialiser aux "
+"valeurs par défaut pour mettre à jour"
+
+msgid "Unable to update module contents"
+msgstr "Impossible de mettre à jour le contenu du module"
+
+#, fuzzy
+msgid "Unable to update page"
+msgstr "Impossible d'ajouter une page"
+
+#, fuzzy
+msgid "Unable to update page permissions"
+msgstr "Impossible de mettre à jour le contenu du module"
+
+msgid "Unable to move item"
+msgstr "Impossible de déplacer l'objet"
+
+msgid "Unable to add step"
+msgstr "Impossible d'ajouter une étape"
+
+msgid "Unable to add page"
+msgstr "Impossible d'ajouter une page"
+
+msgid "Unable to remove step"
+msgstr "Impossible de supprimer l'étape"
+
+msgid "Unable to remove page"
+msgstr "Impossible de supprimer la page"
+
+msgid "Page permissions"
+msgstr ""
+
+msgid "Binding"
+msgstr ""
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Config"
+msgstr "Configuration"
+
+msgid "Add binding"
+msgstr "Ajouter une liaison"
+
+msgid "Binding type"
+msgstr "Type de liaison"
+
+msgid "Training identifiers"
+msgstr "Identifiants de formation"
+
+msgid "Event type"
+msgstr ""
+
+msgid "URL Pattern"
+msgstr ""
+
+msgid "Event"
+msgstr ""
+
+msgid "Click"
+msgstr ""
+
+msgid "Focus"
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "Edit contents of {{name}}"
+msgstr "Modifier le contenu de {{nom}}"
+
+msgid "Add new page"
+msgstr "Ajouter une nouvelle page"
+
+msgid "Interactive training bindings"
+msgstr ""
 
 msgid "Help"
 msgstr "Aide"
@@ -554,19 +709,11 @@ msgid "First load can take a couple of minutes, please wait..."
 msgstr ""
 "Le premier chargement peut prendre quelques minutes, veuillez patienter..."
 
-msgid "Accessible to {{users}} users and {{userGroups}} user groups"
-msgstr ""
-"Accessible aux utilisateurs {{users}} et aux groupes d'utilisateurs "
-"{{userGroups}}."
+msgid "Module"
+msgstr "Module"
 
-msgid "Accessible to {{users}} users"
-msgstr "Accessible aux {{users}} utilisateurs"
-
-msgid "Accessible to {{userGroups}} user groups"
-msgstr "Accessible aux groupes d'utilisateurs {{userGroups}}"
-
-msgid "Only accessible to system administrators"
-msgstr "Uniquement accessible aux administrateurs du système"
+msgid "Landing Page"
+msgstr "Page d'atterrissage"
 
 msgid "Clean-up unused documents"
 msgstr "Nettoyer les documents inutilisés"
@@ -580,27 +727,6 @@ msgstr "Suppression des documents en suspens"
 msgid "Proceed"
 msgstr "Procédez à"
 
-msgid "Unable to update module contents"
-msgstr "Impossible de mettre à jour le contenu du module"
-
-msgid "Unable to move item"
-msgstr "Impossible de déplacer l'objet"
-
-msgid "Unable to add step"
-msgstr "Impossible d'ajouter une étape"
-
-msgid "Unable to add page"
-msgstr "Impossible d'ajouter une page"
-
-msgid "Unable to remove step"
-msgstr "Impossible de supprimer l'étape"
-
-msgid "Unable to remove page"
-msgstr "Impossible de supprimer la page"
-
-msgid "General Settings"
-msgstr "Paramètres généraux"
-
 msgid "Access to Settings"
 msgstr "Accès aux paramètres"
 
@@ -613,8 +739,8 @@ msgstr "Une liste avec tous les modules existants est visible"
 msgid "The list with all the existing  modules is hidden"
 msgstr "La liste avec tous les modules existants est cachée"
 
-msgid "Customize the landing page"
-msgstr "Personnaliser la page de couverture"
+msgid "Customize landing page selection"
+msgstr "Personnaliser la sélection de la page d'atterrissage"
 
 msgid "Update the logo or content"
 msgstr "Mettre à jour le logo ou le contenu"
@@ -625,5 +751,31 @@ msgstr "Il n'y a pas de documents inutilisés à nettoyer"
 msgid "There are {{total}} documents available to clean"
 msgstr "Il y a {{total}} documents disponibles à nettoyer"
 
+msgid "Configure container for interactive training"
+msgstr ""
+
+msgid "Update container type, dimensions, and position"
+msgstr ""
+
+msgid "General Settings"
+msgstr "Paramètres généraux"
+
 msgid "Training modules"
 msgstr "Modules de formation"
+
+msgid "Add Landing Page"
+msgstr "Ajouter une page d'atterrissage"
+
+msgid "Accessible to {{usersCount}} users and {{userGroupsCount}} user groups"
+msgstr ""
+"Accessible à {{usersCount}} utilisateurs et à {{userGroupsCount}} groupes "
+"d'utilisateurs"
+
+msgid "Accessible to {{usersCount}} users"
+msgstr "Accessible à {{usersCount}} utilisateurs"
+
+msgid "Accessible to {{userGroupsCount}} user groups"
+msgstr "Accessible à {{userGroupsCount}} groupes d'utilisateurs"
+
+msgid "Only accessible to system administrators"
+msgstr "Uniquement accessible aux administrateurs du système"

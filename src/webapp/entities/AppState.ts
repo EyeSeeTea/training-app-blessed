@@ -73,7 +73,15 @@ export type AppState =
     | CloneAppState
     | CreateAppState;
 
-export const buildPathFromState = (state: AppState): string => {
+const INTERACTIVE_CONFIG_ROUTES = new Set<AppStateType>(["SETTINGS", "EDIT_MODULE", "CLONE_MODULE", "CREATE_MODULE"]);
+
+export const buildPathFromState = (state: AppState, currentSearch = ""): string => {
+    const search =
+        INTERACTIVE_CONFIG_ROUTES.has(state.type) &&
+        new URLSearchParams(currentSearch).has("showInteractiveTrainingConfig")
+            ? "?showInteractiveTrainingConfig"
+            : "";
+
     switch (state.type) {
         case "HOME":
             return `/`;
@@ -82,15 +90,15 @@ export const buildPathFromState = (state: AppState): string => {
         case "TRAINING_DIALOG":
             return `/tutorial/${state.module}/${state.dialog}`;
         case "SETTINGS":
-            return `/settings`;
+            return `/settings${search}`;
         case "ABOUT":
             return `/about`;
         case "EDIT_MODULE":
-            return `/edit/${state.module}`;
+            return `/edit/${state.module}${search}`;
         case "CLONE_MODULE":
-            return `/clone/${state.module}`;
+            return `/clone/${state.module}${search}`;
         case "CREATE_MODULE":
-            return `/create`;
+            return `/create${search}`;
         default:
             return "/";
     }

@@ -28,14 +28,18 @@ export abstract class StorageClient {
     }
 
     public async saveObjectsInCollection<T extends Ref>(key: Namespace, elements: T[]): Promise<void> {
-        const oldData: Ref[] = (await this.getObject(key)) ?? [];
-        const cleanData = oldData.filter(item => !elements.some(element => item.id === element.id));
+        const oldData: T[] = (await this.getObject(key)) ?? [];
 
         // Save base elements directly into collection: model
         const advancedProperties = NamespaceProperties[key] ?? [];
         const baseElements = elements.map(element => _.omit(element, advancedProperties));
 
-        await this.saveObject(key, [...cleanData, ...baseElements]);
+        const updatedData = baseElements.reduce<Partial<T>[]>(
+            (acc, baseElement) => this.updateObjectInCollection(acc, baseElement),
+            oldData
+        );
+
+        await this.saveObject(key, updatedData);
 
         // Save advanced properties to its own key: model-id
         if (advancedProperties.length > 0) {
@@ -46,16 +50,22 @@ export abstract class StorageClient {
         }
     }
 
+    private updateObjectInCollection<T extends Ref>(oldData: Partial<T>[], baseElement: Partial<T>): Partial<T>[] {
+        const foundIndex = _.findIndex(oldData, item => item.id === baseElement.id);
+        const arrayIndex = foundIndex === -1 ? oldData.length : foundIndex;
+
+        return [...oldData.slice(0, arrayIndex), baseElement, ...oldData.slice(arrayIndex + 1)];
+    }
+
     public async saveObjectInCollection<T extends Ref>(key: Namespace, element: T): Promise<void> {
         const advancedProperties = NamespaceProperties[key] ?? [];
         const baseElement = _.omit(element, advancedProperties);
 
-        const oldData: Ref[] = (await this.getObject(key)) ?? [];
-        const foundIndex = _.findIndex(oldData, item => item.id === element.id);
-        const arrayIndex = foundIndex === -1 ? oldData.length : foundIndex;
+        const oldData = (await this.getObject<T[]>(key)) ?? [];
+        const updatedData = this.updateObjectInCollection(oldData, baseElement);
 
         // Save base element directly into collection: model
-        await this.saveObject(key, [...oldData.slice(0, arrayIndex), baseElement, ...oldData.slice(arrayIndex + 1)]);
+        await this.saveObject(key, updatedData);
 
         // Save advanced properties to its own key: model-id
         if (advancedProperties.length > 0) {

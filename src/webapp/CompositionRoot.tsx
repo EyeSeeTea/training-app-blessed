@@ -22,7 +22,7 @@ import { ListModulesUseCase } from "../domain/usecases/ListModulesUseCase";
 import { ResetModuleDefaultValueUseCase } from "../domain/usecases/ResetModuleDefaultValueUseCase";
 import { SearchUsersUseCase } from "../domain/usecases/SearchUsersUseCase";
 import { SwapModuleOrderUseCase } from "../domain/usecases/SwapModuleOrderUseCase";
-import { UpdateLandingChildUseCase } from "../domain/usecases/UpdateLandingChildUseCase";
+import { UpdateLandingNodeUseCase } from "../domain/usecases/UpdateLandingNodeUseCase";
 import { UpdateModuleUseCase } from "../domain/usecases/UpdateModuleUseCase";
 import { UpdateUserProgressUseCase } from "../domain/usecases/UpdateUserProgressUseCase";
 import { UploadFileUseCase } from "../domain/usecases/UploadFileUseCase";
@@ -62,7 +62,7 @@ export function getCompositionRoot(api: D2Api) {
             }),
             landings: getExecute({
                 list: new ListLandingChildrenUseCase(landingPageRepository),
-                update: new UpdateLandingChildUseCase(landingPageRepository),
+                update: new UpdateLandingNodeUseCase(landingPageRepository),
                 delete: new DeleteLandingChildUseCase(landingPageRepository),
                 export: new ExportLandingPagesUseCase(landingPageRepository),
                 import: new ImportLandingPagesUseCase(landingPageRepository),

@@ -40,5 +40,6 @@ export const Step = styled.div<{ column: "left" | "right"; row: number; last?: b
         position: relative;
         background-color: ${getColor("primary")};
         border: 3px solid ${getColor("primary")};
+        text-align: center;
     }
 `;

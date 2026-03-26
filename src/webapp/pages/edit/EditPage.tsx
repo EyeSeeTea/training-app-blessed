@@ -8,6 +8,7 @@ import { ModuleCreationWizard } from "../../components/module-creation-wizard/Mo
 import { PageHeader } from "../../components/page-header/PageHeader";
 import { useAppContext } from "../../contexts/app-context";
 import { DhisPage } from "../dhis/DhisPage";
+import { useWarnBeforeUnload } from "../../hooks/useWarnBeforeUnload";
 
 export interface EditPageProps {
     action: "create" | "edit" | "clone";
@@ -30,6 +31,8 @@ export const EditPage: React.FC<EditPageProps> = ({ action = "create" }) => {
     const [stateModule, updateStateModule] = useState<PartialTrainingModule>(module ?? defaultTrainingModule);
     const [dialogProps, updateDialog] = useState<ConfirmationDialogProps | null>(null);
     const [dirty, setDirty] = useState<boolean>(false);
+
+    useWarnBeforeUnload(dirty);
 
     const openSettings = useCallback(() => {
         setAppState({ type: "SETTINGS" });

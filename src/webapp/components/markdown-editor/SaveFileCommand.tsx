@@ -84,7 +84,7 @@ function getMarkdown(fileUrl: string, type?: FileTypeResult): string {
 
     // Detect and add pdf preview (HTML5)
     if (type?.mime === "application/pdf") {
-        return `<pdf src="${fileUrl}" />`;
+        return `<pdf src="${fileUrl}"></pdf>`;
     }
 
     // Detect and add images inline (markdown)

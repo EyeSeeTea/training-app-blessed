@@ -6,14 +6,23 @@ import { useAppContext } from "../../contexts/app-context";
 
 export type SharedUpdate = Partial<Pick<SharedProperties, "userAccesses" | "userGroupAccesses" | "publicAccess">>;
 export type PermissionsObject = Required<SharedUpdate> & { name: string };
+type SharingShowOptions = {
+    dataSharing: boolean;
+    publicSharing: boolean;
+    externalSharing: boolean;
+    permissionPicker: boolean;
+};
 
-export interface PermissionsDialogProps {
+export type PermissionsDialogProps = {
     object: PermissionsObject;
     onChange: (sharedUpdate: SharedUpdate) => Promise<void>;
     allowPublicAccess?: boolean;
     allowExternalAccess?: boolean;
     onClose: () => void;
-}
+    showOptions?: Partial<SharingShowOptions>;
+};
+
+export type PermissionHandlerProps = Omit<PermissionsDialogProps, "onClose">;
 
 export const PermissionsDialog: React.FC<PermissionsDialogProps> = ({
     object,
@@ -21,6 +30,7 @@ export const PermissionsDialog: React.FC<PermissionsDialogProps> = ({
     allowExternalAccess,
     onClose,
     onChange,
+    showOptions,
 }) => {
     const { usecases } = useAppContext();
     const search = (query: string) => usecases.instance.searchUsers(query);
@@ -30,6 +40,7 @@ export const PermissionsDialog: React.FC<PermissionsDialogProps> = ({
         object: {
             id: "",
             displayName: object.name,
+            publicAccess: object.publicAccess,
             userAccesses: mapSharingRules(object.userAccesses),
             userGroupAccesses: mapSharingRules(object.userGroupAccesses),
         },
@@ -46,22 +57,30 @@ export const PermissionsDialog: React.FC<PermissionsDialogProps> = ({
         [onChange]
     );
 
+    const showOptionsProp = {
+        ...defaultShowOptions,
+        ...showOptions,
+    };
+
     return (
         <ConfirmationDialog isOpen={true} fullWidth={true} onCancel={onClose} cancelText={i18n.t("Close")}>
             <Sharing
                 meta={metaObject}
-                showOptions={{
-                    dataSharing: false,
-                    publicSharing: false,
-                    externalSharing: false,
-                    permissionPicker: false,
-                }}
+                showOptions={showOptionsProp}
                 onSearch={search}
                 onChange={onUpdateSharingOptions}
             />
         </ConfirmationDialog>
     );
 };
+
+const defaultShowOptions: SharingShowOptions = {
+    dataSharing: false,
+    publicSharing: false,
+    externalSharing: false,
+    permissionPicker: false,
+};
+
 const mapSharingSettings = (settings?: SharingRule[]): SharingSetting[] | undefined => {
     return settings?.map(item => {
         return { id: item.id, access: item.access, name: item.displayName };

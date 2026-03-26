@@ -1,10 +1,19 @@
 import i18n from "../locales";
 
-export function getModuleForNamespace(namespace: string) {
+export type I18nModule = {
+    t: <Str extends string>(...args: I18nTArgs<Str>) => string;
+    changeLanguage: (lng: string) => void;
+};
+
+export function getModuleForNamespace(namespace: string): I18nModule {
     return {
         t: function <Str extends string>(...args: I18nTArgs<Str>): string {
             const [s, options] = args;
-            return i18n.t(s, { ...options, ns: namespace });
+            return i18n.t(s, {
+                ...options,
+                ns: namespace,
+                nsSeparator: options?.nsSeparator || undefined,
+            });
         },
         changeLanguage: i18n.changeLanguage.bind(i18n),
     };
@@ -14,9 +23,9 @@ type I18nTArgs<Str extends string> = Interpolations<Str> extends Record<string, 
     ? [Str] | [Str, Partial<Options>]
     : [Str, Interpolations<Str> & Partial<Options>];
 
-interface Options {
+export interface Options {
     ns: string; // namespace
-    nsSeparator: string | boolean; // By default, ":", which breaks strings containing that char
+    nsSeparator: string | false; // By default, ":", which breaks strings containing that char
     lng: string; // language
 }
 

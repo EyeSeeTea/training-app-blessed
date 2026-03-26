@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { TrainingModule } from "../domain/entities/TrainingModule";
-import { TranslateMethod } from "../domain/entities/TranslatableText";
-import i18n from "../utils/i18n";
-import { MainButton } from "../webapp/components/main-button/MainButton";
-import { Modal, ModalContent, ModalFooter, ModalTitle } from "../webapp/components/modal";
-import { Bullet } from "../webapp/components/training-wizard/stepper/Bullet";
-import { Label, Line, Step } from "../webapp/pages/summary/SummaryStep";
+import { TrainingModule } from "../../domain/entities/TrainingModule";
+import { TranslateMethod } from "../../domain/entities/TranslatableText";
+import i18n from "../../utils/i18n";
+import { MainButton } from "../../webapp/components/main-button/MainButton";
+import { Modal, ModalContent, ModalFooter, ModalTitle } from "../../webapp/components/modal";
+import { Bullet } from "../../webapp/components/training-wizard/stepper/Bullet";
+import { Label, Line, Step } from "../../webapp/pages/summary/SummaryStep";
 import { HeaderButtonsProps } from "./TutorialRoot";
 
 export type SummaryProps = {
@@ -58,13 +58,19 @@ export function SummaryTraining(props: SummaryProps) {
     );
 }
 
-const SummaryStep = React.memo(
-    (props: { module: TrainingModule; position: number; onStep: (position: number) => void; title: string }) => {
-        const { module, onStep, position, title } = props;
-        const half = module.contents.steps.length / 2;
-        const column = position < half ? "left" : "right";
-        const row = position % half;
-        const last = position + 1 === Math.round(half) || position === module.contents.steps.length - 1;
+export const SummaryStep = React.memo(
+    (props: {
+        module: TrainingModule;
+        position: number;
+        onStep: (position: number) => void;
+        title: string;
+        partition?: number;
+    }) => {
+        const { module, onStep, position, title, partition = 2 } = props;
+        const parts = module.contents.steps.length / partition;
+        const column = position < parts ? "left" : "right";
+        const row = position % parts;
+        const last = position + 1 === Math.round(parts) || position === module.contents.steps.length - 1;
 
         return (
             <Step column={column} row={row} last={last}>

@@ -54,4 +54,11 @@ export class Either<Error, Data> {
             return either2.map<Res>(data2 => fn(data1, data2));
         });
     }
+
+    static sequence<Error, Data>(eithers: Either<Error, Data>[]): Either<Error, Data[]> {
+        return eithers.reduce(
+            (acc, current) => Either.map2([acc, current], (accData, currentData) => [...accData, currentData]),
+            Either.success<Error, Data[]>([])
+        );
+    }
 }

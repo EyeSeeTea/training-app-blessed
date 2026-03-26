@@ -1,35 +1,25 @@
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
-import { Box, Icon, IconButton, TextField } from "@material-ui/core";
-import React, { useCallback, useMemo, useState } from "react";
+import { Box, TextField } from "@material-ui/core";
+import React from "react";
 import styled from "styled-components";
 import Typography from "@material-ui/core/Typography";
 
 import { ConfirmationDialog } from "@eyeseetea/d2-ui-components";
 import i18n from "../../../utils/i18n";
-import { CustomText, CustomTextInfo } from "../../../domain/entities/CustomText";
+import { CustomTextInfo } from "../../../domain/entities/CustomText";
 import { ImportTranslationDialog } from "../import-translation-dialog/ImportTranslationDialog";
 import { useCustomizeSettingsDialog } from "./useCustomizeSettingsDialog";
+import { TitleMenu } from "./TitleMenu";
 
-export type CustomizeSettingsSaveForm = {
-    customText: Partial<CustomText>;
-    logo: string;
-};
-
-export type CustomSettingsDialogProps = CustomizeSettingsSaveForm & {
-    onSave: (data: Partial<CustomizeSettingsSaveForm>) => void;
+export type CustomSettingsDialogProps = {
     onClose: () => void;
 };
 
 export const CustomizeSettingsDialog: React.FC<CustomSettingsDialogProps> = props => {
-    const { onSave, customText, logo, onClose } = props;
+    const { onClose } = props;
     const {
         logoVal,
         customTextVal,
-        defaultCustomText,
         customTextKeys,
-        isCustomTextDefault,
         disableSave,
         save,
         onChangeField,
@@ -38,45 +28,12 @@ export const CustomizeSettingsDialog: React.FC<CustomSettingsDialogProps> = prop
         handleTranslationUpload,
         exportTranslations,
         importTranslations,
-    } = useCustomizeSettingsDialog({ logo, customText, onSave });
-
-    const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
-    const menuOpen = Boolean(menuAnchor);
-
-    const handleClickMenu = useCallback((event: React.MouseEvent<HTMLElement>) => {
-        setMenuAnchor(event.currentTarget);
-    }, []);
-
-    const handleCloseMenu = useCallback(() => {
-        setMenuAnchor(null);
-    }, []);
-
-    const menuAction = useMemo(
-        () => [
-            {
-                key: "export",
-                icon: <Icon>cloud_download</Icon>,
-                text: i18n.t("Export JSON translations"),
-                onClick: async () => {
-                    await exportTranslations();
-                    handleCloseMenu();
-                },
-            },
-            {
-                key: "import",
-                icon: <Icon>translate</Icon>,
-                text: i18n.t("Import JSON translations"),
-                onClick: () => {
-                    importTranslations();
-                    handleCloseMenu();
-                },
-            },
-        ],
-        [exportTranslations, importTranslations, handleCloseMenu]
-    );
+        defaultCustomText,
+    } = useCustomizeSettingsDialog(props);
 
     return (
         <ConfirmationDialog
+            title={<TitleMenu exportTranslations={exportTranslations} importTranslations={importTranslations} />}
             isOpen={true}
             fullWidth={true}
             onSave={save}
@@ -85,32 +42,14 @@ export const CustomizeSettingsDialog: React.FC<CustomSettingsDialogProps> = prop
             disableSave={disableSave}
         >
             <ImportTranslationDialog type="custom-text" ref={translationImportRef} onSave={handleTranslationUpload} />
-            <Typography variant="h6">{i18n.t("Home page logo")}</Typography>
+            <Typography variant="h6">{i18n.t("Logo")}</Typography>
             <Box marginBottom={3}>
                 <IconUpload>
                     <IconContainer>
-                        <img src={logoVal} alt={i18n.t("Home page logo")} />
+                        <img src={logoVal} alt={i18n.t("Logo")} />
                     </IconContainer>
                     <FileInput type="file" onChange={handleFileUpload} />
                 </IconUpload>
-            </Box>
-            <Box display="flex" alignItems="center">
-                <Typography variant="h6">{i18n.t("Customize landing page text")}</Typography>
-                {!isCustomTextDefault && (
-                    <>
-                        <IconButton onClick={handleClickMenu}>
-                            <MoreVertIcon />
-                        </IconButton>
-                        <Menu anchorEl={menuAnchor} open={menuOpen} onClose={handleCloseMenu}>
-                            {menuAction.map(action => (
-                                <StyledMenuItem key={action.key} onClick={action.onClick}>
-                                    {action.icon}
-                                    {action.text}
-                                </StyledMenuItem>
-                            ))}
-                        </Menu>
-                    </>
-                )}
             </Box>
 
             {customTextKeys.map(key => (
@@ -118,7 +57,7 @@ export const CustomizeSettingsDialog: React.FC<CustomSettingsDialogProps> = prop
                     <TextField
                         fullWidth={true}
                         label={customTextLabel[key]}
-                        placeholder={i18n.t(defaultCustomText[key]?.referenceValue)}
+                        placeholder={defaultCustomText[key]?.referenceValue}
                         value={customTextVal[key] ? customTextVal[key]?.referenceValue : ""}
                         InputLabelProps={inputProps}
                         onChange={onChangeField(key)}
@@ -154,10 +93,6 @@ const IconUpload = styled.div`
 
 const FileInput = styled.input`
     outline: none;
-`;
-
-const StyledMenuItem = styled(MenuItem)`
-    gap: 1.25em;
 `;
 
 const customTextLabel: CustomTextInfo = {

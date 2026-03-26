@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { WelcomeTraining } from "../../../tutorial-module/WelcomeTraining";
+import { WelcomeTraining } from "../../../tutorial-module/training-module/WelcomeTraining";
 import { useAppContext } from "../../contexts/app-context";
 
 export const WelcomePage = () => {

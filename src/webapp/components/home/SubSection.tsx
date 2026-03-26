@@ -3,14 +3,12 @@ import { BigCard } from "../card-board/BigCard";
 import React from "react";
 import styled from "styled-components";
 
-import { GroupContainer, HomePageProps, MarkdownContents } from "./HomePageContent";
+import { GroupContainer, HomePageContentComponentProps, MarkdownContents } from "./HomePageContent";
 import { Modules } from "./Modules";
-import { useAppContext } from "../../contexts/app-context";
 import i18n from "../../../utils/i18n";
 
-export const SubSection: React.FC<HomePageProps> = props => {
-    const { currentPage, loadModule, isRoot, openPage } = props;
-    const { translate } = useAppContext();
+export const SubSection: React.FC<HomePageContentComponentProps> = props => {
+    const { currentPage, openPage, translate } = props;
 
     return (
         <GroupContainer>
@@ -38,7 +36,7 @@ export const SubSection: React.FC<HomePageProps> = props => {
                 })}
             </Cardboard>
 
-            <Modules currentPage={currentPage} isRoot={isRoot} loadModule={loadModule} />
+            <Modules {...props} />
         </GroupContainer>
     );
 };

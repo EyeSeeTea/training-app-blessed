@@ -1,19 +1,21 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import CircularProgress from "material-ui/CircularProgress";
 import styled from "styled-components";
 
-import { LandingNode } from "../../../domain/entities/LandingPage";
 import i18n from "../../../utils/i18n";
 import { Modal, ModalContent, ModalTitle } from "../../components/modal";
 import { useAppContext } from "../../contexts/app-context";
 import { useAppConfigContext } from "../../contexts/AppConfigProvider";
 import { HomePageContent } from "../../components/home/HomePageContent";
+import { useTrainingNavigation } from "../../hooks/useTrainingNavigation";
 
 export const HomePage: React.FC = React.memo(() => {
-    const { setAppState, landings, reload, isLoading } = useAppContext();
+    const { setAppState, landings, reload, isLoading, currentUser } = useAppContext();
     const { hasSettingsAccess } = useAppConfigContext();
+    const { isRoot, currentPage, openPage, goBack, goHome, userLandings, isMainLandingVisible } = useTrainingNavigation(
+        { landings, currentUser }
+    );
 
-    const [history, updateHistory] = useState<LandingNode[]>([]);
     const [isLoadingLong, setLoadingLong] = useState<boolean>(false);
 
     const openSettings = useCallback(() => {
@@ -32,18 +34,6 @@ export const HomePage: React.FC = React.memo(() => {
         setAppState(appState => ({ ...appState, exit: true }));
     }, [setAppState]);
 
-    const openPage = useCallback((page: LandingNode) => {
-        updateHistory(history => [page, ...history]);
-    }, []);
-
-    const goBack = useCallback(() => {
-        updateHistory(history => history.slice(1));
-    }, []);
-
-    const goHome = useCallback(() => {
-        updateHistory([]);
-    }, []);
-
     const loadModule = useCallback(
         (module: string, step: number) => {
             if (step > 1) {
@@ -54,12 +44,6 @@ export const HomePage: React.FC = React.memo(() => {
         },
         [setAppState]
     );
-
-    const currentPage = useMemo<LandingNode | undefined>(() => {
-        return history[0] ?? landings[0];
-    }, [history, landings]);
-
-    const isRoot = history.length === 0;
 
     useEffect(() => {
         reload();
@@ -83,21 +67,25 @@ export const HomePage: React.FC = React.memo(() => {
             allowDrag={true}
         >
             <ContentWrapper>
-                {isLoading ? (
+                {isLoading && (
                     <React.Fragment>
                         <Progress color={"white"} size={65} />
                         {isLoadingLong ? (
                             <p>{i18n.t("First load can take a couple of minutes, please wait...")}</p>
                         ) : null}
                     </React.Fragment>
-                ) : currentPage ? (
+                )}
+
+                {!isLoading && (
                     <HomePageContent
                         isRoot={isRoot}
                         loadModule={loadModule}
                         currentPage={currentPage}
                         openPage={openPage}
+                        isMainLandingVisible={isMainLandingVisible}
+                        userLandings={userLandings}
                     />
-                ) : null}
+                )}
             </ContentWrapper>
         </StyledModal>
     );

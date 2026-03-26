@@ -6,10 +6,11 @@ const distPath = path.join(__dirname, "dist");
 const jsFilePath = path.join(distPath, "index.js");
 const dtsFilePath = path.join(distPath, "index.d.ts");
 const modulePath = path.join(distPath, "tutorial-module", "index.js");
+const srcPath = path.join(__dirname, "src");
 
 // File contents
-const jsContent = 'export { TutorialModule } from "./tutorial-module/index";';
-const dtsContent = 'export { TutorialModule } from "./tutorial-module/TutorialRoot";';
+const jsContent = 'export * from "./tutorial-module/index";';
+const dtsContent = 'export * from "./tutorial-module/index";';
 
 function validateDistFolder() {
     if (!fs.existsSync(distPath)) {
@@ -58,7 +59,7 @@ function moveToPeerDependencies(packageJson) {
             "@dhis2/d2-ui-forms",
             "@dhis2/ui",
         ],
-        ["@eyeseetea/d2-api", "@eyeseetea/d2-ui-components"],
+        ["@eyeseetea/d2-ui-components"],
         ["purify-ts"],
         ["d2", "d2-manifest"],
     ].flat();
@@ -74,10 +75,35 @@ function moveToPeerDependencies(packageJson) {
     return packageJson;
 }
 
+function copyCssFiles() {
+    const copyRecursive = (src, dest) => {
+        if (fs.statSync(src).isDirectory()) {
+            if (!fs.existsSync(dest)) {
+                fs.mkdirSync(dest, { recursive: true });
+            }
+            fs.readdirSync(src).forEach(item => {
+                copyRecursive(path.join(src, item), path.join(dest, item));
+            });
+        } else if (src.endsWith(".css")) {
+            fs.copyFileSync(src, dest);
+            console.log(`Copied CSS: ${src} -> ${dest}`);
+        }
+    };
+
+    const tutorialModuleSrc = path.join(srcPath, "tutorial-module");
+    const tutorialModuleDest = path.join(distPath, "tutorial-module");
+
+    if (fs.existsSync(tutorialModuleSrc)) {
+        copyRecursive(tutorialModuleSrc, tutorialModuleDest);
+        console.log("CSS files copied successfully");
+    }
+}
+
 function start() {
     updatePackageJson();
     validateDistFolder();
     generateIndexJsWithTypes();
+    copyCssFiles();
 }
 
 start();

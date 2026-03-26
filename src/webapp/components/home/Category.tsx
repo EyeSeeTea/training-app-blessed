@@ -3,14 +3,18 @@ import { Cardboard } from "../card-board/Cardboard";
 import { BigCard } from "../card-board/BigCard";
 import React from "react";
 
-import { GroupContainer, Header, HomePageProps, IconContainer, MarkdownContents } from "./HomePageContent";
-import { useAppContext } from "../../contexts/app-context";
+import {
+    GroupContainer,
+    Header,
+    HomePageContentComponentProps,
+    IconContainer,
+    MarkdownContents,
+} from "./HomePageContent";
 import { Modules } from "./Modules";
 import i18n from "../../../utils/i18n";
 
-export const Category: React.FC<HomePageProps> = props => {
-    const { currentPage, loadModule, isRoot, openPage } = props;
-    const { translate } = useAppContext();
+export const Category: React.FC<HomePageContentComponentProps> = props => {
+    const { currentPage, openPage, translate } = props;
 
     return (
         <GroupContainer>
@@ -46,7 +50,7 @@ export const Category: React.FC<HomePageProps> = props => {
                     })}
                 </Cardboard>
 
-                <Modules currentPage={currentPage} isRoot={isRoot} loadModule={loadModule} />
+                <Modules {...props} />
             </ModalContent>
         </GroupContainer>
     );

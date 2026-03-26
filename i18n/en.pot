@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2025-04-07T11:18:42.330Z\n"
-"PO-Revision-Date: 2025-04-07T11:18:42.330Z\n"
+"POT-Creation-Date: 2026-03-10T08:57:33.873Z\n"
+"PO-Revision-Date: 2026-03-10T08:57:33.873Z\n"
 
 msgid "Welcome to training on DHIS2"
 msgstr ""
@@ -26,22 +26,31 @@ msgstr ""
 msgid "Field {{field}} is not valid"
 msgstr ""
 
-msgid "Well done!"
+msgid "Back"
 msgstr ""
 
-msgid "You've completed the {{name}} tutorial!"
+msgid "Settings page"
 msgstr ""
 
-msgid "Back to tutorial"
+msgid "Home"
 msgstr ""
 
-msgid "Finish"
+msgid "help"
+msgstr ""
+
+msgid "Exit Tutorial"
+msgstr ""
+
+msgid "Start Tutorial"
 msgstr ""
 
 msgid "What did you learn in this tutorial?"
 msgstr ""
 
 msgid "What will this tutorial cover?"
+msgstr ""
+
+msgid "Back to tutorial"
 msgstr ""
 
 msgid "Previous"
@@ -53,10 +62,19 @@ msgstr ""
 msgid "Start"
 msgstr ""
 
-msgid "Exit Tutorial"
+msgid "Well done!"
 msgstr ""
 
-msgid "Start Tutorial"
+msgid "You've completed the {{name}} tutorial!"
+msgstr ""
+
+msgid "Finish"
+msgstr ""
+
+msgid "Expand panel"
+msgstr ""
+
+msgid "Collapse panel"
 msgstr ""
 
 msgid "Tutorial"
@@ -65,25 +83,55 @@ msgstr ""
 msgid "done"
 msgstr ""
 
-msgid "Export JSON translations"
+msgid "Container Configuration"
 msgstr ""
 
-msgid "Import JSON translations"
+msgid "Type"
+msgstr ""
+
+msgid "Position"
+msgstr ""
+
+msgid "Width"
+msgstr ""
+
+msgid "Unit"
+msgstr ""
+
+msgid "Collapse Mode"
+msgstr ""
+
+msgid "Dialog"
+msgstr ""
+
+msgid "Side bar"
+msgstr ""
+
+msgid "Left"
+msgstr ""
+
+msgid "Right"
 msgstr ""
 
 msgid "Close"
 msgstr ""
 
-msgid "Home page logo"
-msgstr ""
-
-msgid "Customize landing page text"
+msgid "Logo"
 msgstr ""
 
 msgid "Welcome message"
 msgstr ""
 
 msgid "Module selection"
+msgstr ""
+
+msgid "Export JSON translations"
+msgstr ""
+
+msgid "Import JSON translations"
+msgstr ""
+
+msgid "Customize main landing page"
 msgstr ""
 
 msgid "Exporting translations"
@@ -158,6 +206,9 @@ msgstr ""
 msgid "No"
 msgstr ""
 
+msgid "Access to landing page"
+msgstr ""
+
 msgid "Add section"
 msgstr ""
 
@@ -168,6 +219,9 @@ msgid "Add category"
 msgstr ""
 
 msgid "Edit"
+msgstr ""
+
+msgid "Sharing settings"
 msgstr ""
 
 msgid "Delete"
@@ -209,16 +263,48 @@ msgstr ""
 msgid "Uploading file..."
 msgstr ""
 
-msgid "Home"
+msgid "There are pending migrations"
+msgstr ""
+
+msgid "Migrations finished successfully, you may now continue to the app"
+msgstr ""
+
+msgid ""
+"There has been an error. You can either retry or contact your administrator "
+"if you think there has been an un recoverable error"
+msgstr ""
+
+msgid "Migrate instance"
+msgstr ""
+
+msgid "Migrating..."
+msgstr ""
+
+msgid "Continue to the App"
+msgstr ""
+
+msgid ""
+"The app needs to run pending migrations (from version {{instanceVersion}} "
+"to version {{appVersion}}) in order to continue. This may take a long time, "
+"make sure the process is not interrupted."
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "Continue to the app anyway"
+msgstr ""
+
+msgid ""
+"The database version ({{instanceVersion}}) is greater than the app version "
+"({{appVersion}}), cannot continue. Please contact the administrator to "
+"update the app."
 msgstr ""
 
 msgid "Settings"
 msgstr ""
 
 msgid "About"
-msgstr ""
-
-msgid "Back"
 msgstr ""
 
 msgid "Move window"
@@ -311,13 +397,7 @@ msgstr ""
 msgid "Delete page"
 msgstr ""
 
-msgid "Add new page"
-msgstr ""
-
 msgid "Edit step"
-msgstr ""
-
-msgid "Edit contents of {{name}}"
 msgstr ""
 
 msgid "Installing application"
@@ -339,17 +419,6 @@ msgid "Reset app to factory settings"
 msgstr ""
 
 msgid "Exporting module(s)"
-msgstr ""
-
-msgid "App is not installed in this instance"
-msgstr ""
-
-msgid "Module does not support this DHIS2 version"
-msgstr ""
-
-msgid ""
-"There's a new version of this module, please reset to default values to "
-"update"
 msgstr ""
 
 msgid "Add module"
@@ -383,6 +452,89 @@ msgid "Export module"
 msgstr ""
 
 msgid "Import modules"
+msgstr ""
+
+msgid "App is not installed in this instance"
+msgstr ""
+
+msgid "Module does not support this DHIS2 version"
+msgstr ""
+
+msgid ""
+"There's a new version of this module, please reset to default values to "
+"update"
+msgstr ""
+
+msgid "Unable to update module contents"
+msgstr ""
+
+msgid "Unable to update page"
+msgstr ""
+
+msgid "Unable to update page permissions"
+msgstr ""
+
+msgid "Unable to move item"
+msgstr ""
+
+msgid "Unable to add step"
+msgstr ""
+
+msgid "Unable to add page"
+msgstr ""
+
+msgid "Unable to remove step"
+msgstr ""
+
+msgid "Unable to remove page"
+msgstr ""
+
+msgid "Page permissions"
+msgstr ""
+
+msgid "Binding"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Config"
+msgstr ""
+
+msgid "Add binding"
+msgstr ""
+
+msgid "Binding type"
+msgstr ""
+
+msgid "Training identifiers"
+msgstr ""
+
+msgid "Event type"
+msgstr ""
+
+msgid "URL Pattern"
+msgstr ""
+
+msgid "Event"
+msgstr ""
+
+msgid "Click"
+msgstr ""
+
+msgid "Focus"
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "Edit contents of {{name}}"
+msgstr ""
+
+msgid "Add new page"
+msgstr ""
+
+msgid "Interactive training bindings"
 msgstr ""
 
 msgid "Help"
@@ -512,16 +664,10 @@ msgstr ""
 msgid "First load can take a couple of minutes, please wait..."
 msgstr ""
 
-msgid "Accessible to {{users}} users and {{userGroups}} user groups"
+msgid "Module"
 msgstr ""
 
-msgid "Accessible to {{users}} users"
-msgstr ""
-
-msgid "Accessible to {{userGroups}} user groups"
-msgstr ""
-
-msgid "Only accessible to system administrators"
+msgid "Landing Page"
 msgstr ""
 
 msgid "Clean-up unused documents"
@@ -536,27 +682,6 @@ msgstr ""
 msgid "Proceed"
 msgstr ""
 
-msgid "Unable to update module contents"
-msgstr ""
-
-msgid "Unable to move item"
-msgstr ""
-
-msgid "Unable to add step"
-msgstr ""
-
-msgid "Unable to add page"
-msgstr ""
-
-msgid "Unable to remove step"
-msgstr ""
-
-msgid "Unable to remove page"
-msgstr ""
-
-msgid "General Settings"
-msgstr ""
-
 msgid "Access to Settings"
 msgstr ""
 
@@ -569,7 +694,7 @@ msgstr ""
 msgid "The list with all the existing  modules is hidden"
 msgstr ""
 
-msgid "Customize the landing page"
+msgid "Customize landing page selection"
 msgstr ""
 
 msgid "Update the logo or content"
@@ -581,5 +706,29 @@ msgstr ""
 msgid "There are {{total}} documents available to clean"
 msgstr ""
 
+msgid "Configure container for interactive training"
+msgstr ""
+
+msgid "Update container type, dimensions, and position"
+msgstr ""
+
+msgid "General Settings"
+msgstr ""
+
 msgid "Training modules"
+msgstr ""
+
+msgid "Add Landing Page"
+msgstr ""
+
+msgid "Accessible to {{usersCount}} users and {{userGroupsCount}} user groups"
+msgstr ""
+
+msgid "Accessible to {{usersCount}} users"
+msgstr ""
+
+msgid "Accessible to {{userGroupsCount}} user groups"
+msgstr ""
+
+msgid "Only accessible to system administrators"
 msgstr ""

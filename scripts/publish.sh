@@ -8,5 +8,5 @@ yarn build-lib
 # shellcheck disable=SC2086
 yarn publish $publish_opts --new-version "$version" --access=public dist/
 
-git tag "v$version" -f
+git tag -a "v$version" -m "Bump version" -f
 git push --tags

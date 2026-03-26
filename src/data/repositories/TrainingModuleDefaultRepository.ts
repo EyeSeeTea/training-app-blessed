@@ -1,5 +1,10 @@
 import _ from "lodash";
-import { defaultTrainingModule, isValidTrainingType, TrainingModule } from "../../domain/entities/TrainingModule";
+import {
+    defaultPagePermissions,
+    defaultTrainingModule,
+    isValidTrainingType,
+    TrainingModule,
+} from "../../domain/entities/TrainingModule";
 import { setTranslationValue, TranslatableText } from "../../domain/entities/TranslatableText";
 import { UserProgress } from "../../domain/entities/UserProgress";
 import { ConfigRepository } from "../../domain/repositories/ConfigRepository";
@@ -14,12 +19,14 @@ import { ImportExportClient } from "../clients/importExport/ImportExportClient";
 import { DataStoreStorageClient } from "../clients/storage/DataStoreStorageClient";
 import { Namespaces } from "../clients/storage/Namespaces";
 import { StorageClient } from "../clients/storage/StorageClient";
-import { JSONTrainingModule } from "../entities/JSONTrainingModule";
+import { JSONTrainingModule, TrainingModulePageOptionalPermissions } from "../entities/JSONTrainingModule";
 import { PersistedTrainingModule } from "../entities/PersistedTrainingModule";
-import { validateUserPermission } from "../entities/User";
+import { User, validateUserPermission } from "../entities/User";
 import { getMajorVersion } from "../utils/d2-api";
 import { D2Api } from "../../types/d2-api";
 import { DocumentRepository } from "../../domain/repositories/DocumentRepository";
+import { generatePageId, generateStepId } from "../../domain/helpers/TrainingModuleHelpers";
+import { isEventBinding, PageBinding } from "../../domain/entities/PageBinding";
 
 export class TrainingModuleDefaultRepository implements TrainingModuleRepository {
     private storageClient: StorageClient;
@@ -81,20 +88,18 @@ export class TrainingModuleDefaultRepository implements TrainingModuleRepository
                 .filter(model => validateUserPermission(model, "read", currentUser))
                 .value();
 
-            return promiseMap(modules, async persistedModel => {
-                const model = await this.buildDomainModel(persistedModel);
+            const domainModels = await this.buildDomainModels(modules);
 
-                return {
-                    ...model,
-                    outdated: !!outdatedModules.find(({ id }) => model.id === id),
-                    builtin: !!defaultModules.find(({ id }) => model.id === id),
-                    progress: progress?.find(({ id }) => id === model.id) ?? {
-                        id: model.id,
-                        lastStep: 0,
-                        completed: false,
-                    },
-                };
-            });
+            return domainModels.map(model => ({
+                ...model,
+                outdated: !!outdatedModules.find(({ id }) => model.id === id),
+                builtin: !!defaultModules.find(({ id }) => model.id === id),
+                progress: progress?.find(({ id }) => id === model.id) ?? {
+                    id: model.id,
+                    lastStep: 0,
+                    completed: false,
+                },
+            }));
         } catch (error: any) {
             console.error(error);
             return [];
@@ -113,7 +118,10 @@ export class TrainingModuleDefaultRepository implements TrainingModuleRepository
 
         const progress = await this.progressStorageClient.getObject<UserProgress[]>(Namespaces.PROGRESS);
 
-        const domainModel = await this.buildDomainModel(model);
+        const domainModels = await this.buildDomainModels([model]);
+        const domainModel = domainModels[0];
+
+        if (!domainModel) return undefined;
 
         const defaultModule = defaultModules.find(({ id }) => model.id === id);
         const outdated = !!defaultModule && defaultModule.revision > model.revision;
@@ -226,7 +234,7 @@ export class TrainingModuleDefaultRepository implements TrainingModuleRepository
 
         await this.saveDataStore(translatedModel);
 
-        return this.extractTranslatableText(model);
+        return this.extractTranslatableText(translatedModel);
     }
 
     @cache()
@@ -281,7 +289,20 @@ export class TrainingModuleDefaultRepository implements TrainingModuleRepository
             icon: model.icon,
             type: model.type,
             disabled: model.disabled,
-            contents: model.contents,
+            contents: {
+                ...model.contents,
+                steps: model.contents.steps.map(step => ({
+                    ...step,
+                    pages: step.pages.map(page => ({
+                        id: page.id,
+                        permissions: page.permissions,
+                        key: page.key,
+                        referenceValue: page.referenceValue,
+                        translations: page.translations,
+                        bindings: this.cleanUpPageBindings(page.bindings),
+                    })),
+                })),
+            },
             revision: options?.revision ?? model.revision,
             dhisVersionRange: model.dhisVersionRange,
             dhisAppKey: model.dhisAppKey,
@@ -298,38 +319,82 @@ export class TrainingModuleDefaultRepository implements TrainingModuleRepository
         });
     }
 
-    private async buildDomainModel(
-        model: PersistedTrainingModule
-    ): Promise<Omit<TrainingModule, "progress" | "outdated" | "builtin">> {
-        if (model._version !== 1) {
-            throw new Error(`Unsupported revision of module: ${model._version}`);
-        }
+    private cleanUpPageBindings(
+        bindings: PersistedTrainingModule["contents"]["steps"][number]["pages"][number]["bindings"]
+    ) {
+        return (
+            bindings?.map<PageBinding>(binding => {
+                const base = { id: binding.id, description: binding.description };
 
-        const { created, lastUpdated, type, contents, ...rest } = model;
-        const validType = isValidTrainingType(type) ? type : "app";
+                if (isEventBinding(binding)) {
+                    return {
+                        ...base,
+                        type: "event",
+                        trainingIdentifiers: binding.trainingIdentifiers,
+                        eventType: binding.eventType,
+                    };
+                } else {
+                    return {
+                        ...base,
+                        type: "section",
+                        urlPattern: binding.urlPattern,
+                    };
+                }
+            }) ?? []
+        );
+    }
+
+    private async buildDomainModels(
+        models: PersistedTrainingModule[]
+    ): Promise<Omit<TrainingModule, "progress" | "outdated" | "builtin">[]> {
         const currentUser = await this.configRepository.getUser();
         const instanceVersion = await this.instanceRepository.getVersion();
 
-        return {
-            ...rest,
-            contents: {
-                ...contents,
-                steps: contents.steps.map((step, stepIdx) => ({
-                    ...step,
-                    id: `${model.id}-step-${stepIdx}`,
-                    pages: step.pages.map((page, pageIdx) => ({
+        return promiseMap(models, async model => {
+            if (model._version !== 1) {
+                throw new Error(`Unsupported revision of module: ${model._version}`);
+            }
+
+            const { created, lastUpdated, type, contents, ...rest } = model;
+            const validType = isValidTrainingType(type) ? type : "app";
+
+            const checkPagePermissions = (page: TrainingModulePageOptionalPermissions, permission: "read" | "write") =>
+                validateUserPagePermissions({
+                    module: model,
+                    item: {
                         ...page,
-                        id: `${model.id}-page-${stepIdx}-${pageIdx}`,
+                        permissions: page.permissions ?? defaultPagePermissions,
+                    },
+                    permission,
+                    currentUser,
+                });
+
+            return {
+                ...rest,
+                contents: {
+                    ...contents,
+                    steps: contents.steps.map((step, stepIdx) => ({
+                        ...step,
+                        id: generateStepId(model.id, stepIdx),
+                        pages: step.pages
+                            .filter(page => checkPagePermissions(page, "read"))
+                            .map((page, pageIdx) => ({
+                                ...page,
+                                id: generatePageId(model.id, stepIdx, pageIdx),
+                                permissions: page.permissions ?? defaultPagePermissions,
+                                bindings: page.bindings ?? [],
+                                editable: checkPagePermissions(page, "write"),
+                            })),
                     })),
-                })),
-            },
-            installed: await this.instanceRepository.isAppInstalledByUrl(model.dhisLaunchUrl),
-            editable: validateUserPermission(model, "write", currentUser),
-            compatible: validateDhisVersion(model, instanceVersion),
-            created: new Date(created),
-            lastUpdated: new Date(lastUpdated),
-            type: validType,
-        };
+                },
+                installed: await this.instanceRepository.isAppInstalledByUrl(model.dhisLaunchUrl),
+                editable: validateUserPermission(model, "write", currentUser),
+                compatible: validateDhisVersion(model, instanceVersion),
+                created: new Date(created),
+                lastUpdated: new Date(lastUpdated),
+                type: validType,
+            };
+        });
     }
 
     private async buildPersistedModel(model: JSONTrainingModule): Promise<PersistedTrainingModule> {
@@ -348,6 +413,37 @@ export class TrainingModuleDefaultRepository implements TrainingModuleRepository
             ...model,
         };
     }
+}
+
+//TODO: future improvement - implement domain level computed permissions
+// based on access string and module permissions
+function validateUserPagePermissions(props: {
+    module: PersistedTrainingModule;
+    item: TrainingModulePageOptionalPermissions;
+    permission: "read" | "write";
+    currentUser: User;
+}) {
+    const { module, item, permission, currentUser } = props;
+    const { permissions } = item;
+
+    const moduleAllows = validateUserPermission(module, permission, currentUser);
+    if (!moduleAllows) return false;
+    if (!permissions) return true;
+
+    const { userAccesses: moduleUserAccess, userGroupAccesses, user } = module;
+
+    // module permissions used as main page gate
+    // module user and group permissions are used as fallback for page permissions
+    return validateUserPermission(
+        {
+            ...permissions,
+            user,
+            userAccesses: permissions.userAccesses.length ? permissions.userAccesses : moduleUserAccess,
+            userGroupAccesses: permissions.userGroupAccesses.length ? permissions.userGroupAccesses : userGroupAccesses,
+        },
+        permission,
+        currentUser
+    );
 }
 
 function validateDhisVersion(model: PersistedTrainingModule, instanceVersion: string): boolean {

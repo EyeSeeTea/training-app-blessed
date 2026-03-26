@@ -19,6 +19,7 @@ export const MarkdownEditorDialog: React.FC<MarkdownEditorDialogProps> = ({
     onSave,
     onUpload,
     markdownPreview,
+    children,
 }) => {
     const [value, onChange] = useState<string>(initialValue);
 
@@ -37,6 +38,7 @@ export const MarkdownEditorDialog: React.FC<MarkdownEditorDialogProps> = ({
             saveText={i18n.t("Save")}
         >
             <MarkdownEditor value={value} onChange={onChange} markdownPreview={markdownPreview} onUpload={onUpload} />
+            {children}
         </ConfirmationDialog>
     );
 };

@@ -7,36 +7,22 @@ import {
 import { TextField } from "@material-ui/core";
 import React, { ChangeEvent, useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
-import { generateUid } from "../../../data/utils/uid";
-import { LandingNode, LandingNodeType } from "../../../domain/entities/LandingPage";
+import { getDefaultLandingNode, LandingNode, LandingNodeType } from "../../../domain/entities/LandingPage";
 import i18n from "../../../utils/i18n";
 import { useAppContext } from "../../contexts/app-context";
 import { MarkdownEditor } from "../markdown-editor/MarkdownEditor";
 import { MarkdownViewer } from "../markdown-viewer/MarkdownViewer";
 import { ModalBody } from "../modal";
 
-const buildDefaultNode = (type: LandingNodeType, parent: string, order: number) => {
-    return {
-        id: generateUid(),
-        type,
-        parent,
-        icon: "",
-        order,
-        name: { key: "", referenceValue: "", translations: {} },
-        title: undefined,
-        content: undefined,
-        children: [],
-        modules: [],
-    };
-};
-
 export const LandingPageEditDialog: React.FC<LandingPageEditDialogProps> = props => {
     const { type, parent, order, initialNode, onSave } = props;
+
+    const isRoot = type === "root";
 
     const { modules, translate, usecases } = useAppContext();
     const snackbar = useSnackbar();
 
-    const [value, setValue] = useState<LandingNode>(initialNode ?? buildDefaultNode(type, parent, order));
+    const [value, setValue] = useState<LandingNode>(initialNode ?? getDefaultLandingNode({ type, parent, order }));
 
     const items = useMemo(
         () =>
@@ -106,7 +92,6 @@ export const LandingPageEditDialog: React.FC<LandingPageEditDialogProps> = props
                     onChange={onChangeField("name")}
                 />
             </Row>
-
             <Row>
                 <TextField
                     fullWidth={true}
@@ -130,16 +115,18 @@ export const LandingPageEditDialog: React.FC<LandingPageEditDialogProps> = props
                 </IconUpload>
             </Row>
 
-            <Row>
-                <h3>{i18n.t("Modules")}</h3>
+            {!isRoot && (
+                <Row>
+                    <h3>{i18n.t("Modules")}</h3>
 
-                <ModuleSelector
-                    label={i18n.t("Modules assigned")}
-                    items={items}
-                    values={value.modules}
-                    onChange={modules => setValue(landing => ({ ...landing, modules }))}
-                />
-            </Row>
+                    <ModuleSelector
+                        label={i18n.t("Modules assigned")}
+                        items={items}
+                        values={value.modules}
+                        onChange={modules => setValue(landing => ({ ...landing, modules }))}
+                    />
+                </Row>
+            )}
 
             <Row>
                 <h3>{i18n.t("Contents")}</h3>

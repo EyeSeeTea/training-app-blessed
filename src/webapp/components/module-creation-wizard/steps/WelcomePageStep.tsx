@@ -5,9 +5,8 @@ import { TranslatableText } from "../../../../domain/entities/TranslatableText";
 import { updateTranslation } from "../../../../domain/helpers/TrainingModuleHelpers";
 import { useAppContext } from "../../../contexts/app-context";
 import { MarkdownEditor } from "../../markdown-editor/MarkdownEditor";
-import { MarkdownViewer } from "../../markdown-viewer/MarkdownViewer";
-import { ModalBody } from "../../modal";
 import { ModuleCreationWizardStepProps } from "./index";
+import { StepPreview } from "../../markdown-editor/StepPreview";
 
 export const WelcomePageStep: React.FC<ModuleCreationWizardStepProps> = ({ module, onChange }) => {
     const { usecases } = useAppContext();
@@ -35,20 +34,3 @@ export const WelcomePageStep: React.FC<ModuleCreationWizardStepProps> = ({ modul
 const Row = styled.div`
     margin-bottom: 25px;
 `;
-
-const StyledModalBody = styled(ModalBody)`
-    max-width: 600px;
-`;
-
-const StepPreview: React.FC<{
-    className?: string;
-    value?: string;
-}> = ({ className, value }) => {
-    if (!value) return null;
-
-    return (
-        <StyledModalBody className={className}>
-            <MarkdownViewer source={value} center={true} />
-        </StyledModalBody>
-    );
-};

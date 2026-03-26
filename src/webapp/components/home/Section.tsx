@@ -4,17 +4,15 @@ import { ModalContent, ModalTitle } from "../modal";
 import {
     GroupContainer,
     Header,
-    HomePageContent,
-    HomePageProps,
+    HomePageContentComponent,
+    HomePageContentComponentProps,
     IconContainer,
     MarkdownContents,
 } from "./HomePageContent";
-import { useAppContext } from "../../contexts/app-context";
 import { Modules } from "./Modules";
 
-export const Section: React.FC<HomePageProps> = props => {
-    const { currentPage, loadModule, isRoot } = props;
-    const { translate } = useAppContext();
+export const Section: React.FC<HomePageContentComponentProps> = props => {
+    const { currentPage, translate } = props;
 
     return (
         <GroupContainer>
@@ -31,9 +29,9 @@ export const Section: React.FC<HomePageProps> = props => {
             <ModalContent>
                 {currentPage.content ? <MarkdownContents source={translate(currentPage.content)} /> : null}
                 {currentPage.children.map(node => (
-                    <HomePageContent key={`node-${node.id}`} {...props} currentPage={node} />
+                    <HomePageContentComponent key={`node-${node.id}`} {...props} currentPage={node} />
                 ))}
-                <Modules currentPage={currentPage} isRoot={isRoot} loadModule={loadModule} />
+                <Modules {...props} />
             </ModalContent>
         </GroupContainer>
     );

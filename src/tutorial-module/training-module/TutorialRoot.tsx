@@ -1,19 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 
-import { TrainingModule } from "../domain/entities/TrainingModule";
-import { IFrame } from "../webapp/components/iframe/IFrame";
+import { TrainingModule } from "../../domain/entities/TrainingModule";
+import { IFrame } from "../../webapp/components/iframe/IFrame";
 import { WelcomeTraining } from "./WelcomeTraining";
 import { SummaryTraining } from "./SummaryTraining";
-import { TrainingWizardModal } from "../webapp/components/training-wizard/TrainingWizardModal";
+import { TrainingWizardModal } from "../../webapp/components/training-wizard/TrainingWizardModal";
 import { FinalTraining } from "./FinalTraining";
-import { getCompositionRoot } from "../webapp/CompositionRoot";
-import { buildTranslate } from "../domain/entities/TranslatableText";
-import { ActionButton } from "../webapp/components/action-button/ActionButton";
+import { getCompositionRoot } from "../../webapp/CompositionRoot";
+import { buildTranslate } from "../../domain/entities/TranslatableText";
+import { ActionButton } from "../../webapp/components/action-button/ActionButton";
 
 import { LoadingProvider, SnackbarProvider } from "@eyeseetea/d2-ui-components";
 import { useUpdateModuleStep } from "./useTutorial";
-import { D2Api } from "../types/d2-api";
+import { D2Api } from "../../types/d2-api";
 
 export type HeaderButtonsProps = { onExit: () => void; onMinimize?: () => void; onHome: () => void };
 export type TutorialModuleProps = { baseUrl?: string; locale?: string; moduleId: string } & HeaderButtonsProps;

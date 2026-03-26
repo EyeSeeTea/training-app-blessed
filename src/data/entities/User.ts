@@ -13,8 +13,12 @@ export interface UserRole extends NamedRef {
     authorities: string[];
 }
 
+type ValidateUserPermissionItem = Pick<BaseMetadata, "publicAccess" | "userAccesses" | "userGroupAccesses"> & {
+    user?: NamedRef;
+};
+
 export const validateUserPermission = (
-    item: Pick<BaseMetadata, "user" | "publicAccess" | "userAccesses" | "userGroupAccesses">,
+    item: ValidateUserPermissionItem,
     permission: "read" | "write",
     currentUser: User
 ) => {
@@ -23,7 +27,7 @@ export const validateUserPermission = (
 
     const isAdmin = isSuperAdmin(currentUser);
 
-    const isUserOwner = user.id === currentUser?.id;
+    const isUserOwner = user?.id && user?.id === currentUser.id;
     const isPublic = publicAccess.substring(0, 2).includes(token);
 
     const hasUserAccess = !!_(userAccesses)

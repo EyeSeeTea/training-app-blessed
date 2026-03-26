@@ -16,6 +16,7 @@ export const Modal: React.FC<ModalProps> = ({
     minimized,
     allowDrag,
     centerChildren,
+    resetPositionOnMinimize = true,
 }) => {
     const [position, setPosition] = useState<ControlPosition>();
     const dragId = "drag-button";
@@ -25,8 +26,8 @@ export const Modal: React.FC<ModalProps> = ({
     }, []);
 
     useEffect(() => {
-        setPosition({ x: 0, y: 0 });
-    }, [minimized]);
+        if (resetPositionOnMinimize) setPosition({ x: 0, y: 0 });
+    }, [minimized, resetPositionOnMinimize]);
 
     return (
         <DragContainer disabled={!allowDrag} handle={`#${dragId}`} position={position} onDrag={clearPosition}>
@@ -52,6 +53,7 @@ export const Modal: React.FC<ModalProps> = ({
 export interface ModalProps extends ModalHeaderProps {
     className?: string;
     centerChildren?: boolean;
+    resetPositionOnMinimize?: boolean;
 }
 
 const ModalWrapper = styled.div<{ center?: boolean }>`

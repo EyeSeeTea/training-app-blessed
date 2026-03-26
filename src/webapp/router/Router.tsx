@@ -46,8 +46,9 @@ export const Router: React.FC<{ baseUrl: string }> = ({ baseUrl }) => {
         if (appState.type === "UNKNOWN") {
             return;
         } else {
-            const path = buildPathFromState(appState);
-            if (path !== location.pathname) navigate(path);
+            const path = buildPathFromState(appState, location.search);
+            const currentPath = location.pathname + location.search;
+            if (path !== currentPath) navigate(path);
         }
     }, [appState, navigate, location, baseUrl]);
 

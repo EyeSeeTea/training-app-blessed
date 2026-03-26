@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { getColor } from "../../themes/colors";
 
-export const CardProgress = styled.div`
+export const CardProgress = styled.div.attrs({ "data-component": "card-progress" })`
     display: flex;
     flex-direction: column;
     margin-top: auto;

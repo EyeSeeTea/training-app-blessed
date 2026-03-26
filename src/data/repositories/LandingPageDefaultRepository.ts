@@ -11,6 +11,9 @@ import { PersistedLandingPage } from "../entities/PersistedLandingPage";
 import { generateUid } from "../utils/uid";
 import { D2Api } from "../../types/d2-api";
 import { DocumentRepository } from "../../domain/repositories/DocumentRepository";
+import { Either } from "../../domain/entities/Either";
+import { fromPurify } from "../utils/either";
+import { SharedProperties } from "../../domain/entities/Ref";
 
 export class LandingPageDefaultRepository implements LandingPageRepository {
     private storageClient: StorageClient;
@@ -23,88 +26,88 @@ export class LandingPageDefaultRepository implements LandingPageRepository {
 
     public async list(): Promise<LandingNode[]> {
         try {
-            const persisted = await this.storageClient.listObjectsInCollection<PersistedLandingPage>(
-                Namespaces.LANDING_PAGES
-            );
+            const persisted = await this._list();
 
-            const root = persisted?.find(({ parent }) => parent === "none");
+            const roots = persisted.filter(({ parent }) => parent === "none");
 
-            if (persisted.length === 0 || !root) {
-                const root = {
-                    id: generateUid(),
-                    parent: "none",
-                    type: "root" as const,
-                    icon: "",
-                    order: undefined,
-                    name: {
-                        key: "root-name",
-                        referenceValue: "Main landing page",
-                        translations: {},
-                    },
-                    title: undefined,
-                    content: undefined,
-                    modules: [],
-                };
-
-                await this.storageClient.saveObjectInCollection<PersistedLandingPage>(Namespaces.LANDING_PAGES, root);
-                return [{ ...root, children: [] }];
+            if (!persisted.length || !roots.length) {
+                const defaultRoot = await this.saveDefaultLandingPage();
+                return [buildDomainLandingNode(defaultRoot, [])];
             }
 
-            const validation = LandingNodeModel.decode(buildDomainLandingNode(root, persisted));
+            const validations = roots.map(root => {
+                const node = buildDomainLandingNode(root, _.flatten(persisted));
+                const purifyEither = LandingNodeModel.decode(node);
+                return fromPurify(purifyEither);
+            });
 
-            if (validation.isLeft()) {
-                throw new Error(validation.extract());
-            }
-
-            return _.compact([validation.toMaybe().extract()]);
+            return Either.sequence(validations).match({
+                success: nodes => nodes,
+                error: error => {
+                    console.error(error);
+                    throw new Error(error);
+                },
+            });
         } catch (error: any) {
             console.error(error);
             return [];
         }
     }
 
-    public async export(ids: string[]): Promise<void> {
-        const nodes = await this.storageClient.listObjectsInCollection<PersistedLandingPage>(Namespaces.LANDING_PAGES);
-        const toExport = _(nodes)
-            .filter(({ id }) => ids.includes(id))
-            .flatMap(node => extractChildrenNodes(buildDomainLandingNode(node, nodes), node.parent))
-            .flatten()
+    private async _list(ids?: string[]): Promise<PersistedLandingPage[]> {
+        const pages = await this.storageClient.listObjectsInCollection<PersistedLandingPage>(Namespaces.LANDING_PAGES);
+
+        const pageParentMap = _(pages)
+            .groupBy(page => page.parent)
             .value();
 
+        if (!ids) {
+            return pages;
+        } else {
+            return _(pages)
+                .filter(({ id }) => ids.includes(id))
+                .flatMap(page => [page, ...this.getAllDescendants(page.id, pageParentMap)])
+                .uniqBy(page => page.id)
+                .value();
+        }
+    }
+
+    private getAllDescendants(
+        parentId: string,
+        parentMap: Record<string, PersistedLandingPage[]>
+    ): PersistedLandingPage[] {
+        const children = parentMap[parentId] || [];
+        return children.flatMap(child => [child, ...this.getAllDescendants(child.id, parentMap)]);
+    }
+
+    public async export(ids: string[]): Promise<void> {
+        const toExport = await this._list(ids);
         return this.importExportClient.export(toExport);
     }
 
     public async import(files: File[]): Promise<PersistedLandingPage[]> {
         const items = await this.importExportClient.import<PersistedLandingPage>(files);
-        // TODO: Do not overwrite existing landing page
-        await this.storageClient.saveObject(Namespaces.LANDING_PAGES, items);
+        await this.storageClient.saveObjectsInCollection(Namespaces.LANDING_PAGES, items);
 
         return items;
     }
 
-    public async updateChild(node: LandingNode): Promise<void> {
-        const updatedNodes = extractChildrenNodes(node, node.parent);
+    public async update(nodes: LandingNode[]): Promise<void> {
+        const updatedNodes = nodes.map(node => extractChildrenNodes(node, node.parent)).flat();
         await this.storageClient.saveObjectsInCollection<PersistedLandingPage>(Namespaces.LANDING_PAGES, updatedNodes);
     }
 
-    public async removeChilds(ids: string[]): Promise<void> {
-        const nodes = await this.storageClient.listObjectsInCollection<PersistedLandingPage>(Namespaces.LANDING_PAGES);
-        const toDelete = _(nodes)
-            .filter(({ id }) => ids.includes(id))
-            .map(node => LandingNodeModel.decode(buildDomainLandingNode(node, nodes)).toMaybe().extract())
-            .compact()
-            .flatMap(node => [node.id, extractChildrenNodes(node, node.parent).map(({ id }) => id)])
-            .flatten()
-            .value();
+    public async delete(ids: string[]): Promise<void> {
+        const nodes = await this._list(ids);
+        const toDelete = nodes.map(node => node.id);
 
         await this.storageClient.removeObjectsInCollection(Namespaces.LANDING_PAGES, toDelete);
     }
 
-    public async extractTranslations(): Promise<TranslatableText[]> {
-        const models = await this.storageClient.getObject<PersistedLandingPage[]>(Namespaces.LANDING_PAGES);
-        if (!models) throw new Error(`Unable to load landing pages`);
-
-        return this.extractTranslatableText(models);
+    public async extractTranslations(id: string): Promise<TranslatableText[]> {
+        const nodes = await this._list([id]);
+        if (!nodes.length) throw new Error(`Unable to load landing pages`);
+        return this.extractTranslatableText(nodes);
     }
 
     private extractTranslatableText(models: PersistedLandingPage[]): TranslatableText[] {
@@ -122,22 +125,47 @@ export class LandingPageDefaultRepository implements LandingPageRepository {
             content: model.content ? setTranslationValue(model.content, language, terms[model.content.key]) : undefined,
         }));
 
-        await this.storageClient.saveObject<PersistedLandingPage[]>(Namespaces.LANDING_PAGES, translatedModels);
+        await this.storageClient.saveObjectsInCollection<PersistedLandingPage>(
+            Namespaces.LANDING_PAGES,
+            translatedModels
+        );
 
-        return this.extractTranslatableText(models);
+        return this.extractTranslatableText(translatedModels);
     }
 
-    public async swapOrder(node1: LandingNode, node2: LandingNode) {
-        await this.storageClient.saveObjectsInCollection(Namespaces.LANDING_PAGES, [
-            { ...node1, order: node2.order },
-            { ...node2, order: node1.order },
-        ]);
+    private async saveDefaultLandingPage(): Promise<PersistedLandingPage> {
+        await this.storageClient.saveObjectInCollection<PersistedLandingPage>(Namespaces.LANDING_PAGES, defaultRoot);
+        return defaultRoot;
     }
 }
+
+const defaultPermissions: SharedProperties = {
+    publicAccess: "r-------",
+    userAccesses: [],
+    userGroupAccesses: [],
+};
+
+export const defaultRoot: PersistedLandingPage = {
+    id: generateUid(),
+    parent: "none",
+    type: "root",
+    icon: "",
+    order: undefined,
+    name: {
+        key: "root-name",
+        referenceValue: "Landing page",
+        translations: {},
+    },
+    title: undefined,
+    content: undefined,
+    modules: [],
+    permissions: defaultPermissions,
+};
 
 const buildDomainLandingNode = (root: PersistedLandingPage, items: PersistedLandingPage[]): LandingNode => {
     return {
         ...root,
+        permissions: root.permissions ?? defaultPermissions,
         children: _(items)
             .filter(({ parent }) => parent === root.id)
             .sortBy(item => item.order ?? 1000)

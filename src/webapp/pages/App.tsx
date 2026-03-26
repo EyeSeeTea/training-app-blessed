@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { HashRouter } from "react-router-dom";
 import i18n from "../../utils/i18n";
 import { getCompositionRoot } from "../CompositionRoot";
-import { AppContextProvider } from "../contexts/app-context";
+import { AppContextProvider, AppContextProviderProps } from "../contexts/app-context";
 import { AppRoute } from "../router/AppRoute";
 import { Router } from "../router/Router";
 import muiThemeLegacy from "../themes/dhis2-legacy.theme";
@@ -24,6 +24,8 @@ import { Feedback } from "@eyeseetea/feedback-component";
 import { appConfig } from "../../app-config";
 import { AppConfigProvider } from "../contexts/AppConfigProvider";
 import { D2Api } from "../../types/d2-api";
+import { useMigrations } from "../components/migrations/useMigration";
+import Migrations from "../components/migrations/Migrations";
 
 export const routes: AppRoute[] = [
     {
@@ -113,20 +115,34 @@ export const routes: AppRoute[] = [
 ];
 
 const App: React.FC<{ locale: string; baseUrl: string }> = ({ locale, baseUrl }) => {
-    const compositionRoot = getCompositionRoot(new D2Api({ baseUrl: baseUrl }));
+    const [appContextProps, setAppContextProps] = useState<AppContextProviderProps>();
+    const [api] = useState(() => new D2Api({ baseUrl }));
 
-    const [username, setUsername] = useState("");
+    const migrations = useMigrations(api, appConfig.appKey);
 
     useEffect(() => {
         async function setup() {
+            const compositionRoot = getCompositionRoot(api);
             const currentUser = await compositionRoot.usecases.user.getCurrent();
 
-            setUsername(currentUser.username);
+            setAppContextProps({ compositionRoot, locale, routes, currentUser });
         }
-        setup();
-    }, [compositionRoot.usecases.user]);
-    return (
-        <AppContextProvider routes={routes} compositionRoot={compositionRoot} locale={locale}>
+
+        if (migrations.state.type === "checked") {
+            setup();
+        }
+    }, [baseUrl, locale, api, migrations.state.type]);
+
+    if (migrations.state.type === "pending") {
+        return (
+            <StylesProvider injectFirst>
+                <Migrations migrations={migrations} />
+            </StylesProvider>
+        );
+    }
+
+    return appContextProps ? (
+        <AppContextProvider {...appContextProps}>
             <AppConfigProvider>
                 <StylesProvider injectFirst>
                     <MuiThemeProvider theme={muiTheme}>
@@ -138,7 +154,10 @@ const App: React.FC<{ locale: string; baseUrl: string }> = ({ locale, baseUrl })
                                             <Router baseUrl={baseUrl} />
                                         </HashRouter>
                                     </div>
-                                    <Feedback options={appConfig.feedback} username={username} />
+                                    <Feedback
+                                        options={appConfig.feedback}
+                                        username={appContextProps.currentUser.username}
+                                    />
                                 </LoadingProvider>
                             </SnackbarProvider>
                         </OldMuiThemeProvider>
@@ -146,6 +165,8 @@ const App: React.FC<{ locale: string; baseUrl: string }> = ({ locale, baseUrl })
                 </StylesProvider>
             </AppConfigProvider>
         </AppContextProvider>
+    ) : (
+        <h3>Loading...</h3>
     );
 };
 

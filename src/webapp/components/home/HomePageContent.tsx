@@ -7,28 +7,73 @@ import { Root } from "./Root";
 import { Section } from "./Section";
 import { SubSection } from "./SubSection";
 import { Category } from "./Category";
+import { TrainingModule } from "../../../domain/entities/TrainingModule";
+import { Config } from "../../../domain/entities/Config";
+import { TranslateMethod } from "../../../domain/entities/TranslatableText";
+import { useAppContext } from "../../contexts/app-context";
+import { useAppConfigContext } from "../../contexts/AppConfigProvider";
+import { LogoInfo } from "../../hooks/useAppConfig";
+import { Maybe, MaybeBy } from "../../../types/utils";
+import { MainLandingPage } from "./MainLandingPage";
 
 export type HomePageProps = {
-    currentPage: LandingNode;
+    currentPage: Maybe<LandingNode>;
     isRoot: boolean;
     openPage: (page: LandingNode) => void;
     loadModule: (module: string, step: number) => void;
+    userLandings: LandingNode[];
+    isMainLandingVisible?: boolean;
 };
 
 export const HomePageContent: React.FC<HomePageProps> = props => {
     const { currentPage } = props;
 
+    const { modules, translate } = useAppContext();
+    const { logoInfo, appConfig } = useAppConfigContext();
+
+    return (
+        <HomePageContentComponent
+            {...props}
+            currentPage={currentPage}
+            modules={modules}
+            translate={translate}
+            logoInfo={logoInfo}
+            appConfig={appConfig}
+        />
+    );
+};
+
+export type HomePageContentComponentProps = {
+    currentPage: LandingNode;
+    isRoot: boolean;
+    openPage: (page: LandingNode) => void;
+    loadModule: (module: string, step: number) => void;
+    modules: TrainingModule[];
+    appConfig: Config;
+    translate: TranslateMethod;
+    logoInfo: LogoInfo;
+    userLandings: LandingNode[];
+    isMainLandingVisible?: boolean;
+};
+export const HomePageContentComponent: React.FC<MaybeBy<HomePageContentComponentProps, "currentPage">> = props => {
+    const { currentPage, isMainLandingVisible, userLandings } = props;
+
     const contentMap = useMemo(
-        () => ({
-            root: <Root {...props} />,
-            section: <Section {...props} />,
-            "sub-section": <SubSection {...props} />,
-            category: <Category {...props} />,
-        }),
-        [props]
+        () =>
+            currentPage
+                ? {
+                      root: <Root {...props} currentPage={currentPage} />,
+                      section: <Section {...props} currentPage={currentPage} />,
+                      "sub-section": <SubSection {...props} currentPage={currentPage} />,
+                      category: <Category {...props} currentPage={currentPage} />,
+                  }
+                : {},
+        [props, currentPage]
     );
 
-    return contentMap[currentPage.type] || null;
+    if (currentPage) return contentMap[currentPage.type] || null;
+    else if (isMainLandingVisible) return <MainLandingPage {...props} landingNodes={userLandings} />;
+    else return null;
 };
 
 export const IconContainer = styled.div`

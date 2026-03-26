@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { SummaryTraining } from "../../../tutorial-module/SummaryTraining";
+import { SummaryTraining } from "../../../tutorial-module/training-module/SummaryTraining";
 import { useAppContext } from "../../contexts/app-context";
 
 export const SummaryPage: React.FC<{ completed?: boolean }> = ({ completed }) => {

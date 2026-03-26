@@ -6,6 +6,11 @@ export class SwapLandingChildOrderUseCase implements UseCase {
     constructor(private landingPagesRepository: LandingPageRepository) {}
 
     public async execute(node1: LandingNode, node2: LandingNode): Promise<void> {
-        return this.landingPagesRepository.swapOrder(node1, node2);
+        const updatedNodes = [
+            { ...node1, order: node2.order },
+            { ...node2, order: node1.order },
+        ];
+
+        return this.landingPagesRepository.update(updatedNodes);
     }
 }
