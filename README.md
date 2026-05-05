@@ -1,3 +1,8 @@
+⚠️ **Repository Archived.** This repository is no longer maintained. To ensure you have the latest features and support, please use our updated version here: https://github.com/EyeSeeTea/training-app 
+
+And don't miss out on latest developments and DHIS2 news! Follow us on [Linkedin](https://www.linkedin.com/company/eyeseetea/) and the [DHIS2 Community of Practice](https://community.dhis2.org/u/eyeseetea/activity). 
+
+
 
 ![traininglogo](https://github.com/EyeSeeTea/training-app-blessed/assets/108925044/0f0cc41a-a7cd-4c34-b755-bc6e92049dd3)
 
